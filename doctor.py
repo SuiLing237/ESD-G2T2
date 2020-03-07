@@ -14,21 +14,21 @@ class Doctor(db.Model):
     __tablename__ = 'doctor'
 
     # We only have 1 doctor
-    ID = db.Column(db.Integer, primary_key= True)
-    name = db.Column(db.String(64), nullable = False)
-    address = db.Column(db.String(100), nullable= False)
-    phone = db.Column(db.Integer, nullable = False) # PS, do we really need to store the phone number?
-    availability = db.String(db.String)
+    bookingID = db.Column(db.Integer)
+    date = db.Column(db.String(64), nullable=False)
+    timeslot = db.Column(db.String(64), nullable = False)
+    availability = db.Column(db.String(64))
+
     # Ideal way to store the schedule/ availability of the doctor?
 
-    def __init__(self, name, address, phone, availability): # initialise book objects
-        self.name = name
-        self.address = address
-        self.phone = phone
+    def __init__(self, bookingID, date, timeslot, availability): # initialise book objects
+        self.bookingID = bookingID
+        self.date = date
+        self.timeslot = timeslot
         self.availability = availability
 
     def json(self):
-        return {"name": self.name, "address": self.address, "phone": self.phone, "availability": self.availability}
+        return {"bookingID":bookingID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
 
 
 @app.route("/doctor")
@@ -37,22 +37,34 @@ def get_all_details(): # Can retrieve Availability
 
 # -- Did not include function for Doctor not found since we only have 1 doctor now. But we can change further if needed. 
 
-@app.route("/doctor/<string:availability>", methods=["POST"])
-def book_consultation(availability):
+@app.route("/doctor/<string:date>") # Query by specific date
+def get_availability_by_date(date):
+    doctor = Doctor.query.filter_by(date=date)
+    if doctor:
+        return jsonify(doctor.json())
+    return "Doctor is not available on this date"   
+
+@app.route("/doctor/<string:date>/<string:time>/<string:availability>", methods=["POST"])
+def book_consultation(date, time, availability):
     # query if timing is already booked
     # -----
+    doctor = Doctor.query.filter_by(date=date, time=time).first()
+    if doctor:
+        if (doctor.columns.availability == None): # double check .columns.
+            data = request.get_json()
+            # doctor = Doctor()
 
-    data = request.get_json()
+            try:
+                pass
+            except:
+                pass
 
-    try:
-        pass
-    except:
-        pass
-    return jsonify(201)
+            return jsonify(201)
+            
+        return "This timeslot is not available", 400
+    return "This date and timeslot is not available", 400
 
 # should we include Patient's ID in our app.route? 
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
