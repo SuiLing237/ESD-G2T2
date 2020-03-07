@@ -1,5 +1,3 @@
--- I HAVE ERROR, NOT FIXED YET
-
 -- phpMyAdmin SQL Dump
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
@@ -23,29 +21,29 @@ SET time_zone = "+00:00";
 --
 -- Database: 'patient'
 --
-CREATE DATABASE IF NOT EXISTS 'patient' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE 'patient';
+CREATE DATABASE IF NOT EXISTS `patient` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `patient`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `books`
+-- Table structure for table `patient`
 --
-
 DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS 'patient' (
+CREATE TABLE IF NOT EXISTS `patient` (
   `patientID` int(64) NOT NULL,
   `patient_name` varchar(64) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone` int(8) NOT NULL,
-  PRIMARY KEY ('patientID')
+  `prescription` varchar(100),
+  PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Dumping data for table `patient`
 --
-
-INSERT INTO 'patient' ('patientID', 'patient_name', 'address', 'phone', 'prescription') VALUES
-('1', 'Jane', 'harbourfront', 12348888, 'metformin');
+INSERT INTO `patient` (`patientID`, `patient_name`, `address`, `phone`, `prescription`) VALUES
+(1, "Jane", "harbourfront", 12348888, "metformin");
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
