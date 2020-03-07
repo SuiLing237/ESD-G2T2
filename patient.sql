@@ -43,7 +43,11 @@ CREATE TABLE IF NOT EXISTS `patient` (
 -- Dumping data for table `patient`
 --
 INSERT INTO `patient` (`patientID`, `patient_name`, `address`, `phone`, `prescription`) VALUES
-(1, "Jane", "harbourfront", 12348888, "metformin");
+(1, "Anne", "Harbourfront", 12348888, "paracetamol"),
+(2, "Ben", "Telok Blangah", 43211234, "metformin"),
+(3, "Cathy", "Tampines", 56789999, "pamabrom"),
+(4, "Dan", "Yio Chu Kang", 11107778, "anatacid"),
+(5, "Edward", "Bencoolen", 96719999, "dextromethorphan");
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
