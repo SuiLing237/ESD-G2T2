@@ -1,6 +1,34 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/patient' # ENTER DB NAME HERE
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+CORS(app)
+
+class Patient(db.Model):
+    __tablename__ = "patient"
+
+    patientID = db.Column(db.Integer, primary_key=True)
+    patient_name = db.Column(db.String(64), nullable=False)
+    address = db.Column(db.String(64), nullable=False)
+    phone = db.Column(db.Integer, nullable=False)
+    prescription = db.Column(db.String(64))
+
+    def __init__(self, patientID, patient_name, address, phone, prescription):
+        self.patientID = patientID
+        self.patient_name = patient_name
+        self.address = address
+        self.phone = phone
+        self.prescription = prescription
+    
+    def json(self):
+        return {"patientID": self.patientID, "patient_name": self.patient_name, "address": self.address, "phone": self.phone, "prescription": self.prescription}
+
 
 @app.route("/")
 def home():
@@ -32,33 +60,29 @@ def create_patient(patientID):
 
     return jsonify(patient.json()), 201
 
+
+# @app.route("/patient", methods=["POST"])
+# def create_patient(): #auto-increment the ID
+#     status = 201
+#     #return jsonify({"message": "New patient created:"}), status  
+    
+#     data = request.get_json()
+#     patient_name = request.json.get('patient_name', None)
+#     patient = Patient(patient_name, **data)
+
+#     if status == 201:
+#         try:
+#             db.session.add(patient)
+#             db.session.commit()
+#         except Exception as e:
+#             return jsonify({"message": "An error occurred creating the patient."}), 500
+    
+#     return jsonify(patient.json()), 201
+
+
 @app.route("/patient/<int:patientID>/<int:bookingID>", methods=["POST"])
 def create_booking(bookingID):
     pass
-
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root@localhost:3306/patient'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
-class Patient(db.Model):
-    __tablename__ = "patient"
-
-    patientID = db.Column(db.Integer, primary_key=True)
-    patient_name = db.Column(db.String, nullable=False)
-    address = db.Column(db.String, nullable=False)
-    phone = db.Column(db.Integer, nullable=False)
-    prescription = db.Column(db.String)
-
-    def __init__(self, patientID, patient_name, address, phone, prescription):
-        self.patientID = patientID
-        self.patient_name = patient_name
-        self.address = address
-        self.phone = phone
-        self.prescription = prescription
-    
-    def json(self):
-        return {"patientID": self.patientID, "patient_name": self.patient_name, "address": self.address, "phone": self.address, "prescription": self.prescription}
 
 if __name__ == "__main__":
     app.run(debug=True)
