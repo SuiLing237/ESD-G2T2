@@ -10,24 +10,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
+# SL: Since we have 3 tables in Patient DB now, how do I list the 2 tables `prescription` and `diagnosis` here?
 class Patient(db.Model):
     __tablename__ = "patient"
 
     patientID = db.Column(db.Integer, primary_key=True)
     patient_name = db.Column(db.String(64), nullable=False)
-    address = db.Column(db.String(64), nullable=False)
-    phone = db.Column(db.Integer, nullable=False)
-    prescription = db.Column(db.String(64))
+    patient_phone = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, patientID, patient_name, address, phone, prescription):
+    def __init__(self, patientID, patient_name, patient_phone):
         self.patientID = patientID
         self.patient_name = patient_name
-        self.address = address
-        self.phone = phone
-        self.prescription = prescription
+        self.patient_phone = patient_phone
     
     def json(self):
-        return {"patientID": self.patientID, "patient_name": self.patient_name, "address": self.address, "phone": self.phone, "prescription": self.prescription}
+        return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone}
 
 
 @app.route("/")
@@ -60,7 +57,23 @@ def create_patient(patientID):
 
     return jsonify(patient.json()), 201
 
+# SL: KIV coz now I'm thinking, booking function should be in doctor.py as patietn cannot access the doctor table.
+@app.route("/patient/<int:patientID>/<int:bookingID>", methods=["POST"])
+def create_booking(bookingID):
+    pass
 
+# SL: is this a helper function for calculate_total_bill? So don't need @app.route?
+def calculate_medicine_cost(price, quantity):
+    cost = price * quantity
+    return cost
+
+@app.route("/patient/<int:patientID>")
+def calculate_total_bill(patientID, prescription_dict):
+    # I will need the prescription_dict in order to continue.
+    pass
+
+
+# some auto-increment code YN tried
 # @app.route("/patient", methods=["POST"])
 # def create_patient(): #auto-increment the ID
 #     status = 201
@@ -79,10 +92,6 @@ def create_patient(patientID):
     
 #     return jsonify(patient.json()), 201
 
-
-@app.route("/patient/<int:patientID>/<int:bookingID>", methods=["POST"])
-def create_booking(bookingID):
-    pass
 
 if __name__ == "__main__":
     app.run(debug=True)

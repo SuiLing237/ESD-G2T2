@@ -73,6 +73,7 @@ def book_consultation(date):
     # return "This date and timeslot is not available", 400
 
 # should we include Patient's ID in our app.route? 
+# SL: I think don't need?
 
 if __name__ == "__main__":
     app.run(debug=True)
