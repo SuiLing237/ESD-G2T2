@@ -33,24 +33,11 @@ DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `patientID` int(64) NOT NULL,
   `patient_name` varchar(64) NOT NULL,
-  `address` varchar(100) NOT NULL,
   `phone` int(8) NOT NULL,
---   `prescription` varchar(100),
   PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `patient`
---
--- INSERT INTO `patient` (`patientID`, `patient_name`, `address`, `phone`, `prescription`) VALUES
--- (1, "Anne", "Harbourfront", 12348888, "paracetamol"),
--- (2, "Ben", "Telok Blangah", 43211234, "metformin"),
--- (3, "Cathy", "Tampines", 56789999, "pamabrom"),
--- (4, "Dan", "Yio Chu Kang", 11107778, "anatacid"),
--- (5, "Edward", "Bencoolen", 96719999, "dextromethorphan");
--- COMMIT;
-
--- Without Prescription
+-- Add in `patient` values
 INSERT INTO `patient` (`patientID`, `patient_name`, `phone`) VALUES
 (1, "Anne", 12348888),
 (2, "Ben", 43211234),
@@ -59,21 +46,44 @@ INSERT INTO `patient` (`patientID`, `patient_name`, `phone`) VALUES
 (5, "Edward", 96719999);
 COMMIT;
 
+--
+-- Table structure for table `diagnosis`
+--
+DROP TABLE IF EXISTS `diagnosis`;
+CREATE TABLE IF NOT EXISTS `diagnosis` (
+  `patientID` int(64) NOT NULL,
+  `bookingID` int(64) NOT NULL,
+  `diagnosis` varchar(100),
+  PRIMARY KEY (`patientID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for table patient prescription
+-- Add in `diagnosis` values
+INSERT INTO `diagnosis` (`patientID`, `bookingID`, `diagnosis`) VALUES
+(1, 1, "Common Cold"),
+(2, 2, "Possibility of COVID-19"),
+(3, 3, "Food poisoning"),
+(4, 4, "Eczema"),
+(5, 5, "Stomach Flu");
+COMMIT;
+
+--
+-- Table structure for table `prescription`
+--
 DROP TABLE IF EXISTS `prescription`;
 CREATE TABLE IF NOT EXISTS `prescription` (
   `patientID` int(64) NOT NULL,
   `bookingID` int(64) NOT NULL,
   `medicineID` int(64) NOT NULL,
-  `medicineQuantity` int(64) NOT NULL,
+  `medicine_quantity` int(64) NOT NULL,
   PRIMARY KEY (`patientID`),
   KEY `FK_medicineID` (`medicineID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `prescription` (`patientID`, `bookingID`, `medicineID`, `medicineQuantity`) VALUES
+-- Add in `prescription` values
+INSERT INTO `prescription` (`patientID`, `bookingID`, `medicineID`, `medicine_quantity`) VALUES
 (1, 1, 1, 4),
 (2, 2, 2, 2),
 (3, 3, 3, 3),
 (4, 4, 2, 1),
 (5, 5, 3, 3);
+COMMIT;
