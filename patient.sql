@@ -33,12 +33,12 @@ DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `patientID` int(64) NOT NULL,
   `patient_name` varchar(64) NOT NULL,
-  `phone` int(8) NOT NULL,
+  `patient_phone` int(8) NOT NULL,
   PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `phone`) VALUES
+INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`) VALUES
 (1, "Anne", 12348888),
 (2, "Ben", 43211234),
 (3, "Cathy", 56789999),
