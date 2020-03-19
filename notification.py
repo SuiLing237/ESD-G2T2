@@ -1,8 +1,21 @@
 import requests
+import urllib.request
+import urllib.parse
 
 
+# can only send 10 text 
+def sendSMS(apikey, numbers, sender, message):
+    data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
+        'message' : message, 'sender': sender})
+    data = data.encode('utf-8')
+    request = urllib.request.Request("https://api.txtlocal.com/send/?")
+    f = urllib.request.urlopen(request, data)
+    fr = f.read()
+    return(fr)
 
-
+resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
+    'Jims Autos', 'This is your message')
+print (resp)
 
 
 def send_email_message():
