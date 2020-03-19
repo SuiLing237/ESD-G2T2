@@ -31,10 +31,10 @@ USE `doctor`;
 --
 DROP TABLE IF EXISTS `doctor`;
 CREATE TABLE IF NOT EXISTS `doctor` (
-  `bookingID` int(64) NOT NULL,
+  `bookingID` int(64),
   `date` varchar(64) NOT NULL,
   `timeslot` varchar(64) NOT NULL,
-  `availability` varchar(64),
+  `availability` varchar(64) NOT NULL,
   PRIMARY KEY (`bookingID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS `doctor` (
 --
 INSERT INTO `doctor` (`bookingID`, `date`, `timeslot`, `availability`) VALUES
 (1, "18-02-2020", "3PM to 4PM", "Yes"),
-(2, "22-02-2020", "11AM to 12PM",""),
+(2, "22-02-2020", "11AM to 12PM","No"),
 (3, "22-02-2020", "1.30PM to 2.30PM", "No"),
-(4, "24-02-2020", "3PM to 4PM",""),
+(4, "24-02-2020", "3PM to 4PM","Yes"),
 (5, "27-02-2020", "4.30PM to 5.30PM", "Yes");
 COMMIT;
 
