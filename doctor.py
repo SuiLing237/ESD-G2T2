@@ -41,28 +41,36 @@ def get_all_details(): # Can retrieve Availability
 def get_availability_by_date(date):
     doctor = Doctor.query.filter_by(date=date)
     if doctor:
-        return jsonify(doctor.json())
-    return "Doctor is not available on this date"   
+        return jsonify({"doctor availability": [avail.json() for avail in doctor]})
+    # return jsonify({"Doctor is not available on this date"})  
+    # returns []  if no availability found for that date
 
-@app.route("/doctor/<string:date>/<string:time>/<string:availability>/", methods=["POST"])
-def book_consultation(date, time, availability):
+# @app.route("/doctor/<string:date>/<string:time>/", methods=["PUT"])
+@app.route("/doctor/<string:date>/", methods=["PUT"])
+# def book_consultation(date, time):
+def book_consultation(date):
     # query if timing is already booked
     # -----
-    doctor = Doctor.query.filter_by(date=date, time=time).first()
+    # doctor = Doctor.query.filter_by(date=date, time=time).first()
+    doctor = Doctor.query.filter_by(date=date).first()
     if doctor:
-        if (doctor.columns.availability == None): # double check .columns.
-            data = request.get_json()
+        # if (doctor.columns.availability == 'Yes'): # double check .columns.
+        if(doctor.availability == 'Yes'):
+            # data = request.get_json()
             # doctor = Doctor()
-
+            # doctor.availability = 'No'
+            # db.session.commit()
+            
             try:
-                pass
-            except:
-                pass
+                doctor.availability = 'No'
+                db.session.commit()
+            except Exception as e:
+                return (str(e))
 
             return jsonify(201)
             
-        return "This timeslot is not available", 400
-    return "This date and timeslot is not available", 400
+    #     return "This timeslot is not available", 400
+    # return "This date and timeslot is not available", 400
 
 # should we include Patient's ID in our app.route? 
 
