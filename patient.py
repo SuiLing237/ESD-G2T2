@@ -88,12 +88,7 @@ def create_patient(patientID):
 
     return jsonify(patient.json()), 201
 
-# SL: KIV coz now I'm thinking, booking function should be in doctor.py as patietn cannot access the doctor table.
-@app.route("/patient/<int:patientID>/<int:bookingID>", methods=["POST"])
-def create_booking(bookingID):
-    pass
-
-# SL: is this a helper function for calculate_total_bill? So don't need @app.route?
+# This is a helper function
 def calculate_medicine_cost(price, quantity):
     cost = price * quantity
     return cost
