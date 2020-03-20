@@ -45,32 +45,29 @@ def get_availability_by_date(date):
     # return jsonify({"Doctor is not available on this date"})  
     # returns []  if no availability found for that date
 
-# @app.route("/doctor/<string:date>/<string:time>/", methods=["PUT"])
-@app.route("/doctor/<string:date>/", methods=["PUT"])
-# def book_consultation(date, time):
-def update_doctor_consultation(date):
+
+@app.route("/doctor/<int:bookingID>/", methods=["PUT"])
+def update_doctor_consultation(bookingID):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
-    doctor = Doctor.query.filter_by(date=date).first()
+    doctor = Doctor.query.filter_by(bookingID=bookingID).first()
     if doctor:
-        # if (doctor.columns.availability == 'Yes'): # double check .columns.
         if(doctor.availability == 'Yes'):
-            # data = request.get_json()
-            # doctor = Doctor()
-            # doctor.availability = 'No'
-            # db.session.commit()
-            
             try:
                 doctor.availability = 'No'
                 db.session.commit()
+
+                return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 
+                
             except Exception as e:
                 return (str(e))
-
-            return jsonify(201)
+ 
             
     #     return "This timeslot is not available", 400
     # return "This date and timeslot is not available", 400
+    else:
+        return jsonify({"message": "The booking ID {} does not exists.".format(bookingID)}), 400  
 
 # should we include Patient's ID in our app.route? 
 # SL: I think don't need?
