@@ -30,6 +30,9 @@ class Doctor(db.Model):
     def json(self):
         return {"bookingID":self.bookingID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
 
+@app.route("/")
+def home():
+    return "Your application is working!"
 
 @app.route("/doctor")
 def get_all_details(): # Can retrieve Availability
@@ -37,10 +40,12 @@ def get_all_details(): # Can retrieve Availability
 
 # -- Did not include function for Doctor not found since we only have 1 doctor now. But we can change further if needed. 
 
-@app.route("/doctor/<string:date>/") # Query by specific date
+# Query by specific date
+@app.route("/doctor/<string:date>/")
 def get_availability_by_date(date):
     doctor = Doctor.query.filter_by(date=date)
     if doctor:
+        print(doctor)
         return jsonify({"doctor availability": [avail.json() for avail in doctor]})
     # return jsonify({"Doctor is not available on this date"})  
     # returns []  if no availability found for that date
