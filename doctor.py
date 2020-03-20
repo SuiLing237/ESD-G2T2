@@ -48,7 +48,7 @@ def get_availability_by_date(date):
 # @app.route("/doctor/<string:date>/<string:time>/", methods=["PUT"])
 @app.route("/doctor/<string:date>/", methods=["PUT"])
 # def book_consultation(date, time):
-def book_consultation(date):
+def update_doctor_consultation(date):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
