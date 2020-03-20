@@ -43,13 +43,9 @@ def get_all_details(): # Can retrieve Availability
 # Query by specific date
 @app.route("/doctor/<string:date>/")
 def get_availability_by_date(date):
-    doctor = Doctor.query.filter_by(date=date)
+    doctor = Doctor.query.filter_by(date=date, availability="YES")
     if doctor:
-        print(doctor)
         return jsonify({"doctor availability": [avail.json() for avail in doctor]})
-    # return jsonify({"Doctor is not available on this date"})  
-    # returns []  if no availability found for that date
-
 
 @app.route("/doctor/<int:bookingID>/", methods=["PUT"])
 def update_doctor_availability(bookingID):
