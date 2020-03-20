@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 14, 2019 at 06:42 AM
--- Server version: 5.7.19
--- PHP Version: 7.1.9
+-- Generation Time: Mar 20, 2020 at 10:01 AM
+-- Server version: 5.7.23
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,20 +19,40 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: 'priceList'
+-- Database: `price_list`
 --
-CREATE DATABASE IF NOT EXISTS `patient` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `patient`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patient`
+-- Table structure for table `price_list`
 --
-DROP TABLE IF EXISTS `pricelist`;
-CREATE TABLE IF NOT EXISTS `pricelist` (
+
+DROP TABLE IF EXISTS `price_list`;
+CREATE TABLE IF NOT EXISTS `price_list` (
   `medicineID` int(64) NOT NULL,
   `medicine_name` varchar(64) NOT NULL,
-  `medicine_price` varchar(100) NOT NULL,
+  `medicine_price` double(64,2) NOT NULL,
   PRIMARY KEY (`medicineID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `price_list`
+--
+
+INSERT INTO `price_list` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
+(1, 'Vicodin', 10.00),
+(2, 'Simvastatin', 11.00),
+(3, 'Lisinopril', 12.00),
+(4, 'Levothyroxine', 13.00),
+(5, 'Azithromycin', 14.00),
+(6, 'Metformin', 15.00),
+(7, 'Liptor', 16.00),
+(8, 'Amlodipine', 17.00),
+(9, 'Amoxicillin', 18.00),
+(10, 'Hydrochlorothiazide', 19.00);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
