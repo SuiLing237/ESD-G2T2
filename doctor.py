@@ -53,15 +53,19 @@ def update_doctor_availability(bookingID):
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
     doctor = Doctor.query.filter_by(bookingID=bookingID).first()
     if doctor:
-        if(doctor.availability == 'Yes'):
+        if(doctor.availability == 'YES'):
             try:
-                doctor.availability = 'No'
+                doctor.availability = 'N0'
                 db.session.commit()
 
                 return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 
 
             except Exception as e:
+                # return jsonify({"message": "Booking ID {} is not available.".format(bookingID)}), 401
                 return (str(e))
+
+        return jsonify({"message": "Booking ID {} is not available.".format(bookingID)}), 401
+
  
             
     #     return "This timeslot is not available", 400
