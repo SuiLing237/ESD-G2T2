@@ -21,27 +21,27 @@ SET time_zone = "+00:00";
 --
 -- Database: 'patient'
 --
-CREATE DATABASE IF NOT EXISTS `patient` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `patient`;
+CREATE DATABASE IF NOT EXISTS `diagnosis` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `diagnosis`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patient`
+-- Table structure for table `diagnosis`
 --
-DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS `patient` (
+DROP TABLE IF EXISTS `diagnosis`;
+CREATE TABLE IF NOT EXISTS `diagnosis` (
   `patientID` int(64) NOT NULL,
-  `patient_name` varchar(64) NOT NULL,
-  `patient_phone` int(8) NOT NULL,
+  `bookingID` int(64) NOT NULL,
+  `diagnosis` varchar(100),
   PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`) VALUES
-(1, "Anne", 12348888),
-(2, "Ben", 43211234),
-(3, "Cathy", 56789999),
-(4, "Dan", 11107778),
-(5, "Edward", 96719999);
+-- Add in `diagnosis` values
+INSERT INTO `diagnosis` (`patientID`, `bookingID`, `diagnosis`) VALUES
+(1, 1, "Common Cold"),
+(2, 2, "Possibility of COVID-19"),
+(3, 3, "Food poisoning"),
+(4, 4, "Eczema"),
+(5, 5, "Stomach Flu");
 COMMIT;

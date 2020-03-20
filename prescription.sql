@@ -22,26 +22,28 @@ SET time_zone = "+00:00";
 -- Database: 'patient'
 --
 CREATE DATABASE IF NOT EXISTS `patient` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `patient`;
+USE `prescription`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patient`
+-- Table structure for table `prescription`
 --
-DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS `patient` (
+DROP TABLE IF EXISTS `prescription`;
+CREATE TABLE IF NOT EXISTS `prescription` (
   `patientID` int(64) NOT NULL,
-  `patient_name` varchar(64) NOT NULL,
-  `patient_phone` int(8) NOT NULL,
-  PRIMARY KEY (`patientID`)
+  `bookingID` int(64) NOT NULL,
+  `medicineID` int(64) NOT NULL,
+  `medicine_quantity` int(64) NOT NULL,
+  PRIMARY KEY (`patientID`),
+  KEY `FK_medicineID` (`medicineID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`) VALUES
-(1, "Anne", 12348888),
-(2, "Ben", 43211234),
-(3, "Cathy", 56789999),
-(4, "Dan", 11107778),
-(5, "Edward", 96719999);
+-- Add in `prescription` values
+INSERT INTO `prescription` (`patientID`, `bookingID`, `medicineID`, `medicine_quantity`) VALUES
+(1, 1, 1, 4),
+(2, 2, 2, 2),
+(3, 3, 3, 3),
+(4, 4, 2, 1),
+(5, 5, 3, 3);
 COMMIT;

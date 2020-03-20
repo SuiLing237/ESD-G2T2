@@ -93,7 +93,7 @@ def calculate_medicine_cost(price, quantity):
     cost = price * quantity
     return cost
 
-@app.route("/patient/<int:patientID>")
+# @app.route("/patient/<int:patientID>")
 def calculate_total_bill(patientID, prescription_dict):
     # I will need the prescription_dict in order to continue.
     pass
