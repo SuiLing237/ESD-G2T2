@@ -47,7 +47,7 @@ def get_availability_by_date(date):
 
 
 @app.route("/doctor/<int:bookingID>/", methods=["PUT"])
-def update_doctor_consultation(bookingID):
+def update_doctor_availability(bookingID):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
@@ -59,7 +59,7 @@ def update_doctor_consultation(bookingID):
                 db.session.commit()
 
                 return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 
-                
+
             except Exception as e:
                 return (str(e))
  
