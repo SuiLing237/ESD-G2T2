@@ -29,12 +29,10 @@ USE `patient`;
 --
 -- Table structure for table `patient`
 --
-DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS `patient` (
-  `patientID` int(64) NOT NULL,
-  `patient_name` varchar(64) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `phone` int(8) NOT NULL,
---   `prescription` varchar(100),
-  PRIMARY KEY (`patientID`)
+DROP TABLE IF EXISTS `pricelist`;
+CREATE TABLE IF NOT EXISTS `pricelist` (
+  `medicineID` int(64) NOT NULL,
+  `medicine_name` varchar(64) NOT NULL,
+  `medicine_price` varchar(100) NOT NULL,
+  PRIMARY KEY (`medicineID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

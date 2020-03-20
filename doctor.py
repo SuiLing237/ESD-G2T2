@@ -30,6 +30,9 @@ class Doctor(db.Model):
     def json(self):
         return {"bookingID":self.bookingID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
 
+@app.route("/")
+def home():
+    return "Your application is working!"
 
 @app.route("/doctor")
 def get_all_details(): # Can retrieve Availability
@@ -37,40 +40,39 @@ def get_all_details(): # Can retrieve Availability
 
 # -- Did not include function for Doctor not found since we only have 1 doctor now. But we can change further if needed. 
 
-@app.route("/doctor/<string:date>/") # Query by specific date
+# Query by specific date
+@app.route("/doctor/<string:date>/")
 def get_availability_by_date(date):
-    doctor = Doctor.query.filter_by(date=date)
+    doctor = Doctor.query.filter_by(date=date, availability="YES")
     if doctor:
         return jsonify({"doctor availability": [avail.json() for avail in doctor]})
-    # return jsonify({"Doctor is not available on this date"})  
-    # returns []  if no availability found for that date
 
-# @app.route("/doctor/<string:date>/<string:time>/", methods=["PUT"])
-@app.route("/doctor/<string:date>/", methods=["PUT"])
-# def book_consultation(date, time):
-def update_doctor_availability(date):
+@app.route("/doctor/<int:bookingID>/", methods=["PUT"])
+def update_doctor_availability(bookingID):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
-    doctor = Doctor.query.filter_by(date=date).first()
+    doctor = Doctor.query.filter_by(bookingID=bookingID).first()
     if doctor:
-        # if (doctor.columns.availability == 'Yes'): # double check .columns.
-        if(doctor.availability == 'Yes'):
-            # data = request.get_json()
-            # doctor = Doctor()
-            # doctor.availability = 'No'
-            # db.session.commit()
-            
+        if(doctor.availability == 'YES'):
             try:
-                doctor.availability = 'No'
+                doctor.availability = 'N0'
                 db.session.commit()
+
+                return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 
+
             except Exception as e:
+                # return jsonify({"message": "Booking ID {} is not available.".format(bookingID)}), 401
                 return (str(e))
 
-            return jsonify(201)
+        return jsonify({"message": "Booking ID {} is not available.".format(bookingID)}), 401
+
+ 
             
     #     return "This timeslot is not available", 400
     # return "This date and timeslot is not available", 400
+    else:
+        return jsonify({"message": "The booking ID {} does not exists.".format(bookingID)}), 400  
 
 # should we include Patient's ID in our app.route? 
 # SL: I think don't need?
