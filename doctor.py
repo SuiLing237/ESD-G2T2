@@ -15,20 +15,22 @@ class Doctor(db.Model):
 
     # We only have 1 doctor
     bookingID = db.Column(db.Integer, primary_key=True)
+    patientID = db.Column(db.Integer) # added so can view bookings by patientID
     date = db.Column(db.String(64), nullable=False)
     timeslot = db.Column(db.String(64), nullable = False)
     availability = db.Column(db.String(64), nullable=False)
 
     # Ideal way to store the schedule/ availability of the doctor?
 
-    def __init__(self, bookingID, date, timeslot, availability): # initialise book objects
+    def __init__(self, bookingID, patientID, date, timeslot, availability): # initialise book objects
         self.bookingID = bookingID
+        self.patientID = patientID
         self.date = date
         self.timeslot = timeslot
         self.availability = availability
 
     def json(self):
-        return {"bookingID":self.bookingID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
+        return {"bookingID":self.bookingID, "patientID":self.patientID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
 
 @app.route("/")
 def home():
@@ -74,8 +76,12 @@ def update_doctor_availability(bookingID):
     else:
         return jsonify({"message": "The booking ID {} does not exists.".format(bookingID)}), 400  
 
-# should we include Patient's ID in our app.route? 
-# SL: I think don't need?
+# retrieve bookings by patientID
+@app.route("/doctor/<int:patientID>/")
+def get_bookings_by_patientID(patienID):
+    doctor = Doctor.query.filter_by(patientID=patientID)
+    if doctor:
+        return jsonify({"doctor availability": [avail.json() for avail in doctor]})
 
 if __name__ == "__main__":
     app.run(debug=True)
