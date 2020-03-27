@@ -35,21 +35,32 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
-            
+            <li class="nav-item">
+                <a class="nav-link" href="booking.html">Booking</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.html">Consultation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="billing.html">Payment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+            </li>
             </ul>
         </div>
         </div>
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/healthcare-technology.png')">
+    <header class="masthead" style="background-image: url('img/patient.jpg')">
         <div class="overlay"></div>
         <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
                 <h1>Healthcare</h1>
-                <span class="subheading"> Is all you need!</span>
+                <span class="subheading"> Pay your medicine here!</span>
             </div>
             </div>
         </div>
@@ -59,36 +70,52 @@
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-                <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-                <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-                <form name="sentMessage" id="contactForm" novalidate>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                    <label>Username:</label>
-                    <input type="text" class="form-control" placeholder="Username" id="username" required data-validation-required-message="Please enter your username.">
-                    <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" id="password" required data-validation-required-message="Please enter your password.">
-                    <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <br>
-                <div id="success"></div>
-                <div class="form-group" align="center" >
-                    <button type="submit" class="btn btn-primary" id="login" >Login</button>
-                    <a class="nav-link" href="signup.html">Sign up here!</a>
-                </div>
-                
-                </form>
-            </div>
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <p>Click on the button below to make your payment</p>
+            
+            <br>
+            <div id="success"></div>
+            <p> Total amount: S$50</p>
+            <div id="paypal-button"></div>
+
+            <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+            <script>
+                var CREATE_PAYMENT_URL  = 'http://127.0.0.1:5000/payment';
+                var EXECUTE_PAYMENT_URL = 'http://127.0.0.1:5000/execute';
+
+                paypal.Button.render({
+
+                    env: 'sandbox', // Or 'sandbox'
+
+                    commit: true, // Show a 'Pay Now' button
+
+                    payment: function() {
+                        return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+                            return data.paymentID;
+                        });
+                    },
+
+                    onAuthorize: function(data) {
+                        return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                            paymentID: data.paymentID,
+                            payerID:   data.payerID
+                        }).then(function(res) {
+
+                            console.log(res.success)
+                            // The payment is complete!
+                            // You can now show a confirmation message to the customer
+                        });
+                    }
+
+                }, '#paypal-button');
+            </script>
+                        
+        </div>
         </div>
     </div>
+
+
 
     <!-- Footer -->
     <footer>
@@ -136,4 +163,3 @@
 </body>
 
 </html>
-

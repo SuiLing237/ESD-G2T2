@@ -32,6 +32,7 @@ USE `doctor`;
 DROP TABLE IF EXISTS `doctor`;
 CREATE TABLE IF NOT EXISTS `doctor` (
   `bookingID` int(64),
+  `patientID` int(64),
   `date` varchar(64) NOT NULL,
   `timeslot` varchar(64) NOT NULL,
   `availability` varchar(64) NOT NULL,
