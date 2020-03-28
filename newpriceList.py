@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # The above shebang (#!) operator tells Unix-like environments
 # to run this file as a python3 script
 
@@ -63,7 +63,7 @@ def home():
 def receiveOrder():
     # Check if the order contains valid JSON
     # order = None
-    result = 1234
+    result = 0
     if request.is_json:
         order = request.get_json()
         result = processOrder(order)
