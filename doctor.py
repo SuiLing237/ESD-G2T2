@@ -40,12 +40,18 @@ def get_all_details(): # Can retrieve Availability
 
 # -- Did not include function for Doctor not found since we only have 1 doctor now. But we can change further if needed. 
 
+@app.route("/getAllPatientBookings/<string:date>/")
+def get_patient_bookings(date):
+    doctor = Doctor.query.filter_by(date=date, availability="NO")
+    if doctor:
+        return jsonify({"availability": [avail.json() for avail in doctor]})
+
 # Query by specific date
 @app.route("/doctor/<string:date>/")
 def get_availability_by_date(date):
     doctor = Doctor.query.filter_by(date=date, availability="YES")
     if doctor:
-        return jsonify({"doctor availability": [avail.json() for avail in doctor]})
+        return jsonify({"availability": [avail.json() for avail in doctor]})
 
 @app.route("/doctor/<int:bookingID>/", methods=["PUT"])
 def update_doctor_availability(bookingID):
@@ -78,4 +84,4 @@ def update_doctor_availability(bookingID):
 # SL: I think don't need?
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
