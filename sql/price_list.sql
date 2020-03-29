@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `price_list`
 --
+CREATE DATABASE IF NOT EXISTS `price_list` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `price_list`;
 
 -- --------------------------------------------------------
 

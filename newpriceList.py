@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # The above shebang (#!) operator tells Unix-like environments
 # to run this file as a python3 script
 
@@ -63,7 +63,7 @@ def home():
 def receiveOrder():
     # Check if the order contains valid JSON
     # order = None
-    result = 1234
+    result = 0
     if request.is_json:
         order = request.get_json()
         result = processOrder(order)
@@ -86,21 +86,25 @@ def receiveOrder():
 
 def processOrder(order):
     print("Processing an order:")
-    print(type(order))
     total_price = 0
-    for med_id,quantity in order.items():
-        med_price = find_by_med_id(med_id) #retrieve price from data base
-        price = med_price * order[med_id]
-        print(type(price))
-        # total_price += price
+    for medicine in order["medicine"]:
+        med_id = medicine["medicineID"]
+        med_info = find_price_by_med_id(med_id) #retrieve price from data base
+
+        med_price = med_info["medicine_price"]
+        price = med_price * medicine["quantity"]
+
+
+        total_price += price
+    print("Total Price is:")
+    print(total_price)
     return total_price
 
 # @app.route("/find_by_order_id/<string:order_id>")
-def find_by_med_id(med_id):
-    med_price = Price.query.filter_by(medicineID=med_id).first()
-    if med_price:
-        print ("med_price")
-        return med_price.json()
+def find_price_by_med_id(med_id):
+    med_details = Price.query.filter_by(medicineID=med_id).first()
+    if med_details:
+        return med_details.json()
     return {'message': 'Order not found for id ' + str(med_id)}, 404
 
 def send_price(price):

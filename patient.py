@@ -26,38 +26,6 @@ class Patient(db.Model):
     def json(self):
         return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone}
 
-class Prescription(db.Model):
-    __tablename__ = "prescription"
-
-    patientID = db.Column(db.Integer, primary_key=True)
-    bookingID = db.Column(db.Integer, nullable=False)
-    medicineID = db.Column(db.Integer, foreign_key=True, nullable=False)
-    medicine_quantity = db.Column(db.Integer, nullable=False)
-
-    def __init__(self, patientID, bookingID, medicineID, medicine_quantity):
-        self.patientID = patientID
-        self.bookingID = bookingID
-        self.medicineID = medicineID
-        self.medicine_quantity = medicine_quantity
-    
-    def json(self):
-        return {"patientID": self.patientID, "bookingID": self.bookingID, "medicineID": self.medicineID, "medicine_quantity": self.medicine_quantity}
-
-class Diagnosis(db.Model):
-    __tablename__ = "diagnosis"
-
-    patientID = db.Column(db.Integer, primary_key=True)
-    bookingID = db.Column(db.Integer, nullable=False)
-    diagnosis = db.Column(db.String(64), nullable=False)
-    
-    def __init__(self, patientID, bookingID, diagnosis):
-        self.patientID = patientID
-        self.bookingID = bookingID
-        self.diagnosis = diagnosis
-    
-    def json(self):
-        return {"patientID": self.patientID, "bookingID": self.bookingID, "diagnosis": self.diagnosis}
-
 @app.route("/")
 def home():
     return "Your application is working!"
