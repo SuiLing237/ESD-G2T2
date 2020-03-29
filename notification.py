@@ -1,7 +1,17 @@
 import requests
 import urllib.request
 import urllib.parse
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/patient' # ENTER DB NAME HERE
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+CORS(app)
 
 # can only send 10 text 
 def sendSMS(apikey, numbers, sender, message):
@@ -27,3 +37,7 @@ def send_email_message():
 			"subject": "Hello xxxx",
 			"text": "Dear Customer, your bill is here!  You are truly awesome!"})
 print(send_email_message())
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

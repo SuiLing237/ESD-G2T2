@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS `account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
-INSERT INTO `account` (`accountID`, `email`, `name`,`phone`,`password`) VALUES
-(1, "Anne@hotmail.com","Anne" , 12348888),
-(2, "Ben@hotmail.com","Ben" , 43211234),
-(3, "Cathy@hotmail.com","Cathy" , 56789999),
-(4, "Dan@hotmail.com","Dan" , 11107778),
-(5, "Edward@hotmail.com","Edward" , 96719999);
+INSERT INTO `account` (`accountID`, `email`, `name`,`phone`,`password`,`type`) VALUES
+(1, "Anne@hotmail.com","Anne" , 12348888,1),
+(2, "Ben@hotmail.com","Ben" , 43211234,2),
+(3, "Cathy@hotmail.com","Cathy" , 56789999,1),
+(4, "Dan@hotmail.com","Dan" , 11107778,1),
+(5, "Edward@hotmail.com","Edward" , 96719999,1);
 COMMIT;
