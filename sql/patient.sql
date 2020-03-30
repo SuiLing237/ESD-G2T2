@@ -34,14 +34,15 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `patientID` int(64) NOT NULL,
   `patient_name` varchar(64) NOT NULL,
   `patient_phone` int(8) NOT NULL,
+  `patient_password` varchar(64) NOT NULL,
   PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`) VALUES
-(1, "Anne", 12348888),
-(2, "Ben", 43211234),
-(3, "Cathy", 56789999),
-(4, "Dan", 11107778),
-(5, "Edward", 96719999);
+INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`, `patient_password`) VALUES
+(1, "Anne", 12348888, "ilovecsl"),
+(2, "Ben", 43211234, "ilovetosleep"),
+(3, "Cathy", 56789999, "ilovetoeat"),
+(4, "Dan", 11107778, "ilovetoplay"),
+(5, "Edward", 96719999,"iloveesd123");
 COMMIT;

@@ -17,14 +17,16 @@ class Patient(db.Model):
     patientID = db.Column(db.Integer, primary_key=True)
     patient_name = db.Column(db.String(64), nullable=False)
     patient_phone = db.Column(db.Integer, nullable=False)
+    patient_password = db.Column(db.String(64),nullable=False)
 
-    def __init__(self, patientID, patient_name, patient_phone):
+    def __init__(self, patientID, patient_name, patient_phone, patient_password):
         self.patientID = patientID
         self.patient_name = patient_name
         self.patient_phone = patient_phone
+        self.patient_password = patient_password
     
     def json(self):
-        return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone}
+        return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone, 'patient_password':self.patient_password}
 
 @app.route("/")
 def home():

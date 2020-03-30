@@ -36,16 +36,7 @@
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="booking.html">Booking</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="consultation.html">Consultation</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="billing.html">Payment</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link" href="signup.html">Register</a>
             </li>
             </ul>
         </div>
@@ -60,7 +51,7 @@
             <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
                 <h1>Login Here</h1>
-                <span class="subheading"> Is all you need!</span>
+                <span class="subheading"> To have a video consultation! </span>
             </div>
             </div>
         </div>
@@ -71,10 +62,31 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-                <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-                <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-                <form name="sentMessage" id="contactForm" novalidate>
+                <form method="POST">
+                    <div class="form-group">
+                      <label for="name"> Name: </label> <input type="text" class="inputcontent" name="name" style="width:450px" id="name" placeholder=" Enter your name"/> <br><br>
+                      <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password-field" placeholder=" Enter your password"/> <br><br>
+                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                      <label for="usertype"> User Type: </label>
+                      <select id="usertype" name="usertype" class="inputcontent" style="width:450px">
+                          <option class="inputcontent" value="patient"> Patient </option>
+                          <option class="inputcontent" value="doctor"> Doctor </option>
+                      </select> 
+                      
+                    </div> <br>
+              
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary" id="login">Login</button>
+                    </div>
+    
+                    <p class="loginhere">
+                      Don't have an account? <a href="signup.html">Register here</a>
+                    </p>
+    
+                </form>
+
+
+                <!-- <form name="sentMessage" id="contactForm" novalidate>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                     <label>Username:</label>
@@ -93,9 +105,8 @@
                 <div id="success"></div>
                 <div class="form-group" align="center" >
                     <button type="submit" class="btn btn-primary" id="login" >Login</button>
-                    <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
                 </div>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>
@@ -110,7 +121,7 @@
                 <a href="#">
                     <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
                 </li>
@@ -126,7 +137,7 @@
                 <a href="#">
                     <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
                 </li>
