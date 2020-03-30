@@ -35,12 +35,12 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `patient_name` varchar(64) NOT NULL,
   `patient_phone` int(8) NOT NULL,
   `patient_email` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL,
+  `patient_password` varchar(128) NOT NULL,
   PRIMARY KEY (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_email`,`password`) VALUES
+INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_email`,`patient_password`) VALUES
 (1, "Anne", 12348888,"Anne@hotmail.com","anne123"),
 (2, "Ben", 43211234,"Ben@hotmail.com","ben123"),
 (3, "Cathy", 56789999,"Cathy@hotmail.com","cathy123"),
