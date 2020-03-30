@@ -10,23 +10,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-# SL: Since we have 3 tables in Patient DB now, how do I list the 2 tables `prescription` and `diagnosis` here?
 class Patient(db.Model):
     __tablename__ = "patient"
 
     patientID = db.Column(db.Integer, primary_key=True)
     patient_name = db.Column(db.String(64), nullable=False)
     patient_phone = db.Column(db.Integer, nullable=False)
+    patient_email = db.Column(db.String(64), nullable=False)
     patient_password = db.Column(db.String(64),nullable=False)
 
-    def __init__(self, patientID, patient_name, patient_phone, patient_password):
+    def __init__(self, patientID, patient_name, patient_phone, patient_email, patient_password):
         self.patientID = patientID
         self.patient_name = patient_name
         self.patient_phone = patient_phone
+        self.patient_email = patient_email
         self.patient_password = patient_password
     
     def json(self):
-        return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone, 'patient_password':self.patient_password}
+        return {"patientID": self.patientID, "patient_name": self.patient_name, "patient_phone": self.patient_phone, 'patient_email': self.patient_email, "patient_password": self.patient_password}
 
 @app.route("/")
 def home():
@@ -43,7 +44,7 @@ def get_patient(patientID):
         return jsonify(patient.json())
     return jsonify({"message": "Patient does not exist."}), 404
 
-@app.route("/patient/<int:patientID>", methods=["POST"])
+@app.route("/patient/<int:patientID>/", methods=["POST"])
 def create_patient(patientID):
     if (Patient.query.filter_by(patientID=patientID).first()):
         return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
@@ -58,16 +59,31 @@ def create_patient(patientID):
 
     return jsonify(patient.json()), 201
 
+@app.route("/patient/<string:patient_email>/<string:patient_password>/")
+def verify_and_retrieve_patient(patient_email, patient_password):
+    # check if email exists
+    if (Patient.query.filter_by(patient_email=patient_email).first()):
+        # check if password matches
+        if (Patient.query.filter_by(patient_password=patient_password).first()):
+            # retrieve patientID
+            patient = Patient.query.filter_by(patient_email=patient_email, patient_password=patient_password).first()
+            return jsonify(patient.json()), 201
+        else:
+            return jsonify({"message": "Password does not match email address."}), 400
+    else:
+        return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
+
+
+# IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
 # This is a helper function
-def calculate_medicine_cost(price, quantity):
-    cost = price * quantity
-    return cost
+# def calculate_medicine_cost(price, quantity):
+#     cost = price * quantity
+#     return cost
 
-# @app.route("/patient/<int:patientID>")
-def calculate_total_bill(patientID, prescription_dict):
-    # I will need the prescription_dict in order to continue.
-    pass
-
+# # @app.route("/patient/<int:patientID>")
+# def calculate_total_bill(patientID, prescription_dict):
+#     # I will need the prescription_dict in order to continue.
+#     pass
 
 # some auto-increment code YN tried
 # @app.route("/patient", methods=["POST"])
