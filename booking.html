@@ -17,8 +17,28 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     
+    <!-- copied from wt -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <!-- end of copied stuff -->
+    
+    <style>
+        #view-available-appointments { text-align: center; padding: 0 0 50px 0; }
+        #patient-page-form{ text-align: center;}
+        #available-appointment-table {margin: 0 auto; width: 80%;}
+        .bookingErrMsg {padding: 50px 0;}
+        #datepicker-13 {border-radius: 5px; box-shadow: 0 2px 5px #ccc; border: 0; padding: 2px 5px; background-color: white; outline: 0 none;}
+        label.datepickerLabel {margin-right: 20px;}
+    </style>
     
 </head>
 
@@ -37,7 +57,7 @@
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="booking.html">Booking</a>
+                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="consultation.html">Consultation</a>
@@ -65,57 +85,25 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <form name="sentMessage" id="bookingForm" novalidate>
-            <div class="control-group">
-                <div class="form-group floating-label-form-group controls">
-                <label>Name</label>
-                <input type="text" class="form-control" placeholder="Name" id="name" required data-validation-required-message="Please enter your name.">
-                <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="form-group floating-label-form-group controls">
-                <label>NRIC</label>
-                <input type="nric" class="form-control" placeholder="NRIC" id="nric" required data-validation-required-message="Please enter your NRIC.">
-                <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="form-group floating-label-form-group controls">
-                <label>Email Address</label>
-                <input type="email" class="form-control" placeholder="Email Address" id="email" required data-validation-required-message="Please enter your email address.">
-                <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Phone Number</label>
-                <input type="tel" class="form-control" placeholder="Phone Number" id="phone" required data-validation-required-message="Please enter your phone number.">
-                <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="form-group floating-label-form-group controls">
-                <label>Message</label>
-                <textarea rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
-                <p class="help-block text-danger"></p>
-                </div>
-            </div>
-            <br>
-            <div id="success"></div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
-
     <hr>
+
+    <h1 id="view-available-appointments">View List of Available Appointments</h1>
+
+    <div id="patient-page-form">
+        <label class="datepickerLabel" for="datepicker-13">Enter Date: </label>
+        <input type = "text" id = "datepicker-13">
+        <p id="list-available-appointments" style='font-weight: bold;'>List of Available Appointments: </p>
+        <table id='available-appointment-table' class="table" >
+            <thead class="thead-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Timeslot</th>
+                    <th>Book</th>
+                </tr>
+            </thead>
+            
+        </table>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -154,12 +142,86 @@
         </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/clean-blog.min.js"></script>
 </body>
+
+<script>
+    $(function(){
+        //$('#datepicker-13').on('click', function(){
+            //$( "#datepicker-13" ).datepicker("show");
+        //});
+        $("#available-appointment-table").hide();
+        $("#list-available-appointments").hide();
+
+        $("#datepicker-13").click(function() {
+            $( "#datepicker-13" ).datepicker("show");
+        });
+
+        $( "#datepicker-13" ).datepicker({
+            onSelect: function(){
+                $(".bookingErrMsg").remove();
+               //var date_picked = $( "#datepicker-13" ).datepicker({"dateFormat": 'dd-mm-yy' }).val();
+               //var date_picked = $( "#datepicker-13" ).datepicker('getDate');
+               //var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );
+               $(async () => {
+                    var date_picked = $( "#datepicker-13" ).datepicker('getDate');
+                    var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );    
+
+                    var serviceURL = "http://localhost:5000/doctor" + "/" + date_formatted;
+
+                   //console.log(serviceURL)
+                    try{
+                        const response =
+                        await fetch(serviceURL, { method: 'GET' });
+                        
+                        const data = await response.json();
+        
+                        var appointments = data.availability;
+                        //var lengthAppt = appointments.length;
+                     
+                        //console.log(appointments)
+                    
+                        if(appointments.length != 0){
+                            var rows = "";
+    
+                            for(const appt of appointments){
+                                var patientID = ""
+                                if(appt.patientID != null){
+                                    patientID = appt.patientID;
+                                }
+
+                                //console.log(appt);
+                                eachRow = 
+                                "<td>" + appt.date + "</td>" +
+                                "<td>" + appt.timeslot + "</td>" +
+                                "<td>" + "<button id='book' name='slots[]' value='appt.date&appt.timeslot' class='btn btn-primary'>Book</button>" + "</td>";
+                                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                                //console.log(eachRow);
+                            }
+                            $('.bookingErrMsg').remove();
+                            $("#available-appointment-table tbody").remove();
+                            $("#available-appointment-table").append(rows);
+                            $("#list-available-appointments").show();
+                            $("#available-appointment-table").show();
+                        }else{
+                            $("#available-appointment-table tbody").remove();
+                            $("#list-available-appointments").hide();
+                            $("#available-appointment-table").hide();
+                            $("#available-appointment-table").after("<h3 class='bookingErrMsg'>No Available Appointments</h3>")
+                        }
+                    }
+                    catch (error){
+                        console.log(error)
+                    }
+
+                });
+            }
+        });
+     
+    });
+
+    $("#book").click(function() {
+        console.log('slots')
+    })
+</script>
 
 </html>
