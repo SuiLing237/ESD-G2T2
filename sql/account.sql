@@ -19,31 +19,33 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: 'patient'
+-- Database: 'account'
 --
-CREATE DATABASE IF NOT EXISTS `patient` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `patient`;
+CREATE DATABASE IF NOT EXISTS `account` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `account`;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `patient`
 --
-DROP TABLE IF EXISTS `patient`;
-CREATE TABLE IF NOT EXISTS `patient` (
-  `patientID` int(64) NOT NULL,
-  `patient_name` varchar(64) NOT NULL,
-  `patient_phone` int(8) NOT NULL,
-  `patient_email` varchar(128) NOT NULL,
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE IF NOT EXISTS `account` (
+  `accountID` int(64) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `phone` int(8) NOT NULL,
   `password` varchar(128) NOT NULL,
-  PRIMARY KEY (`patientID`)
+  `type` int(1) NOT NULL,
+  
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
-INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_email`,`password`) VALUES
-(1, "Anne", 12348888,"Anne@hotmail.com","anne123"),
-(2, "Ben", 43211234,"Ben@hotmail.com","ben123"),
-(3, "Cathy", 56789999,"Cathy@hotmail.com","cathy123"),
-(4, "Dan", 11107778,"Dan@hotmail.com","dan123"),
-(5, "Edward", 96719999,"Edward@hotmail.com","edward123");
+INSERT INTO `account` (`accountID`, `email`, `name`,`phone`,`password`,`type`) VALUES
+(1, "Anne@hotmail.com","Anne" , 12348888,1),
+(2, "Ben@hotmail.com","Ben" , 43211234,2),
+(3, "Cathy@hotmail.com","Cathy" , 56789999,1),
+(4, "Dan@hotmail.com","Dan" , 11107778,1),
+(5, "Edward@hotmail.com","Edward" , 96719999,1);
 COMMIT;
