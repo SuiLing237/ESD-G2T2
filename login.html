@@ -64,8 +64,8 @@
             <div class="col-lg-8 col-md-10 mx-auto">
                 <form method="POST">
                     <div class="form-group">
-                      <label for="name"> Name: </label> <input type="text" class="inputcontent" name="name" style="width:450px" id="name" placeholder=" Enter your name"/> <br><br>
-                      <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password-field" placeholder=" Enter your password"/> <br><br>
+                      <label for="email"> Email: </label> <input type="text" class="inputcontent" name="email" style="width:450px" id="email" placeholder=" Enter your email"/> <br><br>
+                      <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password" placeholder=" Enter your password"/> <br><br>
                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                       <label for="usertype"> User Type: </label>
                       <select id="usertype" name="usertype" class="inputcontent" style="width:450px">
@@ -85,7 +85,8 @@
     
                 </form>
 
-
+                
+                <!-- SL: IF THERE IS NO NEED FOR THESE CODE, DELETE? -->
                 <!-- <form name="sentMessage" id="contactForm" novalidate>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
@@ -151,10 +152,33 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/clean-blog.min.js"></script>
 </body>
+
+<script>
+
+    // The serviceURL does this: verify patient email and password, then get patient.
+    // I want to get patientID to be stored as a global variable but idk how.
+    $("#login").click(function() {
+        $(async() => {
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var serviceURL = "http://localhost:5000/patient/" + email + "/" + password + "/";
+            console.log(serviceURL)
+
+            try {
+                const response = await fetch(serviceURL, {method: "GET"});
+                const data = await response.json();
+                var patientID = data.patientID;
+                console.log(patientID);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })
+    })
+
+
+</script>
 
 </html>
 
