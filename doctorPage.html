@@ -29,9 +29,6 @@
     <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-  
-    <script src="js/clean-blog.min.js"></script>
-
     <style>
         #viewBookingTitle { text-align: center; padding: 0 0 50px 0; }
         #doctorPageForm{ text-align: center;}
@@ -177,11 +174,12 @@
                         await fetch(serviceURL, { method: 'GET' });
                         
                         const data = await response.json();
+                        // console.log(data)
         
                         var appointments = data.availability;
                         //var lengthAppt = appointments.length;
-                     
-                        //console.log(appointments)
+
+                        // console.log(appointments)
                     
                         if(appointments.length != 0){
                             var rows = "";
