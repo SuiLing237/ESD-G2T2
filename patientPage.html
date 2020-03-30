@@ -19,6 +19,27 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+
+
+    <!-- copied from wt -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <!-- end of copied stuff -->
+    
+    <style>
+        #view-booked-appointments { text-align: center; padding: 0 0 50px 0; }
+        #patient-page-form{ text-align: center;}
+        #booked-appointment-table {margin: 0 auto; width: 80%;}
+        .bookingErrMsg {padding: 50px 0;}
+    </style>
 </head>
 
 <body>
@@ -36,10 +57,7 @@
                 <a class="nav-link" href="patientPage.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="booking.html">Book now</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="view-booking.html">View Your Bookings</a>
+                <a class="nav-link" href="booking.html">Book Now</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="billing.html">Payment</a>
@@ -67,6 +85,20 @@
         </div>
     </header>
 
+    <h1 id="view-booked-appointments">View List of Booked Appointments</h1>
+
+    <div id="patient-page-form">
+        <p id="list-booked-appointments" style='font-weight: bold;'>List of Booked Appointments: </p>
+        <table id='booked-appointment-table' class="table" >
+            <thead class="thead-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Timeslot</th>
+                </tr>
+            </thead>
+            
+        </table>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -105,12 +137,69 @@
         </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/clean-blog.min.js"></script>
 </body>
+
+<script>
+    $(function(){
+        $("#booked-appointment-table").hide();
+        $("#list-booked-appointments").hide();
+
+        $(".bookingErrMsg").remove();
+        $(async () => {
+            // I need the patientID of the person who logged in
+            // var patientID = ???
+            
+            var patientID = 1 // just for testing
+
+            var serviceURL = "http://localhost:5000/doctor" + "/" + patientID + "/";
+
+            //console.log(serviceURL)
+            try{
+                const response = await fetch(serviceURL, { method: 'GET' });
+                const data = await response.json();
+                console.log(data)
+
+                var appointments = data.availability;
+                console.log(appointments)
+                //var lengthAppt = appointments.length;
+                
+                //console.log(appointments)
+            
+                if(appointments.length != 0){
+                    var rows = "";
+
+                    for(const appt of appointments){
+                        var patientID = ""
+                        if(appt.patientID != null){
+                            patientID = appt.patientID;
+                        }
+
+                        //console.log(appt);
+                        eachRow = 
+                        "<td>" + appt.date + "</td>" +
+                        "<td>" + appt.timeslot + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+
+                        //console.log(eachRow);
+                    }
+                    $('.bookingErrMsg').remove();
+                    $("#booked-appointment-table tbody").remove();
+                    $("#booked-appointment-table").append(rows);
+                    $("#list-booked-appointments").show();
+                    $("#booked-appointment-table").show();
+                }else{
+                    $("#booked-appointment-table tbody").remove();
+                    $("#list-booked-appointments").hide();
+                    $("#booked-appointment-table").hide();
+                    $("#booked-appointment-table").after("<h3 class='bookingErrMsg'>No Booked Appointments</h3>")
+                }
+            }
+            catch (error){
+                console.log(error)
+            }
+        });
+    });
+  
+ </script>
 
 </html>
