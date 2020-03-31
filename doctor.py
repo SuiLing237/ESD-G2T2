@@ -56,8 +56,8 @@ def get_availability_by_date(date):
         return jsonify({"availability": [avail.json() for avail in doctor]})
 
 # SL: I think also need to put the patientID in right
-@app.route("/doctor/<int:bookingID>/", methods=["PUT"])
-def update_doctor_availability(bookingID):
+@app.route("/doctor/<int:bookingID>/<int:patientID>", methods=["PUT"])
+def update_doctor_availability(bookingID, patientID):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
@@ -66,6 +66,7 @@ def update_doctor_availability(bookingID):
         if(doctor.availability == 'YES'):
             try:
                 doctor.availability = 'N0'
+                doctor.patientID = patientID
                 db.session.commit()
 
                 return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 

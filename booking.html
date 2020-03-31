@@ -149,6 +149,7 @@
 
 <script>
     $(function(){
+        
         //$('#datepicker-13').on('click', function(){
             //$( "#datepicker-13" ).datepicker("show");
         //});
@@ -185,18 +186,21 @@
                     
                         if(appointments.length != 0){
                             var rows = "";
+                            var row_id = 0;
     
                             for(const appt of appointments){
-                                var patientID = ""
+                                var patientID = "";
                                 if(appt.patientID != null){
                                     patientID = appt.patientID;
                                 }
 
                                 //console.log(appt);
+                                row_id += 1;
+                                var id = appt.bookingID;
                                 eachRow = 
                                 "<td>" + appt.date + "</td>" +
                                 "<td>" + appt.timeslot + "</td>" +
-                                "<td>" + "<button id='book' name='slots[]' value='appt.date&appt.timeslot' class='btn btn-primary'>Book</button>" + "</td>";
+                                "<td>" + "<button type='button' id="+ row_id +" value="+ id+ " class='btn btn-primary book'>Book</button>" + "</td>";
                                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                                 //console.log(eachRow);
                             }
@@ -215,16 +219,26 @@
                     catch (error){
                         console.log(error)
                     }
-
                 });
             }
         });
-     
+        
+        //$(document).on('click', '.book', function(e) {
+        $(document).on('click', '.book', function(e) {
+            var bookingID = e.target.value;
+            console.log(bookingID)
+
+            //var bookingID = '';
+
+        });
+        
+        
     });
 
-    $("#book").click(function() {
-        console.log('slots')
-    })
+
+    //$(".book").click(function() {
+      //  console.log('slots')
+    //});
 </script>
 
 </html>
