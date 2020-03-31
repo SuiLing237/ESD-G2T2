@@ -45,7 +45,7 @@ def get_patient(patientID):
     return jsonify({"message": "Patient does not exist."}), 404
 
 
-@app.route("/patient", methods=["POST"])
+@app.route("/patient/", methods=["POST"])
 def create_patient():
     last_id = Patient.query.order_by(Patient.patientID.desc()).first()
     if last_id:
