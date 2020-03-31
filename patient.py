@@ -44,12 +44,16 @@ def get_patient(patientID):
         return jsonify(patient.json())
     return jsonify({"message": "Patient does not exist."}), 404
 
-@app.route("/patient/<int:patientID>/", methods=["POST"])
-def create_patient(patientID):
-    if (Patient.query.filter_by(patientID=patientID).first()):
-        return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
+
+@app.route("/patient", methods=["POST"])
+def create_patient():
+    last_id = Patient.query.order_by(Patient.patientID.desc()).first()
+    if last_id:
+        new_id = last_id.patientID
+        new_id += 1
+
     data = request.get_json()
-    patient = Patient(patientID, **data)
+    patient = Patient(new_id, **data)
 
     try:
         db.session.add(patient)
@@ -58,6 +62,22 @@ def create_patient(patientID):
         return jsonify({"message": "An error occurred creating the patient."}), 500
 
     return jsonify(patient.json()), 201
+
+    #session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
+# @app.route("/patient/<int:patientID>/", methods=["POST"])
+# def create_patient(patientID):
+#     if (Patient.query.filter_by(patientID=patientID).first()):
+#         return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
+#     data = request.get_json()
+#     patient = Patient(patientID, **data)
+
+#     try:
+#         db.session.add(patient)
+#         db.session.commit()
+#     except:
+#         return jsonify({"message": "An error occurred creating the patient."}), 500
+
+#     return jsonify(patient.json()), 201
 
 @app.route("/patient/<string:patient_email>/<string:patient_password>/")
 def verify_and_retrieve_patient(patient_email, patient_password):
