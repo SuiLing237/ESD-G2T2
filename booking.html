@@ -149,6 +149,7 @@
 
 <script>
     $(function(){
+        
         //$('#datepicker-13').on('click', function(){
             //$( "#datepicker-13" ).datepicker("show");
         //});
@@ -161,7 +162,7 @@
 
         $( "#datepicker-13" ).datepicker({
             onSelect: function(){
-                $(".bookingErrMsg").remove();
+                //$(".bookingErrMsg").remove();
                //var date_picked = $( "#datepicker-13" ).datepicker({"dateFormat": 'dd-mm-yy' }).val();
                //var date_picked = $( "#datepicker-13" ).datepicker('getDate');
                //var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );
@@ -185,22 +186,25 @@
                     
                         if(appointments.length != 0){
                             var rows = "";
+                            var row_id = 0;
     
                             for(const appt of appointments){
-                                var patientID = ""
+                                var patientID = "";
                                 if(appt.patientID != null){
                                     patientID = appt.patientID;
                                 }
 
                                 //console.log(appt);
+                                row_id += 1;
+                                var id = appt.bookingID;
                                 eachRow = 
                                 "<td>" + appt.date + "</td>" +
                                 "<td>" + appt.timeslot + "</td>" +
-                                "<td>" + "<button id='book' name='slots[]' value='appt.date&appt.timeslot' class='btn btn-primary'>Book</button>" + "</td>";
+                                "<td>" + "<button type='button' id='booking' value="+ id+ " class='btn btn-primary book'>Book</button>" + "</td>";
                                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                                 //console.log(eachRow);
                             }
-                            $('.bookingErrMsg').remove();
+                            //$('.bookingErrMsg').remove();
                             $("#available-appointment-table tbody").remove();
                             $("#available-appointment-table").append(rows);
                             $("#list-available-appointments").show();
@@ -209,22 +213,30 @@
                             $("#available-appointment-table tbody").remove();
                             $("#list-available-appointments").hide();
                             $("#available-appointment-table").hide();
-                            $("#available-appointment-table").after("<h3 class='bookingErrMsg'>No Available Appointments</h3>")
+                            //$("#available-appointment-table").after("<h3 class='bookingErrMsg'>No Available Appointments</h3>")
                         }
                     }
                     catch (error){
                         console.log(error)
                     }
-
                 });
             }
         });
-     
+        
+        $(document).on('click', '.book', function(e) {
+            //var bookingID = document.getElementsByClassName("book").attr('value');
+            var bookingID = document.getElementById("booking").value();
+            console.log(bookingID);
+
+        });
+        
+        
     });
 
-    $("#book").click(function() {
-        console.log('slots')
-    })
+
+    //$(".book").click(function() {
+      //  console.log('slots')
+    //});
 </script>
 
 </html>
