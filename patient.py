@@ -106,4 +106,4 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
