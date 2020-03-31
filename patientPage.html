@@ -147,9 +147,9 @@
         $(".bookingErrMsg").remove();
         $(async () => {
             // I need the patientID of the person who logged in
-            // var patientID = ???
-            
-            var patientID = 1 // just for testing
+            var patientID = sessionStorage.getItem("patientID");
+            console.log("patientID should appear")
+            console.log(patientID)
 
             var serviceURL = "http://localhost:5000/doctor" + "/" + patientID + "/";
 
@@ -161,8 +161,6 @@
 
                 var appointments = data.availability;
                 console.log(appointments)
-                //var lengthAppt = appointments.length;
-                
                 //console.log(appointments)
             
                 if(appointments.length != 0){

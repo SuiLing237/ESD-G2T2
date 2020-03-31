@@ -33,11 +33,11 @@ class Patient(db.Model):
 def home():
     return "Your application is working!"
 
-@app.route("/patient")
+@app.route("/patient/")
 def get_all_patients():
     return jsonify({"patients": [patient.json() for patient in Patient.query.all()]})
 
-@app.route("/patient/<int:patientID>")
+@app.route("/patient/<int:patientID>/")
 def get_patient(patientID):
     patient = Patient.query.filter_by(patientID=patientID).first()
     if patient:
@@ -81,6 +81,9 @@ def create_patient():
 
 @app.route("/patient/<string:patient_email>/<string:patient_password>/")
 def verify_and_retrieve_patient(patient_email, patient_password):
+    if (patient_email == "Missing" or patient_password == "Missing"):
+        return jsonify({"message": "Missing inputs."}), 400
+
     # check if email exists
     if (Patient.query.filter_by(patient_email=patient_email).first()):
         # check if password matches
@@ -92,6 +95,7 @@ def verify_and_retrieve_patient(patient_email, patient_password):
             return jsonify({"message": "Password does not match email address."}), 400
     else:
         return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
+
 
 
 # IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
@@ -126,4 +130,4 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
