@@ -59,12 +59,13 @@
   </header>
 
     <!-- Main Content -->
+    <body>
     <div class="container">
         <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <!-- <div class="signup-content"> -->
             <!-- <form method="POST" id="signup-form" class="signup-form"> -->
-            <form method="POST">
+            <form id="addPatientForm">
                 <div class="form-group">
                   <label for="name"> Name: </label> <input type="text" class="inputcontent" name="name" style="width:450px" id="name" placeholder=" Enter your name" required/> <br><br>
                   <label for="email">Email Address: </label> <input type="email" class="inputcontent" style="width:450px" id="email" placeholder=" Enter your email address" required data-validation-required-message="Enter your email address"> <br><br>
@@ -77,15 +78,66 @@
                   <label1 for="termsagreement"> I agree to the Pivacy Policy and understand that my information will be used as desribed in O-HCare Privacy Policy </label>
                 </div> 
           
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
-                </div>
-
-                <p class="loginhere">
-                  Already have an account? <a href="login.html">Login here</a>
-                </p>
-
+                <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
             </form>
+            <p class="loginhere">
+              Already have an account? <a href="login.html">Login here</a>
+            </p>
+
+            <label id="error"></label>
+         </div>
+         </div>
+    </div>
+    </body>
+
+    <script>
+      // Helper function to display error message
+      function showError(message){
+        $('#error').text(message);
+      }
+
+      $('#addPatientForm').submit(async(event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
+        var patientID = 6;
+
+        var serviceURL = "http://localhost:5000/patient" + "/" + patientID;
+        var homeURL = "http://localhost:5000/login.html"
+
+        //Get form data
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var phonenumber = parseInt($('#phonenumber').val());
+        var password = $('#password').val();
+        // var re_password = $('re_password').val();
+
+        //Form the post url which includes the dynamic patientID
+        serviceURL += patientID
+        try{
+           const response =
+                await fetch(
+                  serviceURL,{
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ name: name, email: email, phonenumber: phonenumber,  password: password})
+                  });
+           const data = await response.json();
+
+           if (response.ok){
+             //relocate to home page
+             window.location.replace(homeURL);
+             return False;
+           } else{
+             console.log(data);
+             showError(data.message);
+           }
+        } catch (error){
+          showError ("POOR THING" + error);
+
+        }
+      });
+    </script>
+
             
         <!-- </div> -->
 
