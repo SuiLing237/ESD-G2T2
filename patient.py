@@ -33,11 +33,11 @@ class Patient(db.Model):
 def home():
     return "Your application is working!"
 
-@app.route("/patient")
+@app.route("/patient/")
 def get_all_patients():
     return jsonify({"patients": [patient.json() for patient in Patient.query.all()]})
 
-@app.route("/patient/<int:patientID>")
+@app.route("/patient/<int:patientID>/")
 def get_patient(patientID):
     patient = Patient.query.filter_by(patientID=patientID).first()
     if patient:
