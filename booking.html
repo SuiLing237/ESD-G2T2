@@ -227,8 +227,28 @@
         $(document).on('click', '.book', function(e) {
             var bookingID = e.target.value;
             console.log(bookingID)
+            var patientID = sessionStorage.getItem("patientID");
+            console.log(patientID)
 
-            //var bookingID = '';
+            $(async() => {
+                var serviceURL = "http://localhost:5000/doctor" + "/" + bookingID + "/" + patientID + "/";
+
+                try {
+                    const response =
+                    await fetch(serviceURL,
+                    {
+                        method: 'PUT',
+                        headers: { "content-type": "application/json" }, mode: 'cors',
+                        body: JSON.stringify ({ bookingID: bookingID, patientID: patientID })
+                    });
+
+                    data = await response.json();
+                    console.log(data)
+                }
+                catch (error) {
+                    console.log(error)
+                }
+            });
 
         });
         
