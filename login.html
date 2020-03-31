@@ -19,6 +19,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+
+    
 </head>
 
 <body>
@@ -96,6 +98,8 @@
     
                 </form>
 
+                <p class='errorMsg'></p>
+
                 
                 <!-- SL: IF THERE IS NO NEED FOR THESE CODE, DELETE? -->
                 <!-- <form name="sentMessage" id="contactForm" novalidate>
@@ -171,19 +175,36 @@
     // I want to get patientID to be stored as a global variable but idk how.
     console.log("Hello");
     $("#login").click(function() {
+        $('.errorMsg').remove();
         $(async() => {
+            // $('.errorMsg').hide();
             var email = $("#email").val();
-            console.log(email)
+            // console.log(email)
             var password = $("#password").val();
-            console.log(password)
-            var serviceURL = "http://localhost:5000/patient/" + email + "/" + password + "/";
-            console.log(serviceURL)
+            // console.log(password)
+            if(email == '' || password ==''){
+                email = "Missing"
+                password = "Missing"
+            }
+            var serviceURL = "http://localhost:5001/patient/" + email + "/" + password + "/";
+            // console.log(serviceURL)
 
             try {
                 const response = await fetch(serviceURL, {method: "GET"});
                 const data = await response.json();
+                console.log(data);
                 var patientID = data.patientID;
-                console.log(patientID);
+                if (patientID != undefined) {
+                    console.log(patientID);
+                    sessionStorage.setItem("patientID", patientID)
+                    window.location.replace("http://localhost/esd/patientPage.html");
+                } else {
+                    
+                    var message = data.message;
+                    //$('#login').after("<br><b class='errorMsg'>" + JSON.stringify(data.message) + "</b >");
+                    $('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >");
+
+                }
             }
             catch (error) {
                 console.log(error);
