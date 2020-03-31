@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `patient_email` varchar(128) NOT NULL,
   `patient_password` varchar(128) NOT NULL,
   PRIMARY KEY (`patientID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- Add in `patient` values
 INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_email`,`patient_password`) VALUES

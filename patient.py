@@ -61,6 +61,9 @@ def create_patient(patientID):
 
 @app.route("/patient/<string:patient_email>/<string:patient_password>/")
 def verify_and_retrieve_patient(patient_email, patient_password):
+    if (patient_email == "Missing" or patient_password == "Missing"):
+        return jsonify({"message": "Missing inputs."}), 400
+
     # check if email exists
     if (Patient.query.filter_by(patient_email=patient_email).first()):
         # check if password matches
@@ -72,6 +75,7 @@ def verify_and_retrieve_patient(patient_email, patient_password):
             return jsonify({"message": "Password does not match email address."}), 400
     else:
         return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
+
 
 
 # IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
@@ -106,4 +110,4 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
