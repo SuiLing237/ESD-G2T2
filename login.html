@@ -92,14 +92,15 @@
                       <button type="submit" class="btn btn-primary" id="login">Login</button>
                     </div>
     
-                    <p class="loginhere">
-                      Don't have an account? <a href="signup.html">Register here</a>
-                    </p>
+                    
     
                 </form>
+                
+                <p class='errorMsg' style='text-align: center; color:red; font-weight:bold;'> </p>
 
-                <p class='errorMsg'></p>
-
+                <p class="loginhere">
+                    Don't have an account? <a href="signup.html">Register here</a>
+                  </p>
                 
                 <!-- SL: IF THERE IS NO NEED FOR THESE CODE, DELETE? -->
                 <!-- <form name="sentMessage" id="contactForm" novalidate>
@@ -175,7 +176,8 @@
     // I want to get patientID to be stored as a global variable but idk how.
     console.log("Hello");
     $("#login").click(function() {
-        $('.errorMsg').remove();
+        //$('.errorMsg').remove();
+        $('.errorMsg').text("");
         $(async() => {
             // $('.errorMsg').hide();
             var email = $("#email").val();
@@ -202,7 +204,8 @@
                     
                     var message = data.message;
                     //$('#login').after("<br><b class='errorMsg'>" + JSON.stringify(data.message) + "</b >");
-                    $('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >");
+                    //$('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >"); -->
+                    $(".errorMsg").text(message)
 
                 }
             }
