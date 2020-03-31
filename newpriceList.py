@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-#patientURL
+paymentURL = "http://localhost:5001/payment"
 
 class Price (db.Model):
     __tablename__ = "price_list"
@@ -105,16 +105,15 @@ def find_price_by_med_id(med_id):
     med_details = Price.query.filter_by(medicineID=med_id).first()
     if med_details:
         return med_details.json()
-    return {'message': 'Order not found for id ' + str(med_id)}, 404
+    return {'message': 'Medicine not found for id ' + str(med_id)}, 404
 
 def send_price(price):
     price = json.loads(json.dumps(price, default = str))
 
     #send to medicine microservice
-    r = requests.post(shippingURL, json = price)
-    print("price sent to medicine")
-    result = json.loads(r.text.lower())
-    return
+    r = requests.post(paymentURL, json = price)
+    print("Price sent to paypal.")
+
     
 
     
