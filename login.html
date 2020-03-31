@@ -62,16 +62,27 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <form method="POST">
+                <!-- <form method="POST"> -->
+                
                     <div class="form-group">
-                      <label for="email"> Email: </label> <input type="text" class="inputcontent" name="email" style="width:450px" id="email" placeholder=" Enter your email"/> <br><br>
+                    <form>
+                        <label for="email"> Email: </label> <input type="text" class="inputcontent" name="email" style="width:450px" id="email" placeholder=" Enter your email"/> <br><br>
+                        <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password" placeholder=" Enter your password"/> <br><br>
+                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <label for="usertype"> User Type: </label>
+                        <select id="usertype" name="usertype" class="inputcontent" style="width:450px">
+                            <option class="inputcontent" value="patient"> Patient </option>
+                            <option class="inputcontent" value="doctor"> Doctor </option>
+                        </select> 
+                    </form>
+                      <!-- <label for="email"> Email: </label> <input type="text" class="inputcontent" name="email" style="width:450px" id="email" placeholder=" Enter your email"/> <br><br>
                       <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password" placeholder=" Enter your password"/> <br><br>
                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                       <label for="usertype"> User Type: </label>
                       <select id="usertype" name="usertype" class="inputcontent" style="width:450px">
                           <option class="inputcontent" value="patient"> Patient </option>
                           <option class="inputcontent" value="doctor"> Doctor </option>
-                      </select> 
+                      </select>  -->
                       
                     </div> <br>
               
@@ -158,10 +169,13 @@
 
     // The serviceURL does this: verify patient email and password, then get patient.
     // I want to get patientID to be stored as a global variable but idk how.
+    console.log("Hello");
     $("#login").click(function() {
         $(async() => {
             var email = $("#email").val();
+            console.log(email)
             var password = $("#password").val();
+            console.log(password)
             var serviceURL = "http://localhost:5000/patient/" + email + "/" + password + "/";
             console.log(serviceURL)
 
@@ -174,8 +188,8 @@
             catch (error) {
                 console.log(error);
             }
-        })
-    })
+        });
+    });
 
 
 </script>
