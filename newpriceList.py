@@ -38,27 +38,7 @@ class Price (db.Model):
 def home():
     return "test"
 
-# @app.route("/pricelist/", methods=['POST'])
-# def receiveOrder(): # order = medicineID
-    # # Check if the order contains valid JSON
-    # order = None
-    # if request.is_json:
-    #     order = request.get_json()
-    # else:
-    #     order = request.get_data()
-    #     print("Received an invalid order:")
-    #     print(order)
-    #     replymessage = json.dumps({"message": "Order should be in JSON", "data": order}, default=str)
-    #     return replymessage, 400 # Bad Request
-    # print("Received an order by " + __file__)
-    # result = processOrder(order)
-    # print() # print a new line feed as a separator
-    # # reply to the HTTP request
-    # replymessage = json.dumps(result, default=str)
-    # if result["status"]:
-    #     return replymessage, 200 #return the json along with the http status code 200
-    # else:
-    #     return replymessage, 501 #return the json along with the http status code 501
+
 @app.route("/price", methods=['POST'])
 def receiveOrder():
     # Check if the order contains valid JSON
