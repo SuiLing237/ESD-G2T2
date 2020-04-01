@@ -223,9 +223,9 @@
             }
         });
         
-        //$(document).on('click', '.book', function(e) {
         $(document).on('click', '.book', function(e) {
             var bookingID = e.target.value;
+            sessionStorage.setItem("bookingID", bookingID);
             console.log(bookingID)
             var patientID = sessionStorage.getItem("patientID");
             console.log(patientID)
@@ -244,6 +244,7 @@
 
                     data = await response.json();
                     console.log(data)
+                    window.location.replace("http://localhost/esd/bookingConfirm.html") // hardcoded url
                 }
                 catch (error) {
                     console.log(error)
@@ -254,11 +255,6 @@
         
         
     });
-
-
-    //$(".book").click(function() {
-      //  console.log('slots')
-    //});
 </script>
 
 </html>
