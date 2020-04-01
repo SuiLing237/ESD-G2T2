@@ -48,14 +48,14 @@ def get_patient_bookings(date):
     if doctor:
         return jsonify({"availability": [avail.json() for avail in doctor]})
 
-# Query by specific date
+# retrieve by specific date
 @app.route("/doctor/<string:date>/")
 def get_availability_by_date(date):
     doctor = Doctor.query.filter_by(date=date, availability="YES")
     if doctor:
         return jsonify({"availability": [avail.json() for avail in doctor]})
 
-# SL: I think also need to put the patientID in right
+# update doctor availability with bookingID and patientID
 @app.route("/doctor/<int:bookingID>/<int:patientID>/", methods=["PUT"])
 def update_doctor_availability(bookingID, patientID):
     # query if timing is already booked
@@ -88,6 +88,13 @@ def get_bookings_by_patientID(patientID):
     doctor = Doctor.query.filter_by(patientID=patientID, availability="NO")
     if doctor:
         return jsonify({"availability": [avail.json() for avail in doctor]})
+
+# retrieve booking by bookingID
+@app.route("/booking/<int:bookingID>/")
+def get_booking_by_bookingID(bookingID):
+    doctor = Doctor.query.filter_by(bookingID=bookingID)
+    if doctor:
+        return jsonify({"booking": booking.json() for booking in doctor})
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
