@@ -28,7 +28,9 @@ resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
 print (resp)
 
 
-def send_email_message():
+# SL: I need retrieve patient_email from patient microservice via AMQP, someone help :')
+@app.route("/notification/send_booking_confirmation_email/<string:patient_email>/")
+def send_email_message(patientID):
 	return requests.post(
 		"https://api.mailgun.net/v3/sandbox8ced2597e4084a168f5ae34a977ca417.mailgun.org/messages",
 		auth=("api", "2c0d1e53b653f0d410046ea5c476e6c7-9a235412-8ecb4f09"),
