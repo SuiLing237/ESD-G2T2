@@ -87,17 +87,17 @@ def receiveOrder():
 def processOrder(order):
     print("Processing an order:")
     total_price = 0
-    for medicine in order["medicine"]:
+    for medicine in order["prescription"]:
         med_id = medicine["medicineID"]
         med_info = find_price_by_med_id(med_id) #retrieve price from data base
 
         med_price = med_info["medicine_price"]
-        price = med_price * medicine["quantity"]
+        price = med_price * medicine["medicine_quantity"]
 
 
         total_price += price
     print("Total Price is:")
-    print(total_price)
+    print('$' + str(total_price))
     return total_price
 
 # @app.route("/find_by_order_id/<string:order_id>")

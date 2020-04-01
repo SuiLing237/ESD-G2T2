@@ -36,7 +36,7 @@ class Doctor(db.Model):
 def home():
     return "Your application is working!"
 
-@app.route("/doctor")
+@app.route("/doctor/")
 def get_all_details(): # Can retrieve Availability
     return jsonify({"doctor details": [doctor.json() for doctor in Doctor.query.all()]})
 
@@ -56,8 +56,8 @@ def get_availability_by_date(date):
         return jsonify({"availability": [avail.json() for avail in doctor]})
 
 # SL: I think also need to put the patientID in right
-@app.route("/doctor/<int:bookingID>/", methods=["PUT"])
-def update_doctor_availability(bookingID):
+@app.route("/doctor/<int:bookingID>/<int:patientID>/", methods=["PUT"])
+def update_doctor_availability(bookingID, patientID):
     # query if timing is already booked
     # -----
     # doctor = Doctor.query.filter_by(date=date, time=time).first()
@@ -65,7 +65,8 @@ def update_doctor_availability(bookingID):
     if doctor:
         if(doctor.availability == 'YES'):
             try:
-                doctor.availability = 'N0'
+                doctor.availability = 'NO'
+                doctor.patientID = patientID
                 db.session.commit()
 
                 return jsonify({"message": "Booking ID {} successfully made.".format(bookingID)}), 201 
@@ -76,8 +77,6 @@ def update_doctor_availability(bookingID):
 
         return jsonify({"message": "Booking ID {} is not available.".format(bookingID)}), 401
 
- 
-            
     #     return "This timeslot is not available", 400
     # return "This date and timeslot is not available", 400
     else:

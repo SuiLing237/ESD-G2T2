@@ -33,23 +33,27 @@ class Patient(db.Model):
 def home():
     return "Your application is working!"
 
-@app.route("/patient")
+@app.route("/patient/")
 def get_all_patients():
     return jsonify({"patients": [patient.json() for patient in Patient.query.all()]})
 
-@app.route("/patient/<int:patientID>")
+@app.route("/patient/<int:patientID>/")
 def get_patient(patientID):
     patient = Patient.query.filter_by(patientID=patientID).first()
     if patient:
         return jsonify(patient.json())
     return jsonify({"message": "Patient does not exist."}), 404
 
-@app.route("/patient/<int:patientID>/", methods=["POST"])
-def create_patient(patientID):
-    if (Patient.query.filter_by(patientID=patientID).first()):
-        return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
+
+@app.route("/patient/", methods=["POST"])
+def create_patient():
+    last_id = Patient.query.order_by(Patient.patientID.desc()).first()
+    if last_id:
+        new_id = last_id.patientID
+        new_id += 1
+
     data = request.get_json()
-    patient = Patient(patientID, **data)
+    patient = Patient(new_id, **data)
 
     try:
         db.session.add(patient)
@@ -59,8 +63,27 @@ def create_patient(patientID):
 
     return jsonify(patient.json()), 201
 
+    #session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
+# @app.route("/patient/<int:patientID>/", methods=["POST"])
+# def create_patient(patientID):
+#     if (Patient.query.filter_by(patientID=patientID).first()):
+#         return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
+#     data = request.get_json()
+#     patient = Patient(patientID, **data)
+
+#     try:
+#         db.session.add(patient)
+#         db.session.commit()
+#     except:
+#         return jsonify({"message": "An error occurred creating the patient."}), 500
+
+#     return jsonify(patient.json()), 201
+
 @app.route("/patient/<string:patient_email>/<string:patient_password>/")
 def verify_and_retrieve_patient(patient_email, patient_password):
+    if (patient_email == "Missing" or patient_password == "Missing"):
+        return jsonify({"message": "Missing inputs."}), 400
+
     # check if email exists
     if (Patient.query.filter_by(patient_email=patient_email).first()):
         # check if password matches
@@ -72,6 +95,7 @@ def verify_and_retrieve_patient(patient_email, patient_password):
             return jsonify({"message": "Password does not match email address."}), 400
     else:
         return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
+
 
 
 # IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
@@ -106,4 +130,4 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
