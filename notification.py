@@ -1,9 +1,14 @@
-import requests
-import urllib.request
-import urllib.parse
+# import requests
+# import urllib.request
+# import urllib.parse
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+
+# For email
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # for amqp
 import pika
@@ -62,21 +67,56 @@ print (resp)
 
 # SL: I need retrieve patient from patient microservice and patient's booking details from doctor microservice via AMQP
 # patient is in the form of a dictionary.
-def send_email_message(patient):
-    print("invoked")
-    patient_name = patient['patient_name']
-    patient_email = patient['patient_email'] # I tested using my own email, but doesn't work.
+# def send_email_message(patient):
+#     print("invoked")
+#     patient_name = patient['patient_name']
+#     patient_email = patient['patient_email'] # I tested using my own email, but doesn't work.
     
-    return requests.post(
-		"https://api.mailgun.net/v3/sandbox8ced2597e4084a168f5ae34a977ca417.mailgun.org/messages",
-		auth=("api", "2c0d1e53b653f0d410046ea5c476e6c7-9a235412-8ecb4f09"),
-		data={"from": "Mailgun Sandbox <postmaster@sandbox8ced2597e4084a168f5ae34a977ca417.mailgun.org>",
-            #"to": "samuel low <samuel.low.2018@smu.edu.sg>",
-            "to": "{}<{}>".format(patient_name, patient_email),
-			"subject": "Hello xxxx",
-			#"text": "Dear Customer, your bill is here!  You are truly awesome!"
-            "text": "Dear {}, your booking of appointment with the doctor is confirmed. Here are your booking details {}".format(patient_name, booking_time)})
-print(send_email_message())
+#     return requests.post(
+# 		"https://api.mailgun.net/v3/sandbox8ced2597e4084a168f5ae34a977ca417.mailgun.org/messages",
+# 		auth=("api", "2c0d1e53b653f0d410046ea5c476e6c7-9a235412-8ecb4f09"),
+# 		data={"from": "Mailgun Sandbox <postmaster@sandbox8ced2597e4084a168f5ae34a977ca417.mailgun.org>",
+#             #"to": "samuel low <samuel.low.2018@smu.edu.sg>",
+#             "to": "{}<{}>".format(patient_name, patient_email),
+# 			"subject": "Hello xxxx",
+# 			#"text": "Dear Customer, your bill is here!  You are truly awesome!"
+#             "text": "Dear {}, your booking of appointment with the doctor is confirmed. Here are your booking details {}".format(patient_name, booking_time)})
+# print(send_email_message())
+
+
+
+MY_ADDRESS = 'sender emal'
+PASSWORD = 'sender pass'
+def main():
+   names = "sam"
+   emails = "mushi.lee.2018@smu.edu.sg"
+
+   # set up the SMTP server
+   s = smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
+   s.starttls()
+   s.login(MY_ADDRESS, PASSWORD)
+   
+   msg = MIMEMultipart()       # create a message
+
+   # add in the actual person name to the message template
+   message = "This is for  testing"
+
+
+   # setup the parameters of the message
+   msg['From']=MY_ADDRESS
+   msg['To']=emails
+   msg['Subject']="This is TEST"
+   
+   # add in the message body
+   msg.attach(MIMEText(message, 'plain'))
+   
+   # send the message via the server set up earlier.
+   s.send_message(msg)
+   del msg
+      
+   # Terminate the SMTP session and close the connection
+   s.quit()
+
 
 def receivePatient():
     # prepare a queue for receiving messages
@@ -99,4 +139,5 @@ def callback(channel, method, properties, body): # required signature for the ca
 if __name__ == "__main__":
     print("Receiving patient details...")
     receivePatient()
+    main()
     app.run(debug=True)
