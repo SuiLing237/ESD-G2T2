@@ -84,8 +84,8 @@ channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
 
 def send_email(patient_name, patient_email):
-    MY_ADDRESS = 'sender emal'
-    PASSWORD = 'sender pass'
+    MY_ADDRESS = 'maple_0309@hotmail.com'
+    PASSWORD = 'iloveesd2020'
     names = "sam"
     emails = "mushi.lee.2018@smu.edu.sg"
 
@@ -96,7 +96,7 @@ def send_email(patient_name, patient_email):
 
     msg = MIMEMultipart()       # create a message
 
-    message = "Dear {},\n   Your appointment booking with Dr.Jackson has been confirmed. Please login into the portal for the consultation. Thank you".format(patient_name)
+    message = "Dear {},\n   Your appointment booking with Dr.Jackson has been confirmed. Please login into the portal for the consultation.\nThank you".format(patient_name)
 
 
     # setup the parameters of the message
@@ -107,11 +107,11 @@ def send_email(patient_name, patient_email):
     # add in the message body
     msg.attach(MIMEText(message, 'plain'))
 
-    send the message via the server set up earlier.
+    # send the message via the server set up earlier.
     s.send_message(msg)
     del msg
         
-    Terminate the SMTP session and close the connection
+    # Terminate the SMTP session and close the connection
     s.quit()
 
 def receivePatient():
@@ -149,7 +149,8 @@ def callback(channel, method, properties, body): # required signature for the ca
 
 def process_message(patient):
         patient_name = patient["patient_name"]
-        patient_email = patient["patient_email"]
+        # patient_email = patient["patient_email"]
+        patient_email = "mushi.lee.2018@smu.edu.sg"
         send_email(patient_name,patient_email)
         print ("Email has been sent to the patient- {}".format(patient_name))
         return
