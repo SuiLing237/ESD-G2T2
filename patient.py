@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+# for amqp
+import json
+import pika
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/patient' # ENTER DB NAME HERE
@@ -96,7 +100,43 @@ def verify_and_retrieve_patient(patient_email, patient_password):
     else:
         return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
 
+# sends patient to notification microservice via direct AMQP
+@app.route("/send_patient/<int:patientID>/")
+def start_send(patientID):
+    send_patient(patientID)
+    return "Start send, OK"
 
+def send_patient(patientID):
+    patient = Patient.query.filter_by(patientID=patientID).first()
+    patientJSON = patient.json()
+    # print(type(patient))
+    # print(type(patientJSON))
+
+    hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
+    port = 5672 # default messaging port.
+    # connect to the broker and set up a communication channel in the connection
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+        # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
+        # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
+    channel = connection.channel()
+
+    # set up the exchange if the exchange doesn't exist
+    exchangename="patient_direct"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
+
+    # prepare the message body content
+    message = json.dumps(patientJSON, default=str) # convert a JSON object to a string
+
+    # prepare the channel and send a message to Shipping
+    channel.queue_declare(queue='notification', durable=True) # make sure the queue used by Shipping exist and durable
+    channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.patient') # make sure the queue is bound to the exchange
+    channel.basic_publish(exchange=exchangename, routing_key="notification.patient", body=message,
+        properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
+        )
+    )
+    print("Patient sent to notification")
+    # close the connection to the broker
+    connection.close()
 
 # IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
 # This is a helper function
