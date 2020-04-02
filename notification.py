@@ -51,18 +51,18 @@ channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
 
 # can only send 10 text 
-def sendSMS(apikey, numbers, sender, message):
-    data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
-        'message' : message, 'sender': sender})
-    data = data.encode('utf-8')
-    request = urllib.request.Request("https://api.txtlocal.com/send/?")
-    f = urllib.request.urlopen(request, data)
-    fr = f.read()
-    return(fr)
+# def sendSMS(apikey, numbers, sender, message):
+#     data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
+#         'message' : message, 'sender': sender})
+#     data = data.encode('utf-8')
+#     request = urllib.request.Request("https://api.txtlocal.com/send/?")
+#     f = urllib.request.urlopen(request, data)
+#     fr = f.read()
+#     return(fr)
 
-resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
-    'Jims Autos', 'This is your message')
-print (resp)
+# resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
+#     'Jims Autos', 'This is your message')
+# print (resp)
 
 
 # SL: I need retrieve patient from patient microservice and patient's booking details from doctor microservice via AMQP
@@ -117,7 +117,6 @@ def main():
    # Terminate the SMTP session and close the connection
    s.quit()
 
-
 def receivePatient():
     # prepare a queue for receiving messages
     channelqueue = channel.queue_declare(queue="notification", durable=True) # 'durable' makes the queue survive broker restarts so that the messages in it survive broker restarts too
@@ -129,12 +128,24 @@ def receivePatient():
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
     channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
 
+# KIV AMQP
+# def receiveBooking():
+#     # prepare a queue for receiving messages
+#     channelqueue = channel.queue_declare(queue="notification", durable=True) # 'durable' makes the queue survive broker restarts so that the messages in it survive broker restarts too
+#     queue_name = channelqueue.method.queue
+#     channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.booking') # bind the queue to the exchange via the key
+
+#     # set up a consumer and start to wait for coming messages
+#     channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)
+#     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
+#     channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
+
 # I wonder how the result will look like if notif microservice also receives doctor
 def callback(channel, method, properties, body): # required signature for the callback; no return
     result = json.loads(body)
     # print(type(result)) # dict
-    # print(result) # {'patientID':1, 'patient_name': 'Anne', ...}
-    send_email_message(result)
+    print(result) # {'patientID':1, 'patient_name': 'Anne', ...}
+    # send_email_message(result)
 
 if __name__ == "__main__":
     print("Receiving patient details...")
