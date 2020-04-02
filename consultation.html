@@ -264,48 +264,39 @@
 </body>
 
 <script>
-    //$(function(){
-        $("#submit").click(function() {
-            $(async() => {
-                var diagnosis = $("#diagnosis").val();
-                var patientID = sessionStorage.getItem("patientID")
-                var bookingID = sessionStorage.getItem("bookingID")
-                console.log(diagnosis);
-                console.log(patientID);
-                console.log(bookingID);
-                // console.log(type(patientID));
-                // console.log(type(bookingID));
-                
-                var serviceURL = "http://127.0.0.1:5002/diagnosis" + "/" + patientID +"/" + bookingID + "/";
+    // $(function(){
+    $("#submit").click(function() {
+        $(async() => {
+            var diagnosis = $("#diagnosis").val();
+            var patientID = sessionStorage.getItem("patientID");
+            var bookingID = sessionStorage.getItem("bookingID");
+            console.log(diagnosis);
+            console.log(patientID);
+            console.log(bookingID);
+            // console.log(type(patientID));
+            // console.log(type(bookingID));
+            
+            var serviceURL = "http://127.0.0.1:5002/diagnosis" + "/" + patientID +"/" + bookingID + "/";
 
-                console.log(serviceURL)
-                try {
-                    const response =
-                    await fetch(
-                            serviceURL,
-                            {
-                                method: 'POST',
-                                headers: { "content-type": "application/json" },
-                                mode: 'no-cors',
-                                //body: JSON.stringify ({ patientID: patientID, bookingID: bookingID, diagnosis: diagnosis })
-                                body: JSON.stringify({diagnosis: diagnosis})
-                            }
-                        );
-                    const data = await response.json();
-                    // console.log(data);
-                    
-                    //const data = await response.json();
-                    //var books = data.books; //the arr is in data.books of the JSON data
-        
-                } catch (error) {
-                    // Errors when calling the service; such as network error, 
-                    // service offline, etc
-                    // showError('There is a problem adding Diagnosis record, please try again later.<br />'+error);
-                    console.log(error);
-                } // error
-            });
+            console.log(serviceURL);
+            try {
+                const response =
+                await fetch(serviceURL,
+                {
+                    method: 'POST',
+                    headers: { "content-type": "application/json" },
+                    // mode: 'no-cors',
+                    body: JSON.stringify({diagnosis: diagnosis})
+                });
+
+                const data = await response.json();
+                // console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
         });
-    //});
+    });
+    // });
 </script>
 
 

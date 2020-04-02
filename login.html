@@ -199,7 +199,8 @@
                 if (patientID != undefined) {
                     console.log(patientID);
                     sessionStorage.setItem("patientID", patientID)
-                    window.location.replace("http://0.0.0.0/patientPage.html"); // this is kind of hardcoded rn, may need change URL once we do docker.
+                    // window.location.replace("http://0.0.0.0/patientPage.html"); // this is kind of hardcoded rn, may need change URL once we do docker.
+                    window.location.replace("http://localhost/esd/patientPage.html"); // had to use this since 0.0.0.0 doesn't work
                 } else {
                     
                     var message = data.message;
