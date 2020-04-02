@@ -30,7 +30,7 @@ class Diagnosis(db.Model):
 def home():
     return "Your application is working!"
 
-@app.route("/diagnosis/<int:patientID>/<int:bookingID>/", methods=["POST"])
+@app.route("/diagnosis/<int:patientID>/<int:bookingID>/", methods=['POST'])
 def create_diagnosis(patientID, bookingID):
     if (Diagnosis.query.filter_by(patientID=patientID, bookingID=bookingID).first()): 
         return jsonify({"message": "A diagnosis with patientID '{}' and bookingID '{}' already exists.".format(patientID, bookingID)}), 400
