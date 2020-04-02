@@ -21,6 +21,18 @@
   <!-- Custom styles for this template -->
   <link href="css/clean-blog.min.css" rel="stylesheet">
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+    <!-- Contact Form JavaScript -->
+    <!-- <script src="js/jqBootstrapValidation.js"></script>NOT FOUND in directory -->
+    <!-- <script src="js/contact_me.js"></script>NOT FOUND in directory -->
+  
+    <!-- Custom scripts for this template -->
+    <!-- <script src="js/clean-blog.min.js"></script>NOT FOUND in directory -->
+  
+
 </head>
 
 <body>
@@ -59,7 +71,7 @@
   </header>
 
   <!-- Main Content -->
-  <body>
+  
   <div class="container">
       <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
@@ -67,10 +79,11 @@
           <!-- <form method="POST" id="signup-form" class="signup-form"> -->
           <form id="addPatientForm">
               <div class="form-group">
-                <label for="name"> Name: </label> <input type="text" class="inputcontent" name="name" style="width:450px" id="name" placeholder=" Enter your name" required/> <br><br>
-                <label for="email">Email Address: </label> <input type="email" class="inputcontent" style="width:450px" id="email" placeholder=" Enter your email address" required data-validation-required-message="Enter your email address"> <br><br>
-                <label for="phonenumber"> Phone Number: </label> <input type="text" class="inputcontent" name="phonenumber" style="width:450px" id="phonenumber" placeholder=" Enter your phone number" required/> <br><br>
-                <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password-field" placeholder=" Enter your password" required/> <br><br>
+                <!-- <label for="name"> Name: </label> <input type="text" class="inputcontent" name="name" style="width:450px" id="name" placeholder=" Enter your name" required/> <br><br> -->
+                <label for="name"> Name: </label> <input type="text" name="name" style="width:450px" id="name" placeholder=" Enter your name" required/> <br><br>
+                <label for="email">Email Address: </label> <input type="email" style="width:450px" id="email" placeholder=" Enter your email address" required data-validation-required-message="Enter your email address"> <br><br>
+                <label for="phonenumber"> Phone Number: </label> <input type="text" name="phonenumber" style="width:450px" id="phonenumber" placeholder=" Enter your phone number" required/> <br><br>
+                <label for="password"> Password: </label> <input type="password" name="password" style="width:450px" id="password-field" placeholder=" Enter your password" required/> <br><br>
                 <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                 
                 <label for="re_password"> Retype Password: </label> <input type="password" class="inputcontent" name="re_password" style="width:450px" id="re_password" placeholder=" Retype your password" required/> <br><br>
@@ -78,8 +91,10 @@
                 <label1 for="termsagreement"> I agree to the Pivacy Policy and understand that my information will be used as desribed in O-HCare Privacy Policy </label>
               </div> 
         
-              <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
+              <!-- <button type="submit" class="btn btn-primary" id="signup">Sign up</button> -->
           </form>
+          <button type="submit" class="btn btn-primary" id="signup">Sign up</button>
+
           <p class="loginhere">
             Already have an account? <a href="login.html">Login here</a>
           </p>
@@ -88,55 +103,10 @@
         </div>
         </div>
   </div>
-  </body>
 
-  <script>
-    // // To display error message
-    // function showError(message){
-    //   $('#error').text(message);
-    // }
 
-    $("#addPatientForm").submit(async(event) => {
-      // Prevents screen from refreshing when submitting
-      event.preventDefault();
-
-      var serviceURL = "http://localhost:5000/patient/";
-      var homeURL = "http://localhost:5000/login.html/";
-
-      // Get form data
-      var name = $('#name').val();
-      var email = $('#email').val();
-      var phonenumber = parseInt($('#phonenumber').val());
-      var password = $('#password').val();
-
-      // form the post url which includes the dynamic patientid
-      service += email;
-      try{
-        const response =
-          await fetch(
-            serviceURL, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: name, email: email, phonenumber: phonenumber, password: password })
-          });
-        const data = await response.json();
-
-        if (response.ok){
-          // Relocate to homepage
-          window.location.replace(homeURL);
-          return false;
-        } else {
-          console.log(data);
-          showError(data.message);
-        }
-      } catch (error) {
-        showError ("Poor piggy" + error);
-      }
-    });
-  </script>
             
-        <!-- </div> -->
-
+       
             <!-- <form name="sentMessage" id="contactForm" novalidate>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
@@ -215,17 +185,66 @@
     </div>
   </footer>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Contact Form JavaScript -->
-  <script src="js/jqBootstrapValidation.js"></script>
-  <script src="js/contact_me.js"></script>
-
-  <!-- Custom scripts for this template -->
-  <script src="js/clean-blog.min.js"></script>
-
 </body>
+
+
+<script>
+  // To display error message
+  // function showError(message){
+  //   $('#error').text(message);
+  // }
+  // $(function (){
+    // $("#addPatientForm").submit(async(event) => {
+// $(function(){
+
+  $("#signup").click(function() {
+    $(async () => {
+
+      // Get form data
+      var patient_name = $('#name').val();
+      var patient_email = $('#email').val();
+      var patient_phone = $('#phonenumber').val();
+      var patient_password = $('#password-field').val();
+
+
+      // var serviceURL = "http://localhost:5000/patient/" + patient_email +"/";
+      var serviceURL = "http://127.0.0.1:5001/patient/" + patient_email + "/";
+      // var serviceURL = "http://127.0.0.01:5000/patient/"
+      // var homeURL = "http://localhost:5000/login.html/";
+      
+      // form the post url which includes the dynamic patientid
+      console.log(patient_name);
+      console.log(patient_email);
+      console.log(patient_phone)
+      console.log(patient_password)
+
+      console.log(serviceURL);
+      try{
+          console.log("HELLO");
+          const response =
+          // console.log("Sleep");
+                
+              await fetch(serviceURL,
+              {
+                  method: 'POST',
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify ({ patient_name:patient_name, patient_phone:patient_phone, patient_password:patient_password })
+
+              });
+              console.log("Cutepiggy");
+              console.log(response);
+              
+              const data = await response.json();
+              console.log(data)
+              console.log("HELLO2");
+
+      } catch (error) {
+        console.log(error);
+
+        // showError ("Poor piggy" + error);
+      }
+  });
+});
+</script>
 
 </html>
