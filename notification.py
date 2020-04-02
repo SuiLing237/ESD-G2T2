@@ -38,31 +38,28 @@ channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
 # @app.route("/")
 # def receive_booking_info():
-#     booking_info = {
-#     "patient_name" : "mushi",
-#     "patient_email" : "mushi.lee.2018@smu.edu.sg",
-#     "booking_time" : "10"
+#     patient = {
+#     "patient_name" : "Anne",
+#     "patient_phone" : "12348888",
+#     "patient_email" : "Anne@hotmail.com"
+#     "patient_password": "anne123"
 # }
-#     patient_name = booking_info["patient_name"]
-#     patient_email = booking_info["patient_email"]
-#     booking_time = booking_info["booking_time"]
-#     send_email_message(patient_name,patient_email,booking_time)
-#     return "done"
+
 
 
 # can only send 10 text 
-def sendSMS(apikey, numbers, sender, message):
-    data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
-        'message' : message, 'sender': sender})
-    data = data.encode('utf-8')
-    request = urllib.request.Request("https://api.txtlocal.com/send/?")
-    f = urllib.request.urlopen(request, data)
-    fr = f.read()
-    return(fr)
+# def sendSMS(apikey, numbers, sender, message):
+#     data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
+#         'message' : message, 'sender': sender})
+#     data = data.encode('utf-8')
+#     request = urllib.request.Request("https://api.txtlocal.com/send/?")
+#     f = urllib.request.urlopen(request, data)
+#     fr = f.read()
+#     return(fr)
 
-resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
-    'Jims Autos', 'This is your message')
-print (resp)
+# resp =  sendSMS('apikey', '	nOqbl/+J8Qk-QrHvwLDm4LvqZynSIL5OC2UeTx6PPv',
+#     'Jims Autos', 'This is your message')
+# print (resp)
 
 
 # SL: I need retrieve patient from patient microservice and patient's booking details from doctor microservice via AMQP
@@ -85,37 +82,37 @@ print (resp)
 
 
 
-MY_ADDRESS = 'sender emal'
-PASSWORD = 'sender pass'
-def main():
-   names = "sam"
-   emails = "mushi.lee.2018@smu.edu.sg"
 
-   # set up the SMTP server
-   s = smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
-   s.starttls()
-   s.login(MY_ADDRESS, PASSWORD)
-   
-   msg = MIMEMultipart()       # create a message
+def send_email(patient_name, patient_email):
+    MY_ADDRESS = 'sender emal'
+    PASSWORD = 'sender pass'
+    names = "sam"
+    emails = "mushi.lee.2018@smu.edu.sg"
 
-   # add in the actual person name to the message template
-   message = "This is for  testing"
+    # set up the SMTP server
+    s = smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
+    s.starttls()
+    s.login(MY_ADDRESS, PASSWORD)
+
+    msg = MIMEMultipart()       # create a message
+
+    message = "Dear {},\n   Your appointment booking with Dr.Jackson has been confirmed. Please login into the portal for the consultation. Thank you".format(patient_name)
 
 
-   # setup the parameters of the message
-   msg['From']=MY_ADDRESS
-   msg['To']=emails
-   msg['Subject']="This is TEST"
-   
-   # add in the message body
-   msg.attach(MIMEText(message, 'plain'))
-   
-   # send the message via the server set up earlier.
-   s.send_message(msg)
-   del msg
-      
-   # Terminate the SMTP session and close the connection
-   s.quit()
+    # setup the parameters of the message
+    msg['From']=MY_ADDRESS
+    msg['To']= patient_email
+    msg['Subject']= "Appointment booking Confirmation"
+    print(msg)
+    # add in the message body
+    msg.attach(MIMEText(message, 'plain'))
+
+    send the message via the server set up earlier.
+    s.send_message(msg)
+    del msg
+        
+    Terminate the SMTP session and close the connection
+    s.quit()
 
 
 def receivePatient():
@@ -134,10 +131,20 @@ def callback(channel, method, properties, body): # required signature for the ca
     result = json.loads(body)
     # print(type(result)) # dict
     # print(result) # {'patientID':1, 'patient_name': 'Anne', ...}
-    send_email_message(result)
+    # send_email_message(result)
+    process_message(result)
+    print(result)
+    
+
+def process_message(patient):
+        patient_name = patient["patient_name"]
+        patient_email = patient["patient_email"]
+        send_email(patient_name,patient_email)
+        print ("Email has been sent to the patient- {}".format(patient_name))
+        return
 
 if __name__ == "__main__":
     print("Receiving patient details...")
     receivePatient()
-    main()
+    # main()
     app.run(debug=True)
