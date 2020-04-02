@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
 
@@ -35,15 +36,22 @@ def create_diagnosis(patientID, bookingID):
         return jsonify({"message": "A diagnosis with patientID '{}' and bookingID '{}' already exists.".format(patientID, bookingID)}), 400
 
     data = request.get_json() # <- POSTMAN. get request from POSTMAN
-    diagnosis = Diagnosis(patientID, bookingID, **data) # **date is to get all the fields (e.g. availability, etc)
+    d = Diagnosis(patientID, bookingID, **data) # **data is to get all the fields (e.g. availability, etc)
+    print(data)
+    print(d.json())
 
     try:
-        db.session.add(diagnosis) # add the book to Database
+        db.session.add(d) # add the book to Database
         db.session.commit() 
-    except:
-        return jsonify({"message": "An error occurred creating the diagnosis record."}), 500 # ERRROR MSG
+    # except SQLAlchemyError as e:
+    #     error = str(e.__dict__['orig'];
+    #     return 'error'
+    #     # return jsonify({"message": "An error occurred creating the diagnosis record."}), 500 # ERRROR MSG
 
-    return jsonify(diagnosis.json()), 201 # if successful, return representation. 201 -> create. 500 for error. 
+    except:
+        return jsonify({"message": "An error occurred creating the book."}), 500
+
+    return jsonify(d.json()), 201 # if successful, return representation. 201 -> create. 500 for error. 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5002, debug=True)
