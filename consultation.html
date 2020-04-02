@@ -116,8 +116,9 @@
                   
                 </div> 
           
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                
             </form>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
 
     
 
@@ -160,6 +161,43 @@
     </footer>
 
 </body>
+
+<script>
+    //$(function(){
+        $("#submit").click(function() {
+            $(async() => {
+                var diagnosis = $("#diagnosis").val();
+                var patientID = sessionStorage.getItem("patientID")
+                var bookingID = sessionStorage.getItem("bookingID")
+                console.log(patientID);
+                console.log(bookingID);
+                
+                var serviceURL = "http://localhost:5000/diagnosis" + "/" + patientID +"/" + "/" + bookingID + "/";
+
+                try {
+                    const response =
+                    await fetch(serviceURL,
+                    {
+                        method: 'POST',
+                        headers: { "content-type": "application/json" }, mode: 'cors',
+                        body: JSON.stringify ({ diagnosis: diagnosis })
+                    });
+                    data = await response.json();
+                    //console.log(data);
+                    
+                    //const data = await response.json();
+                    //var books = data.books; //the arr is in data.books of the JSON data
+        
+                } catch (error) {
+                    // Errors when calling the service; such as network error, 
+                    // service offline, etc
+                    showError('There is a problem adding Diagnosis record, please try again later.<br />'+error);
+                   
+                } // error
+            });
+        });
+    //});
+</script>
 
 
 </html>
