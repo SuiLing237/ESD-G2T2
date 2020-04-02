@@ -40,6 +40,100 @@
       c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
     })(document);
     </script> -->
+
+    <script>
+        
+        // Add Vidyo Libray Callback
+                                
+    function onVidyoClientLoaded(status) {
+    switch (status.state) {
+        case "READY":
+
+            // Create Vidyoconnector
+            VC.CreateVidyoConnector({
+        viewId: "renderer",
+        viewStyle: "VIDYO_CONNECTORVIEWSTYLE_Default",
+        remoteParticipants: 8,
+        logFileFilter: "warning info@VidyoClient info@VidyoConnector",
+        logFileName: "",
+        userData: ""
+    }).then(function (vidyoConnector) {
+        /*Handle appearance and disappearance of camera devices in the system*/
+        vidyoConnector.RegisterLocalCameraEventListener({
+        onAdded: function(localCamera) {},
+        onRemoved: function(localCamera) {},
+        onSelected: function(localCamera) {},
+        onStateUpdated: function(localCamera, state) {}
+    }).then(function() {
+        console.log("RegisterLocalCameraEventListener Success");
+    }).catch(function() {
+        console.error("RegisterLocalCameraEventListener Failed");
+    });
+
+    /*Handle appearance and disappearance of microphone devices in the system*/
+    vidyoConnector.RegisterLocalMicrophoneEventListener({
+        onAdded: function(localMicrophone) {},
+        onRemoved: function(localMicrophone) {},
+        onSelected: function(localMicrophone) {},
+        onStateUpdated: function(localMicrophone, state) {}
+    }).then(function() {
+        console.log("RegisterLocalMicrophoneEventListener Success");
+    }).catch(function() {
+        console.error("RegisterLocalMicrophoneEventListener Failed");
+    });
+
+    /*Handle appearance and disappearance of speaker devices in the system*/
+    vidyoConnector.RegisterLocalSpeakerEventListener({
+        onAdded: function(localSpeaker) {},
+        onRemoved: function(localSpeaker) {},
+        onSelected: function(localSpeaker) {},
+        onStateUpdated: function(localSpeaker, state) {}
+    }).then(function() {
+        console.log("RegisterLocalSpeakerEventListener Success");
+    }).catch(function() {
+        console.error("RegisterLocalSpeakerEventListener Failed");
+    });
+    // Add Token and Connect To Conference
+                            
+
+                        
+    vidyoConnector.Connect({
+            host: "prod.vidyo.io",
+            token: 'cHJvdmlzaW9uAHVzZXIxQDU3MjQxMy52aWR5by5pbwA2Mzc1MzA2OTU0MQAAMjhkN2IwODhlMWJkZTZjY2UyZjgyMDNmYjRiZTc2MzA4MjY5Y2U1NTk5MjE5NzZmNzU3MDM4NjU4NTdkMTZlMDUyMGU1NWQyYmFhODBhMjhlYWI5OGYwN2VlM2NhMjBl', //Generated Token
+            displayName: "user1", //User Name
+            resourceId: "demoroom", //Conference Name
+        onSuccess: function () {
+            console.log("Sucessfully connected");
+        },
+        onFailure: function (reason) {
+            console.log("Error while connecting ", reason);
+        },
+        onDisconnected: function (reason) {
+            console.log("Disconnected ", reason);
+        }
+    }).then(function (status) {
+
+    }).catch(function () {
+
+    });
+
+    });
+
+            break;
+        case "RETRYING":
+            break;
+        case "FAILED":
+            break;
+        case "FAILEDVERSION":
+            break;
+        case "NOTAVAILABLE":
+            break;
+    }
+    return true;
+    }
+    </script>
+
+
     <!-- end of copied stuff -->
     
     <style>
@@ -98,6 +192,13 @@
         </div>
         </div>
     </header>
+    <div class="container">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div id="renderer" style="margin-right:auto; margin-left: auto;  z-index: 99; height: 400px; width: 640px;"></div>
+        <script src="https://static.vidyo.io/latest/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded&webrtc=true&plugin=false"></script>
+    </div>
+    </div><br>
+
 
     <hr>
     <div class="container"></div>
@@ -206,6 +307,7 @@
         });
     //});
 </script>
+
 
 
 </html>
