@@ -29,5 +29,21 @@ class Diagnosis(db.Model):
 def home():
     return "Your application is working!"
 
+@app.route("/diagnosis/<int:patientID>/<int:bookingID>/", methods=["POST"])
+def create_diagnosis(patientID, bookingID):
+    if (Diagnosis.query.filter_by(patientID=patientID, bookingID=bookingID).first()): 
+        return jsonify({"message": "A diagnosis with patientID '{}' and bookingID '{}' already exists.".format(patientID, bookingID)}), 400
+
+    data = request.get_json() # <- POSTMAN. get request from POSTMAN
+    diagnosis = Diagnosis(patientID, bookingID, **data) # **date is to get all the fields (e.g. availability, etc)
+
+    try:
+        db.session.add(diagnosis) # add the book to Database
+        db.session.commit() 
+    except:
+        return jsonify({"message": "An error occurred creating the diagnosis record."}), 500 # ERRROR MSG
+
+    return jsonify(diagnosis.json()), 201 # if successful, return representation. 201 -> create. 500 for error. 
+
 if __name__ == "__main__":
     app.run(debug=True)
