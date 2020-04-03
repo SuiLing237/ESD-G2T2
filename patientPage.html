@@ -97,6 +97,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Timeslot</th>
+                    <th></th>
                 </tr>
             </thead>
             
@@ -165,6 +166,20 @@
                 var appointments = data.availability;
                 console.log(appointments)
                 //console.log(appointments)
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1;
+                var yyyy = today.getFullYear();
+
+                if(dd<10){
+                    dd = '0'+dd;
+                }
+                if(mm<10){
+                    mm = '0'+mm;
+                }
+
+                var today_date = dd + "-" + mm + "-" + yyyy;
             
                 if(appointments.length != 0){
                     var rows = "";
@@ -176,10 +191,26 @@
                         }
 
                         //console.log(appt);
-                        eachRow = 
-                        "<td>" + appt.date + "</td>" +
-                        "<td>" + appt.timeslot + "</td>";
-                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        if(appt.date >= today_date) {
+                            eachRow = "<td>" + appt.date + "</td>" + "<td>" + appt.timeslot + "</td>";
+
+                            if(appt.date == today_date) {
+                                eachRow += "<td><button type='button' class='redirectConsult btn btn-primary'>Go to consultation</button></td>";
+                            }
+                            else {
+                                eachRow += "<td></td>";
+                            }
+                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        }
+                        
+                    
+
+                        //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+
+
+
+                        //rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
                         //console.log(eachRow);
                     }
@@ -192,14 +223,21 @@
                     $("#booked-appointment-table tbody").remove();
                     $("#list-booked-appointments").hide();
                     $("#booked-appointment-table").hide();
-                    $("#booked-appointment-table").after("<h3 class='bookingErrMsg'>No Booked Appointments</h3>")
+                    $("#booked-appointment-table").after("<h3 class='bookingErrMsg'>No Booked Appointments</h3>");
                 }
             }
             catch (error){
-                console.log(error)
+                console.log(error);
             }
         });
+        
+        $(document).on('click', '.redirectConsult', function(e) {
+            window.location.replace("http://127.0.0.1/esd/consultation.html");
+        });
+        
     });
+
+    
   
  </script>
 
