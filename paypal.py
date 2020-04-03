@@ -13,7 +13,22 @@ def index():
     return render_template('index.html')
 
 @app.route('/payment', methods=['POST'])
-def payment():
+def receive_payment():
+    if request.is_json:
+        payment = request.get_json()
+        result = process_payment(payment)
+        return result
+    else:
+        payment = request.get_data()
+        print("Received invalid payment details:")
+        print(payment)
+        replymessage = json.dumps({"message": "Payment should be in JSON", "data": payment}, default=str)
+        return replymessage, 400 # Bad Request
+
+def process_payment(payment_amount):
+    # print("payment")
+    # print(type(payment))
+    # return 
 
     payment = paypalrestsdk.Payment({
         "intent": "sale",
@@ -27,11 +42,11 @@ def payment():
                 "items": [{
                     "name": "testitem",
                     "sku": "12345",
-                    "price": "500.00",
+                    "price": payment_amount,
                     "currency": "SGD",
                     "quantity": 1}]},
             "amount": {
-                "total": "500.00",
+                "total": payment_amount,
                 "currency": "SGD"},
             "description": "This is the payment transaction description."}]})
 
