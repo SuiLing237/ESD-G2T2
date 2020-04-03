@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `diagnosis` (
   `patientID` int(64) NOT NULL,
   `bookingID` int(64) NOT NULL,
   `diagnosis` varchar(100),
-  PRIMARY KEY (`patientID`)
+  PRIMARY KEY (`bookingID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `diagnosis` values

@@ -173,7 +173,7 @@
             <li class="nav-item patient">
                 <a class="nav-link" href="billing.html">Payment</a>
             </li>
-            <li class="nav-item patient">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">Logout</a>
             </li>
             </ul>
@@ -287,10 +287,11 @@
     $("#submit").click(function() {
         $(async() => {
             var diagnosis = $("#diagnosis").val();
-            var patientID = sessionStorage.getItem("patientID");
+            // var patientID = sessionStorage.getItem("patientID");
+            var patientID = 1;
             var bookingID = sessionStorage.getItem("bookingID");
             console.log(diagnosis);
-            console.log(patientID);
+            console.log(patientID); // figure out why undefined
             console.log(bookingID);
             // console.log(type(patientID));
             // console.log(type(bookingID));
@@ -304,7 +305,7 @@
                 {
                     method: 'POST',
                     headers: { "content-type": "application/json" },
-                    // mode: 'no-cors',
+                    // mode: 'cors',
                     body: JSON.stringify({diagnosis: diagnosis})
                 });
 
