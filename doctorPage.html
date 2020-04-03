@@ -166,7 +166,7 @@
                     var date_picked = $( "#datepicker-13" ).datepicker('getDate');
                     var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );    
 
-                    var serviceURL = "http://localhost:5000/getAllPatientBookings" + "/" + date_formatted;
+                    var serviceURL = "http://127.0.0.1:5007/getAllPatientBookings" + "/" + date_formatted;
 
                    //console.log(serviceURL)
                     try{

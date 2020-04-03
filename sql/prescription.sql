@@ -31,14 +31,14 @@ USE `prescription`;
 --
 DROP TABLE IF EXISTS `prescription`;
 CREATE TABLE IF NOT EXISTS `prescription` (
-  `itemID` int(64) NOT NULL AUTO_INCREMENT = 10, 
+  `itemID` int(64) NOT NULL, 
   `patientID` int(64) NOT NULL,
   `bookingID` int(64) NOT NULL,
   `medicineID` int(64) NOT NULL,
   `medicine_quantity` int(64) NOT NULL,
-  PRIMARY KEY (`itemID`),
+  PRIMARY KEY (`itemID`)
 --  KEY `FK_medicineID` (`medicineID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- Add in `prescription` values
 INSERT INTO `prescription` (`itemID`, `patientID`, `bookingID`, `medicineID`, `medicine_quantity`) VALUES

@@ -170,7 +170,7 @@
                     var date_picked = $( "#datepicker-13" ).datepicker('getDate');
                     var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );    
 
-                    var serviceURL = "http://localhost:5000/doctor" + "/" + date_formatted;
+                    var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + date_formatted +"/";
 
                    //console.log(serviceURL)
                     try{
@@ -231,7 +231,7 @@
             console.log(patientID)
 
             $(async() => {
-                var serviceURL = "http://localhost:5000/doctor" + "/" + bookingID + "/" + patientID + "/";
+                var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + bookingID + "/" + patientID + "/";
 
                 try {
                     const response =

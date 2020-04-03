@@ -23,7 +23,8 @@ class Prescription(db.Model):
     medicineID = db.Column(db.Integer, nullable=False)
     medicine_quantity = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, patientID, bookingID, medicineID, medicine_quantity):
+    def __init__(self, itemID, patientID, bookingID, medicineID, medicine_quantity):
+        self.itemID = itemID
         self.patientID = patientID
         self.bookingID = bookingID
         self.medicineID = medicineID
@@ -35,6 +36,27 @@ class Prescription(db.Model):
 @app.route("/")
 def home():
     return "Your application is working!"
+
+@app.route("/createPrescription/<int:patientID>/<int:bookingID>/", methods=['POST'])
+def create_new_prescription(patientID, bookingID):
+    last_id = Prescription.query.order_by(Prescription.itemID.desc()).first()
+    if last_id:
+        new_id = last_id.patientID
+        new_id += 1
+    
+    data = request.get_json()
+
+    d = Prescription(new_id,patientID, bookingID, **data)
+
+    try:
+        db.session.add(d)
+        db.session.commit()
+    
+    except:
+        return jsonify({"message": "An error occurred while creating prescription."}), 500
+
+    return jsonify(d.json()), 201
+
 
 # Json input format:
 # {
@@ -143,4 +165,4 @@ def start_send_prescription(patientID, bookingID):
 #     connection.close()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(port=5005, debug=True)

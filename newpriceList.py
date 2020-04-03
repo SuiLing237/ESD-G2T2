@@ -59,6 +59,12 @@ def home():
     #     return replymessage, 200 #return the json along with the http status code 200
     # else:
     #     return replymessage, 501 #return the json along with the http status code 501
+
+@app.route("/getMedicineName/", methods=['GET'])
+def getMedicineName():
+    list_of_medicine = Price.query.all()
+    return jsonify({"medicine": [m.json() for m in list_of_medicine]})
+
 @app.route("/price", methods=['POST'])
 def receiveOrder():
     # Check if the order contains valid JSON
@@ -120,4 +126,4 @@ def send_price(price):
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     # print("This is flask for " + os.path.basename(__file__) + ": shipping for an order...")
     # app.run(host='0.0.0.0', port=5002, debug=True)
-    app.run(debug=True)
+    app.run(port=5006, debug=True)

@@ -142,4 +142,4 @@ def get_booking_by_bookingID(bookingID):
 #     connection.close()
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5007, debug=True)
