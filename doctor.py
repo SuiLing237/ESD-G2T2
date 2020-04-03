@@ -36,6 +36,26 @@ class Doctor(db.Model):
     def json(self):
         return {"bookingID":self.bookingID, "patientID":self.patientID, "date":self.date, "timeslot": self.timeslot, "availability": self.availability}
 
+class DoctorInfo(db.Model):
+    __tablename__ = 'doctor_info'
+
+    # We only have 1 doctor
+    doctorID = db.Column(db.Integer, primary_key=True)
+    doctor_name = db.Column(db.String(64), nullable=False) # added so can view bookings by patientID
+    doctor_email = db.Column(db.String(64), nullable=False)
+    doctor_password = db.Column(db.String(64), nullable = False)
+
+    # Ideal way to store the schedule/ availability of the doctor?
+
+    def __init__(self, doctorID, doctor_name, doctor_email, doctor_password): # initialise book objects
+        self.doctorID = doctorID
+        self.doctor_name = doctor_name
+        self.doctor_email = doctor_email
+        self.doctor_password = doctor_password
+
+    def json(self):
+        return {"doctorID":self.doctorID, "doctor_name":self.doctor_name, "doctor_email":self.doctor_email, "doctor_password": self.doctor_password}
+
 @app.route("/")
 def home():
     return "Your application is working!"
@@ -99,6 +119,24 @@ def get_booking_by_bookingID(bookingID):
     doctor = Doctor.query.filter_by(bookingID=bookingID)
     if doctor:
         return jsonify({"booking": booking.json() for booking in doctor})
+
+
+@app.route("/doctor/<string:doctor_email>/<string:doctor_password>/")
+def verify_and_retrieve_doctor(doctor_email, doctor_password):
+	if (doctor_email == "Missing" or doctor_password == "Missing"):
+		return jsonify({"message": "Missing inputs."}), 400
+
+	# check if email exists
+	if (DoctorInfo.query.filter_by(doctor_email=doctor_email).first()):
+		# check if password matches
+		if (DoctorInfo.query.filter_by(doctor_password=doctor_password).first()):
+			# retrieve patientID
+			doctor = DoctorInfo.query.filter_by(doctor_email=doctor_email, doctor_password=doctor_password).first()
+			return jsonify(doctor.json()), 201
+		else:
+			return jsonify({"message": "Password does not match email address."}), 400
+	else:
+		return jsonify({"message": "A doctor with that email address '{}' does not exist.".format(doctor_email)}), 400
 
 
 

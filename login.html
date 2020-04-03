@@ -175,39 +175,69 @@
             var email = $("#email").val();
             var password = $("#password").val();
             var usertype = $("#usertype").val();
+            sessionStorage.setItem("usertype", usertype);
 
             console.log(email);
             console.log(password);
             console.log(usertype);
 
-            if(email == '' || password ==''){
-                email = "Missing"
-                password = "Missing"
-            }
-            var serviceURL = "http://127.0.0.1:5001/patient/" + email + "/" + password + "/";
-            console.log(serviceURL)
-
-            try {
-                const response = await fetch(serviceURL, {method: "GET"});
-                const data = await response.json();
-                console.log(data);
-                var patientID = data.patientID;
-                if (patientID != undefined) {
-                    console.log(patientID);
-                    sessionStorage.setItem("patientID", patientID)
-                    // window.location.replace("http://127.0.0.1:5001/patientPage.html"); // this is kind of hardcoded rn, may need change URL once we do docker.
-                    window.location.replace("http://localhost/esd/patientPage.html"); // had to use this since 0.0.0.0 doesn't work
-                } else {
-                    
-                    var message = data.message;
-                    //$('#login').after("<br><b class='errorMsg'>" + JSON.stringify(data.message) + "</b >");
-                    //$('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >"); -->
-                    $(".errorMsg").text(message)
-
+            if(usertype == "patient") {
+                if(email == '' || password ==''){
+                    email = "Missing"
+                    password = "Missing"
                 }
-            }
-            catch (error) {
-                console.log(error);
+                var serviceURL = "http://127.0.0.1:5001/patient/" + email + "/" + password + "/";
+                console.log(serviceURL)
+
+                try {
+                    const response = await fetch(serviceURL, {method: "GET"});
+                    const data = await response.json();
+                    console.log(data);
+                    var patientID = data.patientID;
+                    if (patientID != undefined) {
+                        console.log(patientID);
+                        sessionStorage.setItem("patientID", patientID)
+                        // window.location.replace("http://127.0.0.1:5001/patientPage.html"); // this is kind of hardcoded rn, may need change URL once we do docker.
+                        window.location.replace("http://localhost/esd/patientPage.html"); // had to use this since 0.0.0.0 doesn't work
+                    } else {
+                        
+                        var message = data.message;
+                        //$('#login').after("<br><b class='errorMsg'>" + JSON.stringify(data.message) + "</b >");
+                        //$('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >"); -->
+                        $(".errorMsg").text(message)
+
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            } else if (usertype == "doctor") {
+                if(email == '' || password ==''){
+                    email = "Missing"
+                    password = "Missing"
+                }
+                var serviceURL = "http://127.0.0.1:5000/doctor/" + email + "/" + password + "/";
+                console.log(serviceURL)
+
+                try {
+                    const response = await fetch(serviceURL, {method: "GET"});
+                    const data = await response.json();
+                    console.log(data);
+                    var doctorID = data.doctorID;
+                    if (doctorID != undefined) {
+                        console.log(doctorID);
+                        sessionStorage.setItem("patientID", patientID)
+                        window.location.replace("http://localhost/esd/doctorPage.html");
+                    } else {
+                        
+                        var message = data.message;
+                        $(".errorMsg").text(message)
+
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
         });
     });
