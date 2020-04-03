@@ -102,7 +102,7 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 		return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
 
 # sends patient to notification microservice via direct AMQP
-@app.route("/send_patient/<int:patientID>/")
+@app.route("/send_patient/<int:patientID>/", methods=['POST'])
 def start_send(patientID):
 	send_patient(patientID)
 	return "Start send, OK"
