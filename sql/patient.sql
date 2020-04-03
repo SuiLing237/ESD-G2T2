@@ -41,9 +41,11 @@ CREATE TABLE IF NOT EXISTS `patient` (
 
 -- Add in `patient` values
 INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_email`,`patient_password`) VALUES
-(1, "Anne", 12348888,"Anne@hotmail.com","anne123"),
-(2, "Ben", 43211234,"Ben@hotmail.com","ben123"),
-(3, "Cathy", 56789999,"Cathy@hotmail.com","cathy123"),
-(4, "Dan", 11107778,"Dan@hotmail.com","dan123"),
-(5, "Edward", 96719999,"Edward@hotmail.com","edward123");
+(1, "Anne", 12348888, "Anne@hotmail.com", "anne123"),
+(2, "Ben", 43211234, "Ben@hotmail.com", "ben123"),
+(3, "Cathy", 56789999, "Cathy@hotmail.com", "cathy123"),
+(4, "Dan", 11107778, "Dan@hotmail.com", "dan123"),
+(5, "Edward", 96719999, "Edward@hotmail.com", "edward123"),
+(6, "Mushi", 12345678, "mushi.lee.2018@sis.smu.edu.sg", "MushiMart"),
+(7, "Sui Ling", 88888888, "slchua.2018@sis.smu.edu.sg", "SuiLing");
 COMMIT;

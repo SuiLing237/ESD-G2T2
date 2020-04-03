@@ -135,9 +135,9 @@ def callback(channel, method, properties, body): # required signature for the ca
 
 def process_message(patient):
     patient_name = patient["patient_name"]
-    # patient_email = patient["patient_email"]
-    # patient_email = "mushi.lee.2018@smu.edu.sg"
-    patient_email = "slchua.2018@sis.smu.edu.sg"
+    patient_email = patient["patient_email"]
+    # patient_email = "mushi.lee.2018@sis.smu.edu.sg"
+    # patient_email = "slchua.2018@sis.smu.edu.sg"
     send_email(patient_name, patient_email)
     print ("Email has been sent to the patient- {}".format(patient_name))
     return
