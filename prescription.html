@@ -59,19 +59,16 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="index.html">Home</a>
+				<a class="nav-link" href="doctorPage.html">Home</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="patientPage.html">View Booked Appointments</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="booking.html">Book Now</a>
+				<a class="nav-link" href="doctorPage.html">View Scheduled Appointments</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="consultation.html">Consultation</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="billing.html">Payment</a>
+				<a class="nav-link" href="index.html">Logout</a>
 			</li>
 			</ul>
 		</div>
@@ -85,8 +82,8 @@
 		<div class="row">
 			<div class="col-lg-8 col-md-10 mx-auto">
 			<div class="site-heading">
-				<h1>Order Now</h1>
-				<span class="subheading"> We have all you need!</span>
+				<h1>Add Prescription</h1>
+				<span class="subheading">Prescribe medicine responsibly</span>
 			</div>
 			</div>
 		</div>
@@ -213,12 +210,8 @@
 	});
 
 	$("#searchButton").click(function() {
-
-		//var patientID = sessionStorage.getItem("patientID");
-		//var bookingID = sessionStorage.getItem("bookingID");
-
-		var patientID = 100;
-		var bookingID = 90;
+		var patientID = sessionStorage.getItem("patientID");
+		var bookingID = sessionStorage.getItem("bookingID");
 
 		$(async() => {
 			var quantity = $("#quantity").val();
