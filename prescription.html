@@ -105,11 +105,11 @@
 				  <!-- <label for="search"> Select Medicine: </label> <input type="text" class="inputcontent" name="search" style="width:450px" id="search" placeholder="Search" required/>
 				 -->
 				<label for='search'>Select Medicine: </label>
-				<select id='medicine'>
+				<select id='medicine' style="width:450px">
 				</select>
 				<br>
 				<label for='quantity'>Quantity: </label>
-				<input name="quantityMed" type="text" id="quantity">
+				<input name="quantityMed" type="text" id="quantity" style="width:450px">
 				</div> 
 			</form>
 			<button type="submit" class="btn btn-primary" id="searchButton">Submit Prescription</button>
@@ -138,7 +138,7 @@
 					
 				  </div>
 				</div>
-				
+				<p id='msg' style='text-align: center; color:black; font-weight:bold;'></p>
 			  </div>
 			
 
@@ -244,6 +244,19 @@
 
 			  });
 			  const data = await response.json();
+			  console.log(data);
+
+			  $("#msg").text(data.message);
+			  
+			  var getResponse = data.message;
+			  if(getResponse=="Prescription added successfully!"){
+				  $("#msg").css('color', 'black');
+			  }
+			  else{
+				  $("#msg").css('color', 'red');
+			  }
+			  $("#msg").text(getResponse);
+
 			} catch (error) {
 				console.log(error);
 			}

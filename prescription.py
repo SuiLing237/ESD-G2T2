@@ -55,7 +55,7 @@ def create_new_prescription(patientID, bookingID):
     except:
         return jsonify({"message": "An error occurred while creating prescription."}), 500
 
-    return jsonify(d.json()), 201
+    return jsonify({"message":"Prescription added successfully!"}), 200
 
 
 # Json input format:
