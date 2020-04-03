@@ -185,7 +185,7 @@
 </body>
 <script>
 	$(async() => { 
-		var serviceURL = "http://127.0.0.1:5001/getMedicineName/";
+		var serviceURL = "http://127.0.0.1:5006/getMedicineName/";
 		
 		try {
 			const response = await fetch(serviceURL, { method: 'GET' });
@@ -199,7 +199,7 @@
 			for(d of med){
 				eachRow = "<option value='" + d.medicineID + "'>" + d.medicine_name + "</option>";
 
-				console.log(eachRow);
+				//console.log(eachRow);
 				rows += eachRow;
 			}
 			$('#medicine').append(rows);
@@ -214,14 +214,20 @@
 
 	$("#searchButton").click(function() {
 
-		var patientID = sessionStorage.getItem("patientID");
-		var bookingID = sessionStorage.getItem("bookingID");
+		//var patientID = sessionStorage.getItem("patientID");
+		//var bookingID = sessionStorage.getItem("bookingID");
+
+		var patientID = 100;
+		var bookingID = 90;
 
 		$(async() => {
 			var quantity = $("#quantity").val();
-			var medID = $("#medicine").val();
+			var medicineID = $("#medicine").val();
 			quantity = parseInt(quantity);
-			medID = parseInt(medID);
+			medicineID = parseInt(medicineID);
+
+			console.log(patientID);
+			console.log(bookingID);
 			
 
 			var serviceURL = "http://127.0.0.1:5005/createPrescription/" + patientID + "/" + bookingID + "/";
@@ -234,7 +240,7 @@
               {
                   method: 'POST',
                   headers: { "content-type": "application/json" },
-                  body: JSON.stringify ({ medicineID:medID, medicine_quantity:quantity})
+                  body: JSON.stringify ({ medicineID:medicineID, medicine_quantity:quantity})
 
 			  });
 			  const data = await response.json();
