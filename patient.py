@@ -139,36 +139,6 @@ def send_patient(patientID):
 	# close the connection to the broker
 	connection.close()
 
-# IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
-# This is a helper function
-# def calculate_medicine_cost(price, quantity):
-#     cost = price * quantity
-#     return cost
-
-# # @app.route("/patient/<int:patientID>")
-# def calculate_total_bill(patientID, prescription_dict):
-#     # I will need the prescription_dict in order to continue.
-#     pass
-
-# some auto-increment code YN tried
-# @app.route("/patient", methods=["POST"])
-# def create_patient(): #auto-increment the ID
-#     status = 201
-#     #return jsonify({"message": "New patient created:"}), status  
-	
-#     data = request.get_json()
-#     patient_name = request.json.get('patient_name', None)
-#     patient = Patient(patient_name, **data)
-
-#     if status == 201:
-#         try:
-#             db.session.add(patient)
-#             db.session.commit()
-#         except Exception as e:
-#             return jsonify({"message": "An error occurred creating the patient."}), 500
-	
-#     return jsonify(patient.json()), 201
-
 
 if __name__ == "__main__":
 	app.run(port=5001, debug=True)
