@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `doctor_info` (
 -- Dumping data for table `doctor_info`
 --
 INSERT INTO `doctor_info` (`doctorID`, `doctor_name`, `doctor_email`, `doctor_password`) VALUES
-(1, "Jackson Tan", "maple_0309@hotmail.com", "iloveesd2020");
+(1, "Jackson Tan", "jacksontan@hotmail.com", "jackson123");
 COMMIT;
 
 --
