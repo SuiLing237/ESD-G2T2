@@ -180,4 +180,4 @@ def verify_and_retrieve_doctor(doctor_email, doctor_password):
 #     connection.close()
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5007, debug=True)

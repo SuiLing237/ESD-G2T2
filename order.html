@@ -2,179 +2,250 @@
 <html lang="en">
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    
-    
-    <title>Booking</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    
-    <!-- copied from wt -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	
+	<title>Booking</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Custom fonts for this template -->
+	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	
+	<!-- copied from wt -->
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom styles for this template -->
-    <link href="css/clean-blog.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="css/clean-blog.min.css" rel="stylesheet">
 
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
-    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+	<!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
+	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
-    <!-- end of copied stuff -->
-    
-    <style>
-        #view-available-appointments { text-align: center; padding: 0 0 50px 0; }
-        #patient-page-form{ text-align: center;}
-        #available-appointment-table {margin: 0 auto; width: 80%;}
-        .bookingErrMsg {padding: 50px 0;}
-        #datepicker-13 {border-radius: 5px; box-shadow: 0 2px 5px #ccc; border: 0; padding: 2px 5px; background-color: white; outline: 0 none;}
-        label.datepickerLabel {margin-right: 20px;}
-    </style>
-    
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- end of copied stuff -->
+	
+	<style>
+		#view-available-appointments { text-align: center; padding: 0 0 50px 0; }
+		#patient-page-form{ text-align: center;}
+		#available-appointment-table {margin: 0 auto; width: 80%;}
+		.bookingErrMsg {padding: 50px 0;}
+		#datepicker-13 {border-radius: 5px; box-shadow: 0 2px 5px #ccc; border: 0; padding: 2px 5px; background-color: white; outline: 0 none;}
+		label.datepickerLabel {margin-right: 20px;}
+	</style>
+	
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-        <div class="container">
-        <a class="navbar-brand" href="index.html">O-HCare</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="booking.html">Book Now</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="consultation.html">Consultation</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="billing.html">Payment</a>
-            </li>
-            </ul>
-        </div>
-        </div>
-    </nav>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+		<div class="container">
+		<a class="navbar-brand" href="index.html">O-HCare</a>
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			Menu
+			<i class="fas fa-bars"></i>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="index.html">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="patientPage.html">View Booked Appointments</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="booking.html">Book Now</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="consultation.html">Consultation</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="billing.html">Payment</a>
+			</li>
+			</ul>
+		</div>
+		</div>
+	</nav>
 
-    <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/med.jpg')">
-        <div class="overlay"></div>
-        <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
-                <h1>Order Now</h1>
-                <span class="subheading"> We have all you need!</span>
-            </div>
-            </div>
-        </div>
-        </div>
-    </header>
+	<!-- Page Header -->
+	<header class="masthead" style="background-image: url('img/med.jpg')">
+		<div class="overlay"></div>
+		<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+			<div class="site-heading">
+				<h1>Order Now</h1>
+				<span class="subheading"> We have all you need!</span>
+			</div>
+			</div>
+		</div>
+		</div>
+	</header>
 
-    <hr>
+	<hr>
 
-    <div class="container">
-        <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <!-- <div class="signup-content"> -->
-            <!-- <form method="POST" id="signup-form" class="signup-form"> -->
-            <form id="searchMedForm">
-                <div class="form-group">
-                  <label for="search"> Search: </label> <input type="text" class="inputcontent" name="search" style="width:450px" id="search" placeholder="Search" required/> <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
-                </div> 
-            </form>
-            
-            <div class="container">
-                <!-- Trigger the modal with a button -->
-                <p>Sterois</p><button type="button"  data-toggle="modal" data-target="#myModal">Add Quantity</button>
-              
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                  <div class="modal-dialog">
-                  
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"></h4>
-                      </div>
-                      <div class="modal-body">
-                        <label for="quantity"> Quantity: </label> <input type="text" class="inputcontent" name="quantity" style="width:40px" id="quantity" placeholder="0" required/>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-default" id="submitorder">Submit Order</button>
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-                
-              </div>
-            
+	<div class="container">
+		<div class="row">
+		<div class="col-lg-8 col-md-10 mx-auto">
+		  <!-- <div class="signup-content"> -->
+			<!-- <form method="POST" id="signup-form" class="signup-form"> -->
+			<form id="searchMedForm">
+				<div class="form-group">
+				  <!-- <label for="search"> Select Medicine: </label> <input type="text" class="inputcontent" name="search" style="width:450px" id="search" placeholder="Search" required/>
+				 -->
+				<label for='search'>Select Medicine: </label>
+				<select id='medicine'>
+				</select>
+				<br>
+				<label for='quantity'>Quantity: </label>
+				<input name="quantityMed" type="text" id="quantity">
+				</div> 
+			</form>
+			<button type="submit" class="btn btn-primary" id="searchButton">Submit Prescription</button>
 
-    
+			<div class="container">
+				<!-- Trigger the modal with a button -->
+				<!-- <p>Sterois</p><button type="button"  data-toggle="modal" data-target="#myModal">Add Quantity</button> -->
+			  
+				<!-- Modal -->
+				<div class="modal fade" id="myModal" role="dialog">
+				  <div class="modal-dialog">
+				  
+					<!-- Modal content-->
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title"></h4>
+					  </div>
+					  <div class="modal-body">
+						<label for="quantity"> Quantity: </label> <input type="text" class="inputcontent" name="quantity" style="width:40px" id="quantity" placeholder="0" required/>
+					  </div>
+					  <div class="modal-footer">
+						<button type="submit" class="btn btn-default" id="submitorder">Submit Order</button>
+					  </div>
+					</div>
+					
+				  </div>
+				</div>
+				
+			  </div>
+			
+
+	
 
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="list-inline text-center">
-                <li class="list-inline-item">
-                <a href="#">
-                    <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                </li>
-                <li class="list-inline-item">
-                <a href="#">
-                    <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                </li>
-                <li class="list-inline-item">
-                <a href="#">
-                    <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                </li>
-            </ul>
-            <p class="copyright text-muted">Copyright &copy; Our O-HCare 2020 </p>
-            </div>
-        </div>
-        </div>
-    </footer>
+	<!-- Footer -->
+	<footer>
+		<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+			<ul class="list-inline text-center">
+				<li class="list-inline-item">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				</li>
+				<li class="list-inline-item">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				</li>
+				<li class="list-inline-item">
+				<a href="#">
+					<span class="fa-stack fa-lg">
+					<i class="fas fa-circle fa-stack-2x"></i>
+					<i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				</li>
+			</ul>
+			<p class="copyright text-muted">Copyright &copy; Our O-HCare 2020 </p>
+			</div>
+		</div>
+		</div>
+	</footer>
 
 </body>
+<script>
+	$(async() => { 
+		var serviceURL = "http://127.0.0.1:5001/getMedicineName/";
+		
+		try {
+			const response = await fetch(serviceURL, { method: 'GET' });
+			const data = await response.json();
 
+			var med = data.medicine;
+
+			console.log(med);
+			
+			var rows ="";
+			for(d of med){
+				eachRow = "<option value='" + d.medicineID + "'>" + d.medicine_name + "</option>";
+
+				console.log(eachRow);
+				rows += eachRow;
+			}
+			$('#medicine').append(rows);
+			
+
+	
+		}
+		catch (error){
+			console.log(error)
+		}
+	});
+
+	$("#searchButton").click(function() {
+
+		var patientID = sessionStorage.getItem("patientID");
+		var bookingID = sessionStorage.getItem("bookingID");
+
+		$(async() => {
+			var quantity = $("#quantity").val();
+			var medID = $("#medicine").val();
+			quantity = parseInt(quantity);
+			medID = parseInt(medID);
+			
+
+			var serviceURL = "http://127.0.0.1:5005/createPrescription/" + patientID + "/" + bookingID + "/";
+			
+			try {
+				const response =
+          // console.log("Sleep");
+                
+              await fetch(serviceURL,
+              {
+                  method: 'POST',
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify ({ medicineID:medID, medicine_quantity:quantity})
+
+			  });
+			  const data = await response.json();
+			} catch (error) {
+				console.log(error);
+			}
+
+		});
+
+	});
+	
+</script>
 
 </html>
