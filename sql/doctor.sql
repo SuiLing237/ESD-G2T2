@@ -27,6 +27,25 @@ USE `doctor`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `doctor_info`
+--
+DROP TABLE IF EXISTS `doctor_info`;
+CREATE TABLE IF NOT EXISTS `doctor_info` (
+  `doctorID` int(64),
+  `doctor_name` varchar(64) NOT NULL,
+  `doctor_email` varchar(64) NOT NULL,
+  `doctor_password` varchar(64) NOT NULL,
+  PRIMARY KEY (`doctorID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `doctor_info`
+--
+INSERT INTO `doctor_info` (`doctorID`, `doctor_name`, `doctor_email`, `doctor_password`) VALUES
+(1, "Jackson Tan", "jacksontan@hotmail.com", "jackson123");
+COMMIT;
+
+--
 -- Table structure for table `doctor`
 --
 DROP TABLE IF EXISTS `doctor`;

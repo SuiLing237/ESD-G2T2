@@ -95,7 +95,7 @@
     });
     // Add Token and Connect To Conference
                             
-
+    
                         
     vidyoConnector.Connect({
             host: "prod.vidyo.io",
@@ -161,17 +161,20 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
-            </li>
-            <li class="nav-item">
+            <li class="nav-item patient">
                 <a class="nav-link" href="booking.html">Book Now</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="consultation.html">Consultation</a>
+            <li class="nav-item patient">
+                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item doctor">
+                <a class="nav-link" href="doctorPage.html">View Scheduled Appointments</a>
+            </li>
+            <li class="nav-item patient">
                 <a class="nav-link" href="billing.html">Payment</a>
+            </li>
+            <li class="nav-item patient">
+                <a class="nav-link" href="index.html">Logout</a>
             </li>
             </ul>
         </div>
@@ -193,6 +196,7 @@
         </div>
     </header>
     <div class="container">
+        <button onclick="joinCall()">Connect</button>
     <div class="col-lg-8 col-md-10 mx-auto">
         <div id="renderer" style="margin-right:auto; margin-left: auto;  z-index: 99; height: 400px; width: 640px;"></div>
         <script src="https://static.vidyo.io/latest/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded&webrtc=true&plugin=false"></script>
@@ -211,7 +215,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <!-- <div class="signup-content"> -->
             <!-- <form method="POST" id="signup-form" class="signup-form"> -->
-            <form id="addPatientForm">
+            <form id="addDiagnosis">
                 <div class="form-group">
                   <label for="diagnosis"> Diagnosis: </label> <br><textarea name="diagnosis" class="inputcontent"  id="diagnosis" cols="60" rows="5" placeholder=" Enter your diagnosis"  required></textarea> </div></div>
                   
@@ -264,7 +268,22 @@
 </body>
 
 <script>
-    // $(function(){
+    var usertype = sessionStorage.getItem("usertype");
+    console.log(usertype);
+    if (usertype == "patient") {
+        $("#addDiagnosis").hide();
+        $("#submit").hide();
+        $(".patient").show();
+        $(".doctor").hide();
+    }
+
+    if (usertype == "doctor") {
+        $("#addDiagnosis").show();
+        $("#submit").show();
+        $(".doctor").show();
+        $(".patient").hide();
+    }
+
     $("#submit").click(function() {
         $(async() => {
             var diagnosis = $("#diagnosis").val();
@@ -296,9 +315,27 @@
             }
         });
     });
-    // });
 </script>
 
-
+<script>
+    function joinCall(){
+      // To join a video conference call Connect method
+      vidyoConnector.Connect({
+        host:"prod.vidyo.io",  // Server name, for most production apps it will be prod.vidyo.io
+        token:"cHJvdmlzaW9uAHVzZXIxQDU3MjQxMy52aWR5by5pbwA2Mzc1MzA2OTU0MQAAMjhkN2IwODhlMWJkZTZjY2UyZjgyMDNmYjRiZTc2MzA4MjY5Y2U1NTk5MjE5NzZmNzU3MDM4NjU4NTdkMTZlMDUyMGU1NWQyYmFhODBhMjhlYWI5OGYwN2VlM2NhMjBl",          // Add generated token (https://developer.vidyo.io/documentation/4-1-16-8/getting-started#Tokens)
+        displayName:"Samuel",  // Display name
+        resourceId:"demoRoom", // Room name
+        onSuccess: function(){
+          console.log("Connected!! YAY!");
+        },
+        onFailure: function(reason){
+          console.error("Connection failed");
+        },
+        onDisconnected: function(reason) {
+          console.log(" disconnected - " + reason);
+        }
+      })
+    }
+</script>
 
 </html>

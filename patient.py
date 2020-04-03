@@ -102,7 +102,7 @@ def verify_and_retrieve_patient(patient_email, patient_password):
 		return jsonify({"message": "A patient with that email address '{}' does not exist.".format(patient_email)}), 400
 
 # sends patient to notification microservice via direct AMQP
-@app.route("/send_patient/<int:patientID>/")
+@app.route("/send_patient/<int:patientID>/", methods=['POST'])
 def start_send(patientID):
 	send_patient(patientID)
 	return "Start send, OK"
@@ -138,36 +138,6 @@ def send_patient(patientID):
 	print("Patient sent to notification")
 	# close the connection to the broker
 	connection.close()
-
-# IF DON'T NEED BELOW FUNCTIONS, I SHALL DELETE
-# This is a helper function
-# def calculate_medicine_cost(price, quantity):
-#     cost = price * quantity
-#     return cost
-
-# # @app.route("/patient/<int:patientID>")
-# def calculate_total_bill(patientID, prescription_dict):
-#     # I will need the prescription_dict in order to continue.
-#     pass
-
-# some auto-increment code YN tried
-# @app.route("/patient", methods=["POST"])
-# def create_patient(): #auto-increment the ID
-#     status = 201
-#     #return jsonify({"message": "New patient created:"}), status  
-	
-#     data = request.get_json()
-#     patient_name = request.json.get('patient_name', None)
-#     patient = Patient(patient_name, **data)
-
-#     if status == 201:
-#         try:
-#             db.session.add(patient)
-#             db.session.commit()
-#         except Exception as e:
-#             return jsonify({"message": "An error occurred creating the patient."}), 500
-	
-#     return jsonify(patient.json()), 201
 
 
 if __name__ == "__main__":

@@ -81,13 +81,11 @@ channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 # print(send_email_message())
 
 
-
-
 def send_email(patient_name, patient_email):
     MY_ADDRESS = 'maple_0309@hotmail.com'
     PASSWORD = 'iloveesd2020'
-    names = "sam"
-    emails = "mushi.lee.2018@smu.edu.sg"
+    # names = "sam"
+    # emails = "mushi.lee.2018@smu.edu.sg"
 
     # set up the SMTP server
     s = smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
@@ -96,7 +94,7 @@ def send_email(patient_name, patient_email):
 
     msg = MIMEMultipart()       # create a message
 
-    message = "Dear {},\n   Your appointment booking with Dr.Jackson has been confirmed. Please login into the portal for the consultation.\nThank you".format(patient_name)
+    message = "Dear {},\n\nYour appointment booking with Dr. Jackson Tan has been confirmed.\n\nTo attend your consultation, please login to the portal under the consultation tab.\n\n Thank you!\n\n Best regards,\nO-HCare".format(patient_name)
 
 
     # setup the parameters of the message
@@ -125,35 +123,24 @@ def receivePatient():
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
     channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
 
-# KIV AMQP
-# def receiveBooking():
-#     # prepare a queue for receiving messages
-#     channelqueue = channel.queue_declare(queue="notification", durable=True) # 'durable' makes the queue survive broker restarts so that the messages in it survive broker restarts too
-#     queue_name = channelqueue.method.queue
-#     channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.booking') # bind the queue to the exchange via the key
-
-#     # set up a consumer and start to wait for coming messages
-#     channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)
-#     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
-#     channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
-
 # I wonder how the result will look like if notif microservice also receives doctor
 def callback(channel, method, properties, body): # required signature for the callback; no return
     result = json.loads(body)
     # print(type(result)) # dict
-    # print(result) # {'patientID':1, 'patient_name': 'Anne', ...}
+    print(result) # {'patientID':1, 'patient_name': 'Anne', ...}
     # send_email_message(result)
     process_message(result)
     print(result)
     
 
 def process_message(patient):
-        patient_name = patient["patient_name"]
-        # patient_email = patient["patient_email"]
-        patient_email = "mushi.lee.2018@smu.edu.sg"
-        send_email(patient_name,patient_email)
-        print ("Email has been sent to the patient- {}".format(patient_name))
-        return
+    patient_name = patient["patient_name"]
+    # patient_email = patient["patient_email"]
+    # patient_email = "mushi.lee.2018@smu.edu.sg"
+    patient_email = "slchua.2018@sis.smu.edu.sg"
+    send_email(patient_name, patient_email)
+    print ("Email has been sent to the patient- {}".format(patient_name))
+    return
 
 if __name__ == "__main__":
     print("Receiving patient details...")

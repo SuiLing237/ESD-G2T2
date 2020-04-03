@@ -8,6 +8,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import requests
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-paymentURL = "http://localhost:5001/payment"
+paymentURL = "http://localhost:5000/payment"
 
 class Price (db.Model):
     __tablename__ = "price_list"
@@ -104,6 +105,7 @@ def processOrder(order):
         total_price += price
     print("Total Price is:")
     print('$' + str(total_price))
+    send_price(total_price)
     return total_price
 
 # @app.route("/find_by_order_id/<string:order_id>")
@@ -119,6 +121,7 @@ def send_price(price):
     #send to medicine microservice
     r = requests.post(paymentURL, json = price)
     print("Price sent to paypal.")
+    return r
 
     
 

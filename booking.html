@@ -60,13 +60,13 @@
                 <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="booking.html">Book Now</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="consultation.html">Consultation</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="billing.html">Payment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Logout</a>
             </li>
             </ul>
         </div>
@@ -240,6 +240,28 @@
                         method: 'PUT',
                         headers: { "content-type": "application/json" }, mode: 'cors',
                         body: JSON.stringify ({ bookingID: bookingID, patientID: patientID })
+                    });
+
+                    data = await response.json();
+                    console.log(data)
+                    window.location.replace("http://localhost/esd/bookingConfirm.html") // hardcoded url
+                }
+                catch (error) {
+                    console.log(error)
+                }
+            });
+
+
+            $(async() => {
+                var serviceURL = "http://127.0.0.1:5001/send_patient" + "/" + patientID + "/";
+
+                try {
+                    const response =
+                    await fetch(serviceURL,
+                    {
+                        method: 'POST',
+                        headers: { "content-type": "application/json" }, mode: 'cors',
+                        // body: JSON.stringify ({ patientID: patientID })
                     });
 
                     data = await response.json();
