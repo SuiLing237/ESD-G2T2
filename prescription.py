@@ -41,7 +41,7 @@ def home():
 def create_new_prescription(patientID, bookingID):
     last_id = Prescription.query.order_by(Prescription.itemID.desc()).first()
     if last_id:
-        new_id = last_id.patientID
+        new_id = last_id.itemID
         new_id += 1
     
     data = request.get_json()
