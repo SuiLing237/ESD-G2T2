@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>O-HCare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/clean-blog.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+        <a class="navbar-brand" href="index.html">O-HCare</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="prescriptioning.html">prescriptioning</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.html">Consultation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Logout</a>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('img/patient.jpg')">
+        <div class="overlay"></div>
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+                <h1>Healthcare</h1>
+                <span class="subheading">Pay your medicine here!</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <p>Click on the button below to view your payment details</p>
+            <button type='button' id="view"  class='btn btn-primary prescription'>View Payment Details</button>            
+            <br>
+            <div id="success"></div>
+
+
+            <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+            <script>               
+                    // var patientID = sessionStorage.getItem("patientID");
+                var patientID = 1;
+                var bookingID = 1;
+
+
+                var CREATE_PAYMENT_URL  = 'http://127.0.0.1:5003/payment/' + patientID + "/" + bookingID;
+                var EXECUTE_PAYMENT_URL = 'http://127.0.0.1:5003/execute';
+
+                paypal.Button.render({
+
+                    env: 'sandbox', // Or 'sandbox'
+
+                    commit: true, // Show a 'Pay Now' button
+
+                    payment: function() {
+                        return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
+                            return data.paymentID;
+                        });
+                    },
+
+                    onAuthorize: function(data) {
+                        return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                            paymentID: data.paymentID,
+                            payerID:   data.payerID
+                        }).then(function(res) {
+
+                            console.log(res.success)
+                            // The payment is complete!
+                            // You can now show a confirmation message to the customer
+                        });
+                    }
+
+                }, '#paypal-button');
+            </script>
+
+        </div>
+        </div>
+    </div>
+
+    <div id="main-container" class="container">
+        
+        <table id="prescriptionTable" class='table table-striped' border='1'>
+            <thead class='thead-dark'>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Medicine ID</th>
+                    <th>Medicine Quanitity</th>
+                </tr>
+            </thead>
+        </table>
+        <button type='button' id="proceed"  class='btn btn-primary prescription'>Proceed</button>
+        <div id="paypal-button"></div>
+    </div>
+    <script>
+        // Helper function to display error message
+        function showError(message) {
+            // Hide the table and button in the event of error
+            $('#prescriptionTable').hide();
+    
+            // Display an error under the main container
+            $('#main-container')
+                .append("<label>"+message+"</label>");
+        }
+    
+        // anonymous async function to SEND TOTAL AMOUNT TO PAYMENT DB
+        // - using await requires the function that calls it to be async
+        $("#view").click(async (event) => {           
+            // Change serviceURL to your own
+            // var serviceURL = "http://127.0.0.1:5000/book";
+            // event.preventDefault();
+            var serviceURL = "http://localhost:5005/retrieve/" + patientID + "/" + bookingID;
+            // console.log(serviceURL);
+            // console.log(isbnNumber);
+    
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                var prescription = data.prescription;
+                if (response.ok){
+                    console.log(prescription);
+                }
+    
+                // array or array.length are falsy
+                if (!prescription || !prescription.length) {
+                    showError('Invalid bookingID or patientID')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+                    for (const meds of prescription) {
+                        eachRow =
+                            "<td>" + meds.bookingID + "</td>" +
+
+                            "<td>" + meds.medicineID + "</td>" +
+                            "<td>" + meds.medicine_quantity + "</td>";
+                            // "<td>" + meds.price + "</td>" +
+                            // "<td>" + meds.availability + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                    }
+                    // add all the rows to the table
+                    $('#prescriptionTable').show();
+                    $('#prescriptionTable').append(rows);
+                    $("#view").hide();
+                    $("#proceed").show();
+
+                }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                ('There is a problem retrieving books data, please try again later.<br />'+error);
+           
+            } // error
+    
+
+        });
+
+
+         // anonymous async function 
+        // - using await requires the function that calls it to be async
+        $("#proceed").click(async (event) => {           
+            // Change serviceURL to your own
+            // var serviceURL = "http://127.0.0.1:5000/book";
+            var serviceURL = "http://localhost:5003/retrieve_price" + "/" + patientID + "/" + bookingID;
+
+    
+            try {
+                const response =
+                 await fetch(
+                   serviceURL, { method: 'GET' }
+                );
+                const paymentData = await response.json();
+                if (response.ok){
+                    console.log(paymentData);
+                }
+    
+                // array or array.length are falsy
+                if (!paymentData) {
+                    showError('Invalid patientID or bookingID')
+                } else {
+                    // for loop to setup all table rows with obtained book data
+                    var rows = "";
+                    eachRow =
+                        "<td> Total Amount </td>" +
+                        "<td> $" + paymentData.total_price + "</td>";
+                    rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                
+                    // add all the rows to the table
+                    $("#paypal-button").show();
+                    $('#prescriptionTable').append(rows);
+                    $("#proceed").hide();
+                }
+            } catch (error) {
+                // Errors when calling the service; such as network error, 
+                // service offline, etc
+                showError
+                ('There is a problem, please try again later.<br />'+error);
+           
+            } // error
+    
+
+        });
+
+        $(function(){
+            $('#prescriptionTable').hide();
+            $("#paypal-button").hide();
+            $("#proceed").hide();
+        });
+
+    </script>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+                <li class="list-inline-item">
+                <a href="#">
+                    <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                </li>
+                <li class="list-inline-item">
+                <a href="#">
+                    <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-faceprescription-f fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                </li>
+                <li class="list-inline-item">
+                <a href="#">
+                    <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Our O-HCare 2020</p>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

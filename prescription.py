@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-pricelistURL = "http://localhost:5000/price"
+pricelistURL = "http://localhost:5006/price"
 
 class Prescription(db.Model):
     __tablename__ = "prescription"
@@ -119,19 +119,21 @@ def view_prescription(patientID, bookingID):
     result = retrieve_prescription(patientID, bookingID)
     return (result)
 
+@app.route("/retrieve/<int:patientID>/<int:bookingID>")
 def retrieve_prescription(patientID, bookingID):
     patient_prescription = Prescription.query.filter_by(patientID=patientID, bookingID=bookingID).all() #assume that each patient has only one prescription in databse
     if patient_prescription:
         print(patient_prescription)
+        start_send_prescription(patientID, bookingID)
         return {'prescription': [prescription.json() for prescription in patient_prescription]}
         # return jsonify(prescription.json())
     return jsonify({"message": "Prescription does not exist."}), 404
 
 # This is a function to trigger send_prescription
-@app.route("/<int:patientID>/<int:bookingID>/send")
+# @app.route("/send/<int:patientID>/<int:bookingID>")
 def start_send_prescription(patientID, bookingID):
-    message = retrieve_prescription(patientID, bookingID)
-    # message = json.dumps(medicineID, medicine_quantity, default=str) # convert a JSON object to a string
+    patient_prescription = Prescription.query.filter_by(patientID=patientID, bookingID=bookingID).all()
+    message ={'patientID':patientID,'bookingID':bookingID,'prescription': [prescription.json() for prescription in patient_prescription]}
 
     #send to medicine microservice
     r = requests.post(pricelistURL, json = message)

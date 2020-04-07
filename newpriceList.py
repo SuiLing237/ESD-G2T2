@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-paymentURL = "http://localhost:5000/payment"
+
 
 class Price (db.Model):
     __tablename__ = "price_list"
@@ -93,7 +93,12 @@ def receiveOrder():
 
 def processOrder(order):
     print("Processing an order:")
+    print(order)
+    print("******")
     total_price = 0
+    patientID = order["patientID"]
+    bookingID = order["bookingID"]
+
     for medicine in order["prescription"]:
         med_id = medicine["medicineID"]
         med_info = find_price_by_med_id(med_id) #retrieve price from data base
@@ -105,7 +110,7 @@ def processOrder(order):
         total_price += price
     print("Total Price is:")
     print('$' + str(total_price))
-    send_price(total_price)
+    send_price(patientID, bookingID, total_price)
     return total_price
 
 # @app.route("/find_by_order_id/<string:order_id>")
@@ -115,13 +120,19 @@ def find_price_by_med_id(med_id):
         return med_details.json()
     return {'message': 'Medicine not found for id ' + str(med_id)}, 404
 
-def send_price(price):
-    price = json.loads(json.dumps(price, default = str))
-
+def send_price(patientID, bookingID, total_price):
+    # payment = json.loads(json.dumps(price, default = str))
+    payment = {"total_price": total_price}
+    message = jsonify(payment)
+    print(payment)
+    print(payment)
+    print("******")
+    print(type(message))
+    paymentURL = "http://localhost:5003/create_payment" +"/" + str(patientID) +"/" +str(bookingID)
     #send to medicine microservice
-    r = requests.post(paymentURL, json = price)
-    print("Price sent to paypal.")
-    return r
+    r = requests.post(paymentURL, json = payment)
+    print("Details sent to payment.")
+    return "ok"
 
     
 
