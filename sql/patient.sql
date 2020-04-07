@@ -46,6 +46,5 @@ INSERT INTO `patient` (`patientID`, `patient_name`, `patient_phone`,`patient_ema
 (3, "Cathy", 56789999, "Cathy@hotmail.com", "cathy123"),
 (4, "Dan", 11107778, "Dan@hotmail.com", "dan123"),
 (5, "Edward", 96719999, "Edward@hotmail.com", "edward123"),
-(6, "Mushi", 12345678, "mushi.lee.2018@sis.smu.edu.sg", "MushiMart");
--- (7, "Sui Ling", 88888888, "slchua.2018@sis.smu.edu.sg", "SuiLing");
+-- (6, "Sui Ling", 12345678, "slchua.2018@sis.smu.edu.sg", "SuiLing"); -- for easy testing, to remove before code submission
 COMMIT;
