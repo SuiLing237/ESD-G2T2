@@ -140,6 +140,7 @@ def start_send_prescription(patientID, bookingID):
     return "ok"
     print("Price sent to paypal.")
 
+# SL: If don't need, delete?
 # # AMQP Function for sending Prescription
 # def send_prescription(medicineID, medicine_quantity):
 #     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
