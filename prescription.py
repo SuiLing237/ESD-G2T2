@@ -43,10 +43,12 @@ def create_new_prescription(patientID, bookingID):
     if last_id:
         new_id = last_id.itemID
         new_id += 1
+    else:
+        new_id = 1
     
     data = request.get_json()
 
-    d = Prescription(new_id,patientID, bookingID, **data)
+    d = Prescription(new_id, patientID, bookingID, **data)
 
     try:
         db.session.add(d)
