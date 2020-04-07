@@ -70,7 +70,7 @@
                     <form>
                         <label for="email"> Email: </label> <input type="text" class="inputcontent" name="email" style="width:450px" id="email" placeholder=" Enter your email"/> <br><br>
                         <label for="password"> Password: </label> <input type="password" class="inputcontent" name="password" style="width:450px" id="password" placeholder=" Enter your password"/> <br><br>
-                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="myFunction()"></span>
                         <label for="usertype"> User Type: </label>
                         <select id="usertype" name="usertype" class="inputcontent" style="width:450px">
                             <option class="inputcontent" value="patient"> Patient </option>
@@ -163,23 +163,17 @@
 </body>
 
 <script>
-
-    // The serviceURL does this: verify patient email and password, then get patient.
-    // I want to get patientID to be stored as a global variable but idk how.
-    console.log("Hello");
     $("#login").click(function() {
-        //$('.errorMsg').remove();
         $('.errorMsg').text("");
         $(async() => {
-            // $('.errorMsg').hide();
             var email = $("#email").val();
             var password = $("#password").val();
             var usertype = $("#usertype").val();
             sessionStorage.setItem("usertype", usertype);
 
-            console.log(email);
-            console.log(password);
-            console.log(usertype);
+            console.log("email: " + email);
+            console.log("password: " + password);
+            console.log("usertype: " + usertype);
 
             if(usertype == "patient") {
                 if(email == '' || password ==''){
@@ -187,22 +181,21 @@
                     password = "Missing"
                 }
                 var serviceURL = "http://127.0.0.1:5001/patient/" + email + "/" + password + "/";
-                console.log(serviceURL)
+                console.log("serviceURL: " + serviceURL);
 
                 try {
                     const response = await fetch(serviceURL, {method: "GET"});
                     const data = await response.json();
                     console.log(data);
                     var patientID = data.patientID;
+
                     if (patientID != undefined) {
-                        console.log(patientID);
+                        console.log("patientID: " + patientID);
                         sessionStorage.setItem("patientID", patientID)
                         window.location.replace("http://127.0.0.1/esd/patientPage.html");
                     } else {
                         
                         var message = data.message;
-                        //$('#login').after("<br><b class='errorMsg'>" + JSON.stringify(data.message) + "</b >");
-                        //$('#login').after("<br><b class='errorMsg' style='color:red;'>" + data.message + "</b >"); -->
                         $(".errorMsg").text(message)
 
                     }
@@ -216,15 +209,16 @@
                     password = "Missing"
                 }
                 var serviceURL = "http://127.0.0.1:5007/doctor/" + email + "/" + password + "/";
-                console.log(serviceURL)
+                console.log("serviceURL: " + serviceURL)
 
                 try {
                     const response = await fetch(serviceURL, {method: "GET"});
                     const data = await response.json();
                     console.log(data);
                     var doctorID = data.doctorID;
+
                     if (doctorID != undefined) {
-                        console.log(doctorID);
+                        console.log("doctorID: " + doctorID);
                         window.location.replace("http://localhost/esd/doctorPage.html");
                     } else {
                         
@@ -239,9 +233,19 @@
             }
         });
     });
-
-
 </script>
+
+<script>
+    function myFunction(){
+      var x = document.getElementById("password");
+      if (x.type === "password"){
+        x.type = "text";
+      } else{
+        x.type = "password";
+      }
+    }
+  
+  </script>
 
 </html>
 
