@@ -42,16 +42,15 @@ def create_diagnosis(patientID, bookingID):
 
     try:
         db.session.add(d) # add the book to Database
-        db.session.commit() 
+        db.session.commit()
     # except SQLAlchemyError as e:
     #     error = str(e.__dict__['orig'];
     #     return 'error'
     #     # return jsonify({"message": "An error occurred creating the diagnosis record."}), 500 # ERRROR MSG
-
     except:
         return jsonify({"message": "An error occurred creating the book."}), 500
-
-    return jsonify(d.json()), 201 # if successful, return representation. 201 -> create. 500 for error. 
+    
+    return jsonify({"message": "Diagnosis added successfully!"}), 201
 
 if __name__ == "__main__":
     app.run(port=5002, debug=True)
