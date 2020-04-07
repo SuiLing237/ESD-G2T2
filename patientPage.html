@@ -152,20 +152,17 @@
         $(async () => {
             // I need the patientID of the person who logged in
             var patientID = sessionStorage.getItem("patientID");
-            console.log("patientID should appear")
-            console.log(patientID)
+            console.log("patientID: " + patientID);
 
             var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + patientID + "/";
+            console.log("serviceURL: " + serviceURL);
 
-            //console.log(serviceURL)
             try{
                 const response = await fetch(serviceURL, { method: 'GET' });
                 const data = await response.json();
-                console.log(data)
 
                 var appointments = data.availability;
-                console.log(appointments)
-                //console.log(appointments)
+                console.log(appointments);
 
                 var today = new Date();
                 var dd = today.getDate();
@@ -203,15 +200,9 @@
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
                         
-                    
-
+                        // SL: If don't need, can delete?
                         //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-
-
-
                         //rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-
                         //console.log(eachRow);
                     }
                     $('.bookingErrMsg').remove();
@@ -230,15 +221,13 @@
                 console.log(error);
             }
         });
-        
+
         $(document).on('click', '.redirectConsult', function(e) {
             window.location.replace("http://127.0.0.1/esd/consultation.html");
         });
-        
+
     });
 
-    
-  
- </script>
+</script>
 
 </html>
