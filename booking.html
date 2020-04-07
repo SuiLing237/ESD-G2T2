@@ -46,7 +46,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
-        <a class="navbar-brand" href="index.html">O-HCare</a>
+        <a class="navbar-brand">O-HCare</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -54,10 +54,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
+                <a class="nav-link" href="booking.html">Book Now</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="consultation.html">Consultation</a>
@@ -149,10 +149,6 @@
 
 <script>
     $(function(){
-        
-        //$('#datepicker-13').on('click', function(){
-            //$( "#datepicker-13" ).datepicker("show");
-        //});
         $("#available-appointment-table").hide();
         $("#list-available-appointments").hide();
 
@@ -163,61 +159,75 @@
         $( "#datepicker-13" ).datepicker({
             onSelect: function(){
                 $(".bookingErrMsg").remove();
-               //var date_picked = $( "#datepicker-13" ).datepicker({"dateFormat": 'dd-mm-yy' }).val();
-               //var date_picked = $( "#datepicker-13" ).datepicker('getDate');
-               //var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );
-               $(async () => {
+                $(async () => {
                     var date_picked = $( "#datepicker-13" ).datepicker('getDate');
-                    var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );    
+                    var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );
 
-                    var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + date_formatted +"/";
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1;
+                    var yyyy = today.getFullYear();
 
-                   //console.log(serviceURL)
-                    try{
-                        const response =
-                        await fetch(serviceURL, { method: 'GET' });
-                        
-                        const data = await response.json();
-        
-                        var appointments = data.availability;
-                        //var lengthAppt = appointments.length;
-                     
-                        //console.log(appointments)
-                    
-                        if(appointments.length != 0){
-                            var rows = "";
-                            var row_id = 0;
-    
-                            for(const appt of appointments){
-                                var patientID = "";
-                                if(appt.patientID != null){
-                                    patientID = appt.patientID;
-                                }
-
-                                //console.log(appt);
-                                row_id += 1;
-                                var id = appt.bookingID;
-                                eachRow = 
-                                "<td>" + appt.date + "</td>" +
-                                "<td>" + appt.timeslot + "</td>" +
-                                "<td>" + "<button type='button' id="+ row_id +" value="+ id+ " class='btn btn-primary book'>Book</button>" + "</td>";
-                                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-                                //console.log(eachRow);
-                            }
-                            $('.bookingErrMsg').remove();
-                            $("#available-appointment-table tbody").remove();
-                            $("#available-appointment-table").append(rows);
-                            $("#list-available-appointments").show();
-                            $("#available-appointment-table").show();
-                        }else{
-                            $("#available-appointment-table tbody").remove();
-                            $("#list-available-appointments").hide();
-                            $("#available-appointment-table").hide();
-                            $("#available-appointment-table").after("<h3 class='bookingErrMsg'>No Available Appointments</h3>")
-                        }
+                    if(dd<10){
+                        dd = '0'+dd;
                     }
-                    catch (error){
-                        console.log(error)
+                    if(mm<10){
+                        mm = '0'+mm;
+                    }
+
+                    var today_date = dd + "-" + mm + "-" + yyyy;
+
+                    if (date_formatted >= today_date) {
+                        var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + date_formatted +"/";
+                        console.log("serviceURL:" + serviceURL);
+
+                        try{
+                            const response =
+                            await fetch(serviceURL, { method: 'GET' });
+                            
+                            const data = await response.json();
+            
+                            var appointments = data.availability;
+                            console.log(appointments)
+                        
+                            if(appointments.length != 0){
+                                var rows = "";
+                                var row_id = 0;
+        
+                                for(const appt of appointments){
+                                    var patientID = "";
+                                    if(appt.patientID != null){
+                                        patientID = appt.patientID;
+                                    }
+
+                                    row_id += 1;
+                                    var id = appt.bookingID;
+                                    eachRow = 
+                                    "<td>" + appt.date + "</td>" +
+                                    "<td>" + appt.timeslot + "</td>" +
+                                    "<td>" + "<button type='button' id="+ row_id +" value="+ id+ " class='btn btn-primary book'>Book</button>" + "</td>";
+                                    rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                                }
+                                $('.bookingErrMsg').remove();
+                                $("#available-appointment-table tbody").remove();
+                                $("#available-appointment-table").append(rows);
+                                $("#list-available-appointments").show();
+                                $("#available-appointment-table").show();
+                            }else{
+                                $("#available-appointment-table tbody").remove();
+                                $("#list-available-appointments").hide();
+                                $("#available-appointment-table").hide();
+                                $("#available-appointment-table").after("<h3 class='bookingErrMsg'>No Available Appointments</h3>")
+                            }
+                        }
+                        catch (error){
+                            console.log(error)
+                        }
+                    } else {
+                        $("#available-appointment-table tbody").remove();
+                        $("#list-available-appointments").hide();
+                        $("#available-appointment-table").hide();
+                        $("#available-appointment-table").after("<h3 class='bookingErrMsg'>You cannot view appointments in the past.</h3>")
                     }
                 });
             }
@@ -226,9 +236,10 @@
         $(document).on('click', '.book', function(e) {
             var bookingID = e.target.value;
             sessionStorage.setItem("bookingID", bookingID);
-            console.log(bookingID)
+            console.log("bookingID: " + bookingID);
+
             var patientID = sessionStorage.getItem("patientID");
-            console.log(patientID)
+            console.log("patientID:" + patientID);
 
             $(async() => {
                 var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + bookingID + "/" + patientID + "/";
@@ -243,11 +254,11 @@
                     });
 
                     data = await response.json();
-                    console.log(data)
+                    console.log(data);
                     window.location.replace("http://127.0.0.1/esd/bookingConfirm.html") // hardcoded url
                 }
                 catch (error) {
-                    console.log(error)
+                    console.log(error);
                 }
             });
 
@@ -261,15 +272,14 @@
                     {
                         method: 'POST',
                         headers: { "content-type": "application/json" }, mode: 'cors',
-                        // body: JSON.stringify ({ patientID: patientID })
                     });
 
                     data = await response.json();
-                    console.log(data)
-                    window.location.replace("http://localhost/esd/bookingConfirm.html") // hardcoded url
+                    console.log(data);
+                    window.location.replace("http://localhost/esd/bookingConfirm.html");
                 }
                 catch (error) {
-                    console.log(error)
+                    console.log(error);
                 }
             });
 

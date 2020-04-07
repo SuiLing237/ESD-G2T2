@@ -158,14 +158,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
+            <li class="nav-item patient">
+                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
             <li class="nav-item patient">
                 <a class="nav-link" href="booking.html">Book Now</a>
             </li>
-            <li class="nav-item patient">
-                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
+            <li class="nav-item">
+                <a class="nav-link" href="consultation.html">Consultation</a>
             </li>
             <li class="nav-item doctor">
                 <a class="nav-link" href="doctorPage.html">View Scheduled Appointments</a>
@@ -221,12 +221,13 @@
             <form id="addDiagnosis">
                 <div class="form-group">
                   <label for="diagnosis"> Diagnosis: </label> <br><textarea name="diagnosis" class="inputcontent"  id="diagnosis" cols="60" rows="5" placeholder=" Enter your diagnosis"  required></textarea> </div></div>
-                  
                 </div> 
           
                 
             </form>
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+
+            <p class='errorMsg' style='text-align: center; color:blue; font-weight:bold;'> </p>
 
     
 
@@ -272,7 +273,7 @@
 
 <script>
     var usertype = sessionStorage.getItem("usertype");
-    console.log(usertype);
+    console.log("usertype: " + usertype);
     if (usertype == "patient") {
         $("#addDiagnosis").hide();
         $("#submit").hide();
@@ -288,32 +289,41 @@
     }
 
     $("#submit").click(function() {
+        $('.errorMsg').text("");
         $(async() => {
             var diagnosis = $("#diagnosis").val();
-            // var patientID = sessionStorage.getItem("patientID");
-            var patientID = 7;
+            var patientID = sessionStorage.getItem("patientID");
             var bookingID = sessionStorage.getItem("bookingID");
-            console.log(diagnosis);
-            console.log(patientID); // figure out why undefined
-            console.log(bookingID);
-            // console.log(type(patientID));
-            // console.log(type(bookingID));
+
+            console.log("diagnosis: " + diagnosis);
+            console.log("bookingID: " + bookingID);
+            console.log("patientID: " + patientID);
             
             var serviceURL = "http://127.0.0.1:5002/diagnosis" + "/" + patientID +"/" + bookingID + "/";
+            console.log("serviceURL: " + serviceURL);
 
-            console.log(serviceURL);
             try {
                 const response =
                 await fetch(serviceURL,
                 {
                     method: 'POST',
                     headers: { "content-type": "application/json" },
-                    // mode: 'cors',
                     body: JSON.stringify({diagnosis: diagnosis})
                 });
 
                 const data = await response.json();
-                // console.log(data);
+                console.log(data);
+
+                var message = data.message;
+
+                if(message=="Diagnosis added successfully!"){
+                    $(".errorMsg").css('color', 'blue');
+                }
+                else{
+                    $(".errorMsg").css('color', 'red');
+                }
+                
+                $(".errorMsg").text(message);
             } catch (error) {
                 console.log(error);
             }

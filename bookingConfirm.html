@@ -17,7 +17,6 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     
-    <!-- copied from wt -->
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -26,10 +25,7 @@
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-    <!-- end of copied stuff -->
     
     <style>
         #title { text-align: center; padding: 0 0 50px 0; }
@@ -43,16 +39,13 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
-        <a class="navbar-brand" href="index.html">O-HCare</a>
+        <a class="navbar-brand">O-HCare</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
@@ -150,13 +143,12 @@
         $("#booked-appointment-table").hide();
         $("#info").hide();
 
-        // $(".bookingErrMsg").remove();
         $(async () => {
             var bookingID = sessionStorage.getItem("bookingID");
-            console.log(bookingID)
+            console.log("bookingID: " + bookingID);
 
             var serviceURL = "http://127.0.0.1:5007/booking" + "/" + bookingID + "/";
-            console.log(serviceURL)
+            console.log("serviceURL: " + serviceURL);
 
             try{
                 const response = await fetch(serviceURL, { method: 'GET' });
@@ -164,7 +156,7 @@
                 console.log(data)
 
                 var appointment = data.booking;
-                console.log(appointment)
+                console.log(appointment);
             
                 if(appointment.length != 0){
                     var rows = "";
@@ -187,10 +179,6 @@
                 console.log(error)
             }
         });
-
-        $(async() => {
-                        
-        })
     });
 </script>
 
