@@ -41,10 +41,10 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- Add in `prescription` values
-INSERT INTO `prescription` (`itemID`, `patientID`, `bookingID`, `medicineID`, `medicine_quantity`) VALUES
-(5, 1, 1, 1, 4),
-(6, 2, 2, 2, 2),
-(7, 3, 3, 3, 3),
-(8, 4, 4, 2, 1),
-(9, 5, 5, 3, 3);
-COMMIT;
+-- INSERT INTO `prescription` (`itemID`, `patientID`, `bookingID`, `medicineID`, `medicine_quantity`) VALUES
+-- (5, 1, 1, 1, 4),
+-- (6, 2, 2, 2, 2),
+-- (7, 3, 3, 3, 3),
+-- (8, 4, 4, 2, 1),
+-- (9, 5, 5, 3, 3);
+-- COMMIT;

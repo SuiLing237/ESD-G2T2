@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS `diagnosis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Add in `diagnosis` values
-INSERT INTO `diagnosis` (`patientID`, `bookingID`, `diagnosis`) VALUES
-(1, 1, "Common Cold"),
-(2, 2, "Possibility of COVID-19"),
-(3, 3, "Food poisoning"),
-(4, 4, "Eczema"),
-(5, 5, "Stomach Flu");
-COMMIT;
+-- INSERT INTO `diagnosis` (`patientID`, `bookingID`, `diagnosis`) VALUES
+-- (1, 1, "Common Cold"),
+-- (2, 2, "Possibility of COVID-19"),
+-- (3, 3, "Food poisoning"),
+-- (4, 4, "Eczema"),
+-- (5, 5, "Stomach Flu");
+-- COMMIT;
