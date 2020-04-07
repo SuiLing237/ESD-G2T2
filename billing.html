@@ -41,13 +41,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="patientPage.html">View Booked Appointments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="prescriptioning.html">prescriptioning</a>
+                <a class="nav-link" href="booking.html">Book Now</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="consultation.html">Consultation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="billing.html">Payment</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Logout</a>
@@ -85,9 +88,12 @@
             <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
             <script>               
-                    // var patientID = sessionStorage.getItem("patientID");
-                var patientID = 1;
-                var bookingID = 1;
+                var patientID = sessionStorage.getItem("patientID");
+                var bookingID = sessionStorage.getItem("bookingID");
+                console.log("patientID: " + patientID);
+                console.log("bookingID: " + bookingID);
+                // var patientID = 1;
+                // var bookingID = 1;
 
 
                 var CREATE_PAYMENT_URL  = 'http://127.0.0.1:5003/payment/' + patientID + "/" + bookingID;
@@ -155,14 +161,18 @@
             // Change serviceURL to your own
             // var serviceURL = "http://127.0.0.1:5000/book";
             // event.preventDefault();
-            var serviceURL = "http://localhost:5005/retrieve/" + patientID + "/" + bookingID;
+
+            var serviceURL = "http://127.0.0.1:5005/retrieve/" + patientID + "/" + bookingID;
+            console.log("patientID: " + patientID);
+            console.log("bookingID: " + bookingID);
+
             // console.log(serviceURL);
-            // console.log(isbnNumber);
+            // console.log(isbnNumber); 
     
             try {
                 const response =
-                 await fetch(
-                   serviceURL, { method: 'GET' }
+                await fetch(
+                    serviceURL, { method: 'GET' }
                 );
                 const data = await response.json();
                 var prescription = data.prescription;
@@ -210,7 +220,7 @@
         $("#proceed").click(async (event) => {           
             // Change serviceURL to your own
             // var serviceURL = "http://127.0.0.1:5000/book";
-            var serviceURL = "http://localhost:5003/retrieve_price" + "/" + patientID + "/" + bookingID;
+            var serviceURL = "http://127.0.0.1:5003/retrieve_price" + "/" + patientID + "/" + bookingID;
 
     
             try {

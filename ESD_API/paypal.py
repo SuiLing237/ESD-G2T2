@@ -59,6 +59,7 @@ def create_payment(patientID, bookingID):
         return jsonify({"message": "An error occurred creating the book."}), 500
 
     return jsonify(d.json()), 201
+
 @app.route('/retrieve_price/<int:patientID>/<int:bookingID>')
 def retrieve_price(patientID, bookingID):
     details= Payment.query.filter_by(patientID=patientID, bookingID=bookingID).first()
@@ -67,6 +68,7 @@ def retrieve_price(patientID, bookingID):
         return payment
         # return jsonify(book.json())
     return jsonify({"message": "Book not found."}), 404
+
 @app.route('/payment/<int:patientID>/<int:bookingID>', methods =['POST'])
 def process_payment(patientID, bookingID):
     details= Payment.query.filter_by(patientID=patientID, bookingID=bookingID).first()
