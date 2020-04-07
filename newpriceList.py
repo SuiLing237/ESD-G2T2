@@ -128,7 +128,7 @@ def send_price(patientID, bookingID, total_price):
     print(payment)
     print("******")
     print(type(message))
-    paymentURL = "http://localhost:5003/create_payment" +"/" + str(patientID) +"/" +str(bookingID)
+    paymentURL = "http://127.0.0.1:5003/create_payment" +"/" + str(patientID) +"/" +str(bookingID)
     #send to medicine microservice
     r = requests.post(paymentURL, json = payment)
     print("Details sent to payment.")
