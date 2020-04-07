@@ -111,14 +111,14 @@ def update_doctor_availability(bookingID, patientID):
 def get_bookings_by_patientID(patientID):
     doctor = Doctor.query.filter_by(patientID=patientID, availability="NO")
     if doctor:
-        return jsonify({"availability": [avail.json() for avail in doctor]})
+        return jsonify({"availability": [avail.json() for avail in doctor]}), 200
 
 # retrieve booking by bookingID
 @app.route("/booking/<int:bookingID>/")
 def get_booking_by_bookingID(bookingID):
     doctor = Doctor.query.filter_by(bookingID=bookingID)
     if doctor:
-        return jsonify({"booking": booking.json() for booking in doctor})
+        return jsonify({"booking": booking.json() for booking in doctor}), 200
 
 
 @app.route("/doctor/<string:doctor_email>/<string:doctor_password>/")
