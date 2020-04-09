@@ -21,8 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `price`
 --
-CREATE DATABASE IF NOT EXISTS `medicine` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `medicine`;
+CREATE DATABASE IF NOT EXISTS `price_list` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `price_list`;
 
 -- --------------------------------------------------------
 
@@ -30,7 +30,7 @@ USE `medicine`;
 -- Table structure for table `medicine`
 --
 
-DROP TABLE IF EXISTS `medicine`;
+DROP TABLE IF EXISTS `price_list`;
 CREATE TABLE IF NOT EXISTS `medicine` (
   `medicineID` int(64) NOT NULL,
   `medicine_name` varchar(64) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `medicine` (
 -- Dumping data for table `price`
 --
 
-INSERT INTO `medicine` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
+INSERT INTO `price_list` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
 (1, 'Vicodin', 10.00),
 (2, 'Simvastatin', 11.00),
 (3, 'Lisinopril', 12.00),
