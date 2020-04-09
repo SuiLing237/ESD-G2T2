@@ -1,1 +1,0 @@
-sg.attach(MIMEText(message, 'plain'))
