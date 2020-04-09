@@ -229,7 +229,7 @@
 
             <p class='errorMsg' style='text-align: center; color:blue; font-weight:bold;'> </p>
 
-    
+            <button class="btn btn-primary" id="prescription">Proceed to add prescription</button>
 
 
     <!-- Footer -->
@@ -279,6 +279,7 @@
         $("#submit").hide();
         $(".patient").show();
         $(".doctor").hide();
+        $("#prescription").hide();
     }
 
     if (usertype == "doctor") {
@@ -286,6 +287,7 @@
         $("#submit").show();
         $(".doctor").show();
         $(".patient").hide();
+        $("#prescription").hide();
     }
 
     $("#submit").click(function() {
@@ -328,10 +330,14 @@
                 console.log(error);
             }
         });
+
+        $("#prescription").show();
     });
-    $(document).on('click', '#submit', function(e) {
-            window.location.replace("http://127.0.0.1/esd/prescription.html");
-        });
+
+    $(document).on('click', '#prescription', function(e) {
+        window.location.replace("http://127.0.0.1/esd/prescription.html");
+    });
+
 </script>
 
 <script>

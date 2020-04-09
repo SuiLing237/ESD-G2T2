@@ -27,11 +27,11 @@ USE `price_list`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `medicine`
+-- Table structure for table `price_list`
 --
 
 DROP TABLE IF EXISTS `price_list`;
-CREATE TABLE IF NOT EXISTS `medicine` (
+CREATE TABLE IF NOT EXISTS `price_list` (
   `medicineID` int(64) NOT NULL,
   `medicine_name` varchar(64) NOT NULL,
   `medicine_price` double(64,2) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `medicine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `price`
+-- Dumping data for table `price_list`
 --
 
 INSERT INTO `price_list` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
