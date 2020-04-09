@@ -60,21 +60,7 @@ def create_new_prescription(patientID, bookingID):
     return jsonify({"message":"Prescription added successfully!"}), 200
 
 
-# Json input format:
-# {
-#   "BookingId": "1",
-#   "Prescription": [
-#     {
-#       "med_id": "9781434474234",
-#       "quantity": 1
-#     },
-#     {
-#       "med": "9781449474212",
-#       "quantity": 1
-#     }
-#   ]
-# }
-
+# SL: Mushi, can delete?
 @app.route("/prescription/", methods=["POST"])
 def create_prescription(prescription):
  # status in 2xx indicates success
@@ -139,35 +125,6 @@ def start_send_prescription(patientID, bookingID):
     r = requests.post(pricelistURL, json = message)
     return "ok"
     print("Price sent to paypal.")
-
-# SL: If don't need, delete?
-# # AMQP Function for sending Prescription
-# def send_prescription(medicineID, medicine_quantity):
-#     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
-#     port = 5672 # default messaging port.
-#     # connect to the broker and set up a communication channel in the connection
-#     connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-#         # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
-#         # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
-#     channel = connection.channel()
-
-#     # set up the exchange if the exchange doesn't exist
-#     exchangename="prescription_direct"
-#     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
-
-#     # prepare the message body content
-#     message = json.dumps(medicineID, medicine_quantity, default=str) # convert a JSON object to a string
-
-#     # prepare the channel and send a message to price_list
-#     channel.queue_declare(queue='price_list', durable=True) # make sure the queue used by Shipping exist and durable
-#     channel.queue_bind(exchange=exchangename, queue='price_list', routing_key='*.order') # make sure the queue is bound to the exchange
-#     channel.basic_publish(exchange=exchangename, routing_key="prescription.price_list", body=message,
-#         properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
-#         )
-#     )
-#     print("Prescription details sent to price_list.")
-#     # close the connection to the broker
-#     connection.close()
 
 if __name__ == "__main__":
     app.run(port=5005, debug=True)

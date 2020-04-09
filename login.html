@@ -92,29 +92,6 @@
                 <p class="loginhere">
                     Don't have an account? <a href="signup.html">Register here</a>
                   </p>
-                
-                <!-- SL: IF THERE IS NO NEED FOR THESE CODE, DELETE? -->
-                <!-- <form name="sentMessage" id="contactForm" novalidate>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                    <label>Username:</label>
-                    <input type="text" class="form-control" placeholder="Username" id="username" required data-validation-required-message="Please enter your username.">
-                    <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" id="password" required data-validation-required-message="Please enter your password.">
-                    <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <br>
-                <div id="success"></div>
-                <div class="form-group" align="center" >
-                    <button type="submit" class="btn btn-primary" id="login" >Login</button>
-                </div>
-                </form> -->
             </div>
         </div>
     </div>
@@ -170,9 +147,9 @@
             var usertype = $("#usertype").val();
             sessionStorage.setItem("usertype", usertype);
 
-            console.log("email: " + email);
-            console.log("password: " + password);
-            console.log("usertype: " + usertype);
+            // console.log("email: " + email);
+            // console.log("password: " + password);
+            // console.log("usertype: " + usertype);
 
             if(usertype == "patient") {
                 if(email == '' || password ==''){
@@ -180,16 +157,16 @@
                     password = "Missing"
                 }
                 var serviceURL = "http://127.0.0.1:5001/patient/" + email + "/" + password + "/";
-                console.log("serviceURL: " + serviceURL);
+                // console.log("serviceURL: " + serviceURL);
 
                 try {
                     const response = await fetch(serviceURL, {method: "GET"});
                     const data = await response.json();
-                    console.log(data);
+                    // console.log(data);
                     var patientID = data.patientID;
 
                     if (patientID != undefined) {
-                        console.log("patientID: " + patientID);
+                        // console.log("patientID: " + patientID);
                         sessionStorage.setItem("patientID", patientID)
                         window.location.replace("http://127.0.0.1/esd/patientPage.html");
                     } else {
@@ -208,16 +185,16 @@
                     password = "Missing"
                 }
                 var serviceURL = "http://127.0.0.1:5007/doctor/" + email + "/" + password + "/";
-                console.log("serviceURL: " + serviceURL)
+                // console.log("serviceURL: " + serviceURL)
 
                 try {
                     const response = await fetch(serviceURL, {method: "GET"});
                     const data = await response.json();
-                    console.log(data);
+                    // console.log(data);
                     var doctorID = data.doctorID;
 
                     if (doctorID != undefined) {
-                        console.log("doctorID: " + doctorID);
+                        // console.log("doctorID: " + doctorID);
                         window.location.replace("http://127.0.0.1/esd/doctorPage.html");
                     } else {
                         
@@ -243,8 +220,7 @@
         x.type = "password";
       }
     }
-  
-  </script>
+</script>
 
 </html>
 

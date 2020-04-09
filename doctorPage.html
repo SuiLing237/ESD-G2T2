@@ -17,7 +17,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-        <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -26,7 +26,6 @@
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
     <style>
@@ -46,7 +45,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
-        <a class="navbar-brand" href="index.html">O-HCare</a>
+        <a class="navbar-brand">O-HCare</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -150,9 +149,6 @@
 
 <script>
     $(function(){
-        //$('#datepicker-13').on('click', function(){
-            //$( "#datepicker-13" ).datepicker("show");
-        //});
         $("#appointmentTable").hide();
         $('#listApptTitle').hide();
 
@@ -163,9 +159,6 @@
         $( "#datepicker-13" ).datepicker({
             onSelect: function(){
                 $(".bookingErrMsg").remove();
-               //var date_picked = $( "#datepicker-13" ).datepicker({"dateFormat": 'dd-mm-yy' }).val();
-               //var date_picked = $( "#datepicker-13" ).datepicker('getDate');
-               //var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );
                $(async () => {
                     var date_picked = $( "#datepicker-13" ).datepicker('getDate');
                     var date_formatted = $.datepicker.formatDate( "dd-mm-yy", new Date( date_picked) );    
@@ -181,9 +174,8 @@
                         // console.log(data)
         
                         var appointments = data.availability;
-                        //var lengthAppt = appointments.length;
-
                         // console.log(appointments)
+
                         var today = new Date();
                         var dd = today.getDate();
                         var mm = today.getMonth() +1;
@@ -220,11 +212,8 @@
                                 
 
                                 }
-                                
-                                
                                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-
-                                //console.log(eachRow);
+                                // console.log(eachRow);
                             }
                             $('.bookingErrMsg').remove();
                             $('#appointmentTable tbody').remove();
@@ -237,23 +226,22 @@
                             $("#appointmentTable").hide();
                             $('#appointmentTable').after("<h3 class='bookingErrMsg'>No Scheduled Appointments</h3>")
                         }
-
-                       
                     }
                 
                     catch (error){
                         console.log(error)
                     }
     
-            
                 });
             }
         });
+
         $(document).on('click', '.redirectConsult', function(e) {
             window.location.replace("http://127.0.0.1/esd/consultation.html");
         });
+
     });
   
- </script>
+</script>
 
 </html>

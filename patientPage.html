@@ -20,8 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
-
-    <!-- copied from wt -->
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -30,9 +28,7 @@
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <!-- end of copied stuff -->
     
     <style>
         #view-booked-appointments { text-align: center; padding: 0 0 50px 0; }
@@ -150,19 +146,18 @@
 
         $(".bookingErrMsg").remove();
         $(async () => {
-            // I need the patientID of the person who logged in
             var patientID = sessionStorage.getItem("patientID");
-            console.log("patientID: " + patientID);
+            // console.log("patientID: " + patientID);
 
             var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + patientID + "/";
-            console.log("serviceURL: " + serviceURL);
+            // console.log("serviceURL: " + serviceURL);
 
             try{
                 const response = await fetch(serviceURL, { method: 'GET' });
                 const data = await response.json();
 
                 var appointments = data.availability;
-                console.log(appointments);
+                // console.log(appointments);
 
                 var today = new Date();
                 var dd = today.getDate();
@@ -199,11 +194,6 @@
                             }
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
-                        
-                        // SL: If don't need, can delete?
-                        //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                        //rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-                        //console.log(eachRow);
                     }
                     $('.bookingErrMsg').remove();
                     $("#booked-appointment-table tbody").remove();

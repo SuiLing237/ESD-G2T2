@@ -91,27 +91,19 @@
 	<div class="container">
 		<div class="row">
 		<div class="col-lg-8 col-md-10 mx-auto">
-		  <!-- <div class="signup-content"> -->
-			<!-- <form method="POST" id="signup-form" class="signup-form"> -->
 			<form id="searchMedForm">
 				<div class="form-group">
-				  <!-- <label for="search"> Select Medicine: </label> <input type="text" class="inputcontent" name="search" style="width:450px" id="search" placeholder="Search" required/>
-				 -->
-				<label for='search'>Select Medicine: </label>
-				<select id='medicine' style="width:450px">
-				</select>
-				<br>
-				<label for='quantity'>Quantity: </label>
-				<input name="quantityMed" type="text" id="quantity" style="width:450px">
+                    <label for='search'>Select Medicine: </label>
+                    <select id='medicine' style="width:450px">
+                    </select>
+                    <br>
+                    <label for='quantity'>Quantity: </label>
+                    <input name="quantityMed" type="text" id="quantity" style="width:450px">
 				</div> 
 			</form>
 			<button type="submit" class="btn btn-primary" id="searchButton">Submit Prescription</button>
 
 			<div class="container">
-				<!-- Trigger the modal with a button -->
-				<!-- <p>Sterois</p><button type="button"  data-toggle="modal" data-target="#myModal">Add Quantity</button> -->
-			  
-				<!-- Modal -->
 				<div class="modal fade" id="myModal" role="dialog">
 				  <div class="modal-dialog">
 				  
@@ -134,9 +126,6 @@
 				<p id='msg' style='text-align: center; color:black; font-weight:bold;'></p>
 			  </div>
 			
-
-	
-
 
 	<!-- Footer -->
 	<footer>
@@ -176,6 +165,7 @@
 	</footer>
 
 </body>
+
 <script>
 	$(async() => { 
 		var serviceURL = "http://127.0.0.1:5006/getMedicineName/";
@@ -186,7 +176,7 @@
 
 			var med = data.medicine;
 
-			console.log(med);
+			// console.log(med);
 			
 			var rows ="";
 			for(d of med){
@@ -215,8 +205,8 @@
 			quantity = parseInt(quantity);
 			medicineID = parseInt(medicineID);
 
-			console.log(patientID);
-			console.log(bookingID);
+			// console.log(patientID);
+			// console.log(bookingID);
 			
 
 			var serviceURL = "http://127.0.0.1:5005/createPrescription/" + patientID + "/" + bookingID + "/";
@@ -231,7 +221,7 @@
 
                 });
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 $("#msg").text(data.message);
                 

@@ -145,10 +145,10 @@
 
         $(async () => {
             var bookingID = sessionStorage.getItem("bookingID");
-            console.log("bookingID: " + bookingID);
+            // console.log("bookingID: " + bookingID);
 
             var serviceURL = "http://127.0.0.1:5007/booking" + "/" + bookingID + "/";
-            console.log("serviceURL: " + serviceURL);
+            // console.log("serviceURL: " + serviceURL);
 
             try{
                 const response = await fetch(serviceURL, { method: 'GET' });

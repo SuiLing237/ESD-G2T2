@@ -17,7 +17,6 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     
-    <!-- copied from wt -->
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -26,10 +25,8 @@
     <link href="css/clean-blog.min.css" rel="stylesheet">
 
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- <script src = "https://code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-    <!-- end of copied stuff -->
     
     <style>
         #view-available-appointments { text-align: center; padding: 0 0 50px 0; }
@@ -236,10 +233,10 @@
         $(document).on('click', '.book', function(e) {
             var bookingID = e.target.value;
             sessionStorage.setItem("bookingID", bookingID);
-            console.log("bookingID: " + bookingID);
+            // console.log("bookingID: " + bookingID);
 
             var patientID = sessionStorage.getItem("patientID");
-            console.log("patientID:" + patientID);
+            // console.log("patientID:" + patientID);
 
             $(async() => {
                 var serviceURL = "http://127.0.0.1:5007/doctor" + "/" + bookingID + "/" + patientID + "/";
@@ -254,7 +251,7 @@
                     });
 
                     data = await response.json();
-                    console.log(data);
+                    // console.log(data);
                     window.location.replace("http://127.0.0.1/esd/bookingConfirm.html") // hardcoded url
                 }
                 catch (error) {
@@ -275,7 +272,7 @@
                     });
 
                     data = await response.json();
-                    console.log(data);
+                    // console.log(data);
                     window.location.replace("http://localhost/esd/bookingConfirm.html");
                 }
                 catch (error) {

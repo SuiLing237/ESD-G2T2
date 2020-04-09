@@ -68,22 +68,6 @@ def create_patient(patient_email):
 
     return jsonify(patient.json()), 201
 
-	#session.query(ObjectRes).order_by(ObjectRes.id.desc()).first()
-# @app.route("/patient/<int:patientID>/", methods=["POST"])
-# def create_patient(patientID):
-#     if (Patient.query.filter_by(patientID=patientID).first()):
-#         return jsonify({"message": "A patient with patientID '{}' already exists.".format(patientID)}), 400  
-#     data = request.get_json()
-#     patient = Patient(patientID, **data)
-
-#     try:
-#         db.session.add(patient)
-#         db.session.commit()
-#     except:
-#         return jsonify({"message": "An error occurred creating the patient."}), 500
-
-#     return jsonify(patient.json()), 201
-
 @app.route("/patient/<string:patient_email>/<string:patient_password>/")
 def verify_and_retrieve_patient(patient_email, patient_password):
 	if (patient_email == "Missing" or patient_password == "Missing"):
@@ -110,36 +94,26 @@ def start_send(patientID):
 def send_patient(patientID):
 	patient = Patient.query.filter_by(patientID=patientID).first()
 	patientJSON = patient.json()
-	# print(type(patient))
-	# print(type(patientJSON))
 
-	hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
-	port = 5672 # default messaging port.
-	# connect to the broker and set up a communication channel in the connection
+	hostname = "localhost"
+	port = 5672
+
 	connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-		# Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
-		# If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
 	channel = connection.channel()
 
-	# set up the exchange if the exchange doesn't exist
 	exchangename="patient_direct"
 	channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
-	# prepare the message body content
-	message = json.dumps(patientJSON, default=str) # convert a JSON object to a string
+	message = json.dumps(patientJSON, default=str)
 
-	# prepare the channel and send a message to Shipping
-	channel.queue_declare(queue='notification', durable=True) # make sure the queue used by Shipping exist and durable
-	channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.patient') # make sure the queue is bound to the exchange
+	channel.queue_declare(queue='notification', durable=True)
+	channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.patient')
 	channel.basic_publish(exchange=exchangename, routing_key="notification.patient", body=message,
-		properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
-		)
+		properties=pika.BasicProperties(delivery_mode = 2)
 	)
 	print("Patient sent to notification")
-	# close the connection to the broker
 	connection.close()
 
 
 if __name__ == "__main__":
 	app.run(port=5001, debug=True)
-	# app.run(host='0.0.0.0', port=5001, debug=True)

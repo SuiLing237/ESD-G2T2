@@ -42,19 +42,14 @@ def create_payment(patientID, bookingID):
     if (Payment.query.filter_by(patientID=patientID, bookingID=bookingID).first()): 
         return jsonify({"message": "A record with patientID '{}' and bookingID '{}' already exists.".format(patientID, bookingID)}), 400
 
-    data = request.get_json() # <- POSTMAN. get request from POSTMAN
-    d = Payment(patientID, bookingID, **data) # **data is to get all the fields (e.g. availability, etc)
+    data = request.get_json()
+    d = Payment(patientID, bookingID, **data)
     print(data)
     print(d.json())
 
     try:
         db.session.add(d) # add the book to Database
         db.session.commit() 
-    # except SQLAlchemyError as e:
-    #     error = str(e.__dict__['orig'];
-    #     return 'error'
-    #     # return jsonify({"message": "An error occurred creating the payment record."}), 500 # ERRROR MSG
-
     except:
         return jsonify({"message": "An error occurred creating the book."}), 500
 
@@ -66,7 +61,6 @@ def retrieve_price(patientID, bookingID):
     if details:
         payment = details.json()
         return payment
-        # return jsonify(book.json())
     return jsonify({"message": "Book not found."}), 404
 
 @app.route('/payment/<int:patientID>/<int:bookingID>', methods =['POST'])
