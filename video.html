@@ -64,8 +64,8 @@ vidyoConnector.RegisterLocalSpeakerEventListener({
                     
 vidyoConnector.Connect({
         host: "prod.vidyo.io",
-        token: 'cHJvdmlzaW9uAHVzZXIxQDU3MjQxMy52aWR5by5pbwA2Mzc1MzA2OTU0MQAAMjhkN2IwODhlMWJkZTZjY2UyZjgyMDNmYjRiZTc2MzA4MjY5Y2U1NTk5MjE5NzZmNzU3MDM4NjU4NTdkMTZlMDUyMGU1NWQyYmFhODBhMjhlYWI5OGYwN2VlM2NhMjBl', //Generated Token
-        displayName: "user1", //User Name
+        token: "cHJvdmlzaW9uAHVzZXIyQGQyZDFjYS52aWR5by5pbwA2Mzc1MzY2MjYzMwAANWFmYWFhMDA3ZDMxMTQ0NWM3ZTNlYjNhZTdjODQ5M2I2OTQ2ODQ2M2ZiODQ2ZjA2MjQwODJjMzE0YzQwOTAyMjI3NTE3YzVhYmJiYmIxYWVmODM0ZjU2YzQxMWM0YTQz", //Generated Token
+        displayName: "user2", //User Name
         resourceId: "demoroom", //Conference Name
     onSuccess: function () {
         console.log("Sucessfully connected");
@@ -100,8 +100,8 @@ function joinCall(){
       // To join a video conference call Connect method
       vidyoConnector.Connect({
         host:"prod.vidyo.io",  // Server name, for most production apps it will be prod.vidyo.io
-        token:"cHJvdmlzaW9uAHVzZXIxQDU3MjQxMy52aWR5by5pbwA2Mzc1MzA2OTU0MQAAMjhkN2IwODhlMWJkZTZjY2UyZjgyMDNmYjRiZTc2MzA4MjY5Y2U1NTk5MjE5NzZmNzU3MDM4NjU4NTdkMTZlMDUyMGU1NWQyYmFhODBhMjhlYWI5OGYwN2VlM2NhMjBl",          // Add generated token (https://developer.vidyo.io/documentation/4-1-16-8/getting-started#Tokens)
-        displayName:"Samuel",  // Display name
+        token:"cHJvdmlzaW9uAHVzZXIyQGQyZDFjYS52aWR5by5pbwA2Mzc1MzY2MjYzMwAANWFmYWFhMDA3ZDMxMTQ0NWM3ZTNlYjNhZTdjODQ5M2I2OTQ2ODQ2M2ZiODQ2ZjA2MjQwODJjMzE0YzQwOTAyMjI3NTE3YzVhYmJiYmIxYWVmODM0ZjU2YzQxMWM0YTQz",          // Add generated token (https://developer.vidyo.io/documentation/4-1-16-8/getting-started#Tokens)
+        displayName:"user2",  // Display name
         resourceId:"demoRoom", // Room name
         onSuccess: function(){
           console.log("Connected!! YAY!");
