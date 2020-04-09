@@ -19,19 +19,19 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `price_list`
+-- Database: `price`
 --
-CREATE DATABASE IF NOT EXISTS `price_list` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `price_list`;
+CREATE DATABASE IF NOT EXISTS `price` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `price`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `price_list`
+-- Table structure for table `price`
 --
 
-DROP TABLE IF EXISTS `price_list`;
-CREATE TABLE IF NOT EXISTS `price_list` (
+DROP TABLE IF EXISTS `price`;
+CREATE TABLE IF NOT EXISTS `price` (
   `medicineID` int(64) NOT NULL,
   `medicine_name` varchar(64) NOT NULL,
   `medicine_price` double(64,2) NOT NULL,
@@ -39,10 +39,10 @@ CREATE TABLE IF NOT EXISTS `price_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `price_list`
+-- Dumping data for table `price`
 --
 
-INSERT INTO `price_list` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
+INSERT INTO `price` (`medicineID`, `medicine_name`, `medicine_price`) VALUES
 (1, 'Vicodin', 10.00),
 (2, 'Simvastatin', 11.00),
 (3, 'Lisinopril', 12.00),
@@ -54,7 +54,3 @@ INSERT INTO `price_list` (`medicineID`, `medicine_name`, `medicine_price`) VALUE
 (9, 'Amoxicillin', 18.00),
 (10, 'Hydrochlorothiazide', 19.00);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -39,5 +39,9 @@ CREATE TABLE IF NOT EXISTS `payment` (
 
 -- Add in `payment` values
 INSERT INTO `payment` (`patientID`, `bookingID`, `total_price`) VALUES
-(1, 1, 90.00);
+(1, 1, 40.00),
+(2, 2, 22.00),
+(3, 3, 36.00),
+(4, 4, 11.00),
+(5, 5, 36.00);
 COMMIT;
