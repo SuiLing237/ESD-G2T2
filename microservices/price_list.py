@@ -9,10 +9,10 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import requests
-from os import environ
+
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') # ENTER DB NAME HERE
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/price_list'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -103,4 +103,4 @@ def send_price(patientID, bookingID, total_price):
 
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
-    app.run(host='0.0.0.0',port=5006, debug=True)
+    app.run(port=5006, debug=True)

@@ -36,7 +36,7 @@ Flow of using the website:
 6) View your scheduled appointments.
 7) Go to consultation.
 8) Submit your diagnosis.
-9) Click "Proceed to add prescription.".
+9) Click "Proceed to add prescription".
 10) Select type and quantity of medicine.
 11) Log out then log in as the same patient again.
 12) Go to payment tab and view payment.

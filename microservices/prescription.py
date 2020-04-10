@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import requests
-from os import environ
+
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') # ENTER DB NAME HERE
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/prescription'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -80,4 +80,4 @@ def start_send_prescription(patientID, bookingID):
     print("Price sent to price list.")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5005, debug=True)
+    app.run(port=5005, debug=True)

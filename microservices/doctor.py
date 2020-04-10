@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from os import environ
 
 # for amqp
 import json
@@ -9,7 +8,7 @@ import pika
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') # ENTER DB NAME HERE
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/doctor'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -125,4 +124,4 @@ def verify_and_retrieve_doctor(doctor_email, doctor_password):
 		return jsonify({"message": "A doctor with that email address '{}' does not exist.".format(doctor_email)}), 400
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5007, debug=True)
+    app.run(port=5007, debug=True)
