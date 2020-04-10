@@ -6,7 +6,8 @@ Assumptions:
 - Our data only has appointment slots from 13/4/20 to 17/4/20.
 - "Go to consultation" button will only appear if your current system date corresponds to the appointment date.
 - There is only one doctor.
-- Patient pays immediately after each booking, so payment only shows the price for one booking.
+- Patient pays immediately after each attending a booking, so payment only shows the price for one booking.
+- The patients only have max 1 appointment booked, can only book another after the current consultation ends and is paid for.
 
 Instructions:
 1) Place the code directly under your wamp/www/ for the links to work.
