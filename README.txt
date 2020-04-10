@@ -10,7 +10,7 @@ Assumptions:
 - The patients only have max 1 appointment booked, can only book another after the current consultation ends and is paid for.
 
 Instructions:
-1) Place the code directly under your wamp/www/ for the links to work.
+1) Extract and place the zipped folder named "esd" directly under your wamp/www/ for the links to work.
 2) Make sure your WAMP is on.
 3) Import all the sql files in the sql folder into the phpmyadmin database.
 4) Install paypal sdk using command prompt: pip install paypalrestsdk
