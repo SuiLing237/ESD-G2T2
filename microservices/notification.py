@@ -1,8 +1,5 @@
-# import requests
-# import urllib.request
-# import urllib.parse
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 # For email
@@ -17,12 +14,6 @@ import os
 import sys
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/patient' # ENTER DB NAME HERE
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-CORS(app)
 
 
 hostname = "localhost"
@@ -65,7 +56,7 @@ def send_email(patient_name, patient_email):
 def receivePatient():
     channelqueue = channel.queue_declare(queue="notification", durable=True)
     queue_name = channelqueue.method.queue
-    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.patient') # bind the queue to the exchange via the key
+    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.patient')
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)

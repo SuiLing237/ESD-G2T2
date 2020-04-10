@@ -6,21 +6,23 @@ Assumptions:
 - Our data only has appointment slots from 13/4/20 to 17/4/20.
 - "Go to consultation" button will only appear if your current system date corresponds to the appointment date.
 - There is only one doctor.
+- Patient pays immediately after each attending a booking, so payment only shows the price for one booking.
+- The patients only have max 1 appointment booked, can only book another after the current consultation ends and is paid for.
 
 Instructions:
-1) Place the code directly under your wamp/www/ for the links to work. #SL: Later we need to check that the redirection of links work
+1) Place the code directly under your wamp/www/ for the links to work.
 2) Make sure your WAMP is on.
-3) Run all the sql files in phpmyadmin database.
-4) Install paypal sdk using command prompt #SL: bernard what's the link
+3) Import all the sql files in the sql folder into the phpmyadmin database.
+4) Install paypal sdk using command prompt: pip install paypalrestsdk
 5) Change your laptop's system date to 13/4/20 or before as we only have timeslots data from 13/4/20 to 17/4/20.
-6) Run all microservices:
-- patient.py
-- doctor.py
-- prescription.py
+6) Run all microservices in the microservices folder:
 - diagnosis.py
+- doctor.py
 - notification.py
-- price.py
-- paypal.py (in ESD_API folder)
+- patient.py
+- payment.py
+- prescription.py
+- price_list.py
 
 Flow of using the website:
 1) Sign up as a patient with your real email (other particulars such as phone number can be fake).
@@ -37,5 +39,10 @@ Flow of using the website:
 9) Click "Proceed to add prescription.".
 10) Select type and quantity of medicine.
 11) Log out then log in as the same patient again.
-12) Go to payment.
-13) Pay via paypal.
+12) Go to payment tab and view payment.
+13) Click Proceed.
+14) Pay via paypal by entering your paypal particulars.
+- email: esd-buyer@personal.example.com
+- password: xinshan18
+15) View payment success message.
+16) Done!

@@ -57,7 +57,7 @@ def home():
     return "Your application is working!"
 
 @app.route("/doctor/")
-def get_all_details(): # Can retrieve Availability
+def get_all_bookings(): # Can retrieve Availability
     return jsonify({"doctor details": [doctor.json() for doctor in Doctor.query.all()]})
 
 @app.route("/getAllPatientBookings/<string:date>/")

@@ -38,7 +38,7 @@ def home():
     return "Your application is working!"
 
 @app.route("/createPrescription/<int:patientID>/<int:bookingID>/", methods=['POST'])
-def create_new_prescription(patientID, bookingID):
+def create_prescription(patientID, bookingID):
     last_id = Prescription.query.order_by(Prescription.itemID.desc()).first()
     if last_id:
         new_id = last_id.itemID
@@ -59,12 +59,6 @@ def create_new_prescription(patientID, bookingID):
 
     return jsonify({"message":"Prescription added successfully!"}), 200
 
-
-@app.route("/<int:patientID>/<int:bookingID>")
-def view_prescription(patientID, bookingID):
-    result = retrieve_prescription(patientID, bookingID)
-    return (result)
-
 @app.route("/retrieve/<int:patientID>/<int:bookingID>")
 def retrieve_prescription(patientID, bookingID):
     patient_prescription = Prescription.query.filter_by(patientID=patientID, bookingID=bookingID).all() #assume that each patient has only one prescription in databse
@@ -76,7 +70,6 @@ def retrieve_prescription(patientID, bookingID):
     return jsonify({"message": "Prescription does not exist."}), 404
 
 # This is a function to trigger send_prescription
-# @app.route("/send/<int:patientID>/<int:bookingID>")
 def start_send_prescription(patientID, bookingID):
     patient_prescription = Prescription.query.filter_by(patientID=patientID, bookingID=bookingID).all()
     message ={'patientID':patientID,'bookingID':bookingID,'prescription': [prescription.json() for prescription in patient_prescription]}
