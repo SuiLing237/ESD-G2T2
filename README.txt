@@ -6,6 +6,7 @@ Assumptions:
 - Our data only has appointment slots from 13/4/20 to 17/4/20.
 - "Go to consultation" button will only appear if your current system date corresponds to the appointment date.
 - There is only one doctor.
+- The patients only have max 1 appointment booked, can only book another after the current consultation ends and is paid for.
 
 Instructions:
 1) Place the code directly under your wamp/www/ for the links to work. #SL: Later we need to check that the redirection of links work
@@ -39,3 +40,4 @@ Flow of using the website:
 11) Log out then log in as the same patient again.
 12) Go to payment.
 13) Pay via paypal.
+14) Logout of patient account.
