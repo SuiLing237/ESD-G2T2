@@ -39,28 +39,6 @@ class Price (db.Model):
 def home():
     return "test"
 
-# @app.route("/pricelist/", methods=['POST'])
-# def receiveOrder(): # order = medicineID
-    # # Check if the order contains valid JSON
-    # order = None
-    # if request.is_json:
-    #     order = request.get_json()
-    # else:
-    #     order = request.get_data()
-    #     print("Received an invalid order:")
-    #     print(order)
-    #     replymessage = json.dumps({"message": "Order should be in JSON", "data": order}, default=str)
-    #     return replymessage, 400 # Bad Request
-    # print("Received an order by " + __file__)
-    # result = processOrder(order)
-    # print() # print a new line feed as a separator
-    # # reply to the HTTP request
-    # replymessage = json.dumps(result, default=str)
-    # if result["status"]:
-    #     return replymessage, 200 #return the json along with the http status code 200
-    # else:
-    #     return replymessage, 501 #return the json along with the http status code 501
-
 @app.route("/getMedicineName/", methods=['GET'])
 def getMedicineName():
     list_of_medicine = Price.query.all()
@@ -69,7 +47,6 @@ def getMedicineName():
 @app.route("/price", methods=['POST'])
 def receiveOrder():
     # Check if the order contains valid JSON
-    # order = None
     result = 0
     if request.is_json:
         order = request.get_json()
@@ -80,14 +57,6 @@ def receiveOrder():
         print(order)
         replymessage = json.dumps({"message": "Order should be in JSON", "data": order}, default=str)
         return replymessage, 400 # Bad Request
-
-    # print() # print a new line feed as a separator
-    # # reply to the HTTP request
-    # replymessage = json.dumps(result, default=str)
-    # if result["status"]:
-    #     return replymessage, 200 #return the json along with the http status code 200
-    # else:
-    #     return replymessage, 501 #return the json along with the http status code 501
 
     return json.dumps(result, default=str)
 
@@ -113,7 +82,6 @@ def processOrder(order):
     send_price(patientID, bookingID, total_price)
     return total_price
 
-# @app.route("/find_by_order_id/<string:order_id>")
 def find_price_by_med_id(med_id):
     med_details = Price.query.filter_by(medicineID=med_id).first()
     if med_details:
@@ -121,7 +89,6 @@ def find_price_by_med_id(med_id):
     return {'message': 'Medicine not found for id ' + str(med_id)}, 404
 
 def send_price(patientID, bookingID, total_price):
-    # payment = json.loads(json.dumps(price, default = str))
     payment = {"total_price": total_price}
     message = jsonify(payment)
     print(payment)
@@ -131,11 +98,9 @@ def send_price(patientID, bookingID, total_price):
     paymentURL = "http://127.0.0.1:5003/create_payment" +"/" + str(patientID) +"/" +str(bookingID)
     #send to medicine microservice
     r = requests.post(paymentURL, json = payment)
-    print("Details sent to payment.")
+    print(r.status_code, r.text, sep='\n')
     return "ok"
 
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
-    # print("This is flask for " + os.path.basename(__file__) + ": shipping for an order...")
-    # app.run(host='0.0.0.0', port=5002, debug=True)
     app.run(port=5006, debug=True)
