@@ -84,7 +84,7 @@ def start_send_prescription(patientID, bookingID):
     #send to medicine microservice
     r = requests.post(pricelistURL, json = message)
     return "ok"
-    print("Price sent to paypal.")
+    print("Price sent to price list.")
 
 if __name__ == "__main__":
     app.run(port=5005, debug=True)

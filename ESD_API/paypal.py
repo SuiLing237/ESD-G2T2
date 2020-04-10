@@ -51,7 +51,7 @@ def create_payment(patientID, bookingID):
         db.session.add(d) # add the book to Database
         db.session.commit() 
     except:
-        return jsonify({"message": "An error occurred creating the book."}), 500
+        return jsonify({"message": "An error occurred creating the payment."}), 500
 
     return jsonify(d.json()), 201
 
@@ -61,7 +61,7 @@ def retrieve_price(patientID, bookingID):
     if details:
         payment = details.json()
         return payment
-    return jsonify({"message": "Book not found."}), 404
+    return jsonify({"message": "Details not found."}), 404
 
 @app.route('/payment/<int:patientID>/<int:bookingID>', methods =['POST'])
 def process_payment(patientID, bookingID):
