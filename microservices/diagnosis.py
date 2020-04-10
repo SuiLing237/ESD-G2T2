@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
+from os import environ
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/diagnosis' # ENTER DB NAME HERE
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') # ENTER DB NAME HERE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -48,4 +48,4 @@ def create_diagnosis(patientID, bookingID):
     return jsonify({"message": "Diagnosis added successfully!"}), 201
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=True)
+    app.run(host='0.0.0.0',port=5002, debug=True)
