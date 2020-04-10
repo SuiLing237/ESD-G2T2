@@ -1,8 +1,5 @@
-# import requests
-# import urllib.request
-# import urllib.parse
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 # For email
@@ -17,12 +14,6 @@ import os
 import sys
 
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/patient' # ENTER DB NAME HERE
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-CORS(app)
 
 
 hostname = "localhost"
