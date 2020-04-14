@@ -97,6 +97,7 @@
                     <th>Date</th>
                     <th>Timeslot</th>
                     <th>Patient's ID</th>
+                    <th></th>
                 </tr>
             </thead>
             
@@ -183,21 +184,44 @@
                         //var lengthAppt = appointments.length;
 
                         // console.log(appointments)
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() +1;
+                        var yyyy = today.getFullYear();
+
+                        if(dd <10) {
+                            dd = '0'+dd;
+                        }
+                        if(mm <10) {
+                            mm = '0'+mm;
+                        }
+
+                        var today_date = dd + "-" + mm + "-" + yyyy;
                     
                         if(appointments.length != 0){
                             var rows = "";
     
                             for(const appt of appointments){
-                                var patientID = ""
+                                var patientID = "";
                                 if(appt.patientID != null){
                                     patientID = appt.patientID;
                                 }
 
                                 //console.log(appt);
-                                eachRow = 
-                                "<td>" + appt.date + "</td>" +
-                                "<td>" + appt.timeslot + "</td>" +
-                                "<td>" + patientID + "</td>";
+                                if(appt.date >= today_date) {
+                                    eachRow = "<td>" + appt.date + "</td>" + "<td>" + appt.timeslot + "</td>" + "<td>" + patientID + "</td>";
+                                    
+                                    if(appt.date == today_date) {
+                                        eachRow += "<td><button type='button' class='redirectConsult btn btn-primary'>Go to consultation</button></td>"; 
+                                    }
+                                    else {
+                                        eachRow += "<td></td>";
+                                    }
+                                
+
+                                }
+                                
+                                
                                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
                                 //console.log(eachRow);
@@ -225,7 +249,9 @@
                 });
             }
         });
-     
+        $(document).on('click', '.redirectConsult', function(e) {
+            window.location.replace("http://127.0.0.1/esd/consultation.html");
+        });
     });
   
  </script>
